@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "Home",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "home": {
+    "home": "Home"
+  },
+  "dashboard": {
+    "welcomeMessage": "Welcome"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Sign In",
+      "cancel": "Cancel"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Sign Up",
+      "submitting": "Signing up...",
+      "cancel": "Cancel"
+    },
+  "language": {
+    "switchTo": "Switch language"
+  }
+}
+}
