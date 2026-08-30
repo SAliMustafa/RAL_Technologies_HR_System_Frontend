@@ -1,12 +1,12 @@
 
 import api from './api'
 
-async function signUp(formData){
-    const response = await api.post('/auth/sign-up',formData)
+async function signUp({username, password}){
+    const response = await api.post('/auth/sign-up',{username, password})
 }
 
 async function signIn(formData){
-    const response = await api.post('/auth/sign-in',formData)
+    const response = await api.post('/auth/sign-in',{username, passsword})
     localStorage.setItem('token', response.data.accessToken);
     return response.data.user
 }
