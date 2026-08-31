@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { uploadDocument } from "../../services/employeeService";
+import { uploadDocumentByEmployee } from "../../services/documentsService";
 import "../../components/css/Employee/UploadDocument.css";
 
 const UploadDocument = () => {
@@ -69,7 +69,7 @@ const UploadDocument = () => {
       data.append("expiry_date", formData.expiry_date);
       data.append("file", formData.file);
 
-      await uploadDocument(data);
+      await uploadDocumentByEmployee(data);
 
       setSuccess("Document uploaded successfully and is waiting for HR verification.");
 

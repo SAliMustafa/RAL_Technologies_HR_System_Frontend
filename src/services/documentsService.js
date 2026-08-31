@@ -34,5 +34,6 @@ async function getExpiryAlerts() {
 export {
    getMyDocuments,
    uploadDocumentByEmployee,
-   getDocumentById
+   getDocumentById,
+   getExpiryAlerts
 }

@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import "../../components/css/Employee/Dashboard.css";
-import {
-  checkIn,
-  checkOut,
-  getMyProfile,
-  getMyDocuments,
-  getExpiryAlerts,
-  getTodayAttendance,
-} from "../../services/employeeService";
+import {  getMyProfile} from "../../services/employeeService";
+import {  getTodayAttendance} from "../../services/attendanceService";
+import {checkIn,checkOut} from "../../services/checkInService";
+import { getMyDocuments,getExpiryAlerts} from "../../services/documentsService"
 
 const DashboardEmployee = () => {
   const navigate = useNavigate();
