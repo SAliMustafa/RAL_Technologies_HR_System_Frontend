@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "attendance": "My Attendance",
     "signUp": "Sign Up",
     "signIn": "Sign In",
     "signOut": "Sign Out"
