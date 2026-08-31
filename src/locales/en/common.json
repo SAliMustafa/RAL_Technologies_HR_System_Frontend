@@ -31,5 +31,12 @@
   "language": {
     "switchTo": "Switch language"
   }
+},
+"employee":{
+  "greeting":"Hi",
+  "goodbyes":"this is a bye"
+},
+"HR":{
+  "salary": "your salary is 500"
 }
 }

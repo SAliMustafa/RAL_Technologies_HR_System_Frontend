@@ -28,5 +28,12 @@
       "submitting": "جارٍ إنشاء الحساب...",
       "cancel": "إلغاء"
     }
-  }
+  },
+  "employee":{
+  "greeting":"سلا عليكم",
+  "goodbyes":"this is a bye"
+},
+"HR":{
+  "salary": "ترجمتك عربي"
+}
 }
