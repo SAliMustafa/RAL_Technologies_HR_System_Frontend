@@ -29,11 +29,24 @@
       "cancel": "إلغاء"
     }
   },
-  "employee":{
-  "greeting":"سلا عليكم",
-  "goodbyes":"this is a bye"
-},
-"HR":{
-  "salary": "ترجمتك عربي"
+  "employees":{
+    "fields":{
+
+  },
+    "list":{
+
+  },
+    "detail":{
+
+  },
+    "profile":{
+
+  },
+    "team":{
+
+  },
+    "department":{
+    
+  }
 }
 }

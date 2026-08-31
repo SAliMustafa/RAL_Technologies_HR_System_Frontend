@@ -24,9 +24,12 @@ function EmployeeList() {
           setLoading(false)
         }
       }
-    })
+      loadEmployees()
+
+    },[t])
   return (
-    <div>
+    <div className="page">
+      <h1 className="page-title"></h1>
 
     </div>
   )
