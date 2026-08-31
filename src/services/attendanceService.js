@@ -1,9 +1,19 @@
 import api from './api'
 
 
+function unwrap(data){
+    if(Array.isArray(data)) return data
+    if(Array.isArray(data.?attendance)) return data.attendance
+    if(Array.isArray(data?.data)) return data.data
+      console.error("Unexpected attendance response shape:", data)
+  return []
+}
+
 async function getMyAttendance(params = {}){
     const response = await api.get('/attendance', {params})
     return response.data
 }
+
+
 
 export {getMyAttendance}

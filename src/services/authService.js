@@ -6,8 +6,8 @@ async function signUp(body){
     return response.data
 }
 
-async function signIn(username, password){
-    const response = await api.post('/auth/sign-in',{username, password})
+async function signIn(formData){
+    const response = await api.post('/auth/sign-in', formData)
     localStorage.setItem('token', response.data.accessToken);
     return response.data.user
 }
