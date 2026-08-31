@@ -30,5 +30,9 @@ async function updateAttendanceRecord(id, data) {
 }
 
 
-
-export {getMyAttendance}
+export {
+  getMyAttendance,
+  getAllAttendance,
+  createAttendanceRecord,
+  updateAttendanceRecord
+}
