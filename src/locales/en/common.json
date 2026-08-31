@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "attendance": "My Attendance",
     "signUp": "Sign Up",
     "signIn": "Sign In",
     "signOut": "Sign Out"
@@ -28,8 +29,30 @@
       "submitting": "Signing up...",
       "cancel": "Cancel"
     },
-  "language": {
-    "switchTo": "Switch language"
+    "language": {
+      "switchTo": "Switch language"
+    }
+  },
+  "attendance": {
+    "title": "My Attendance",
+    "loading": "Loading attendance...",
+    "empty": "No attendance records found.",
+    "error": "Something went wrong loading your attendance.",
+    "date": "Date",
+    "status": "Status",
+    "inTime": "In",
+    "outTime": "Out",
+    "flags": "Flags",
+    "lateEntry": "Late",
+    "earlyExit": "Early Exit",
+    "incomplete": "Incomplete",
+    "statusValues": {
+      "present": "Present",
+      "absent": "Absent",
+      "half_day": "Half Day",
+      "on_leave": "On Leave",
+      "holiday": "Holiday",
+      "weekly_off": "Weekly Off"
+    }
   }
-}
 }

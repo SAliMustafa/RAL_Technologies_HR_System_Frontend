@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "الرئيسية",
+    "attendance": "حضوري",
     "signUp": "إنشاء حساب",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج"
@@ -27,6 +28,28 @@
       "submit": "إنشاء حساب",
       "submitting": "جارٍ إنشاء الحساب...",
       "cancel": "إلغاء"
+    }
+  },
+  "attendance": {
+    "title": "حضوري",
+    "loading": "جارٍ تحميل الحضور...",
+    "empty": "لا توجد سجلات حضور.",
+    "error": "حدث خطأ أثناء تحميل سجل الحضور.",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "inTime": "الدخول",
+    "outTime": "الخروج",
+    "flags": "ملاحظات",
+    "lateEntry": "متأخر",
+    "earlyExit": "خروج مبكر",
+    "incomplete": "غير مكتمل",
+    "statusValues": {
+      "present": "حاضر",
+      "absent": "غائب",
+      "half_day": "نصف يوم",
+      "on_leave": "إجازة",
+      "holiday": "عطلة",
+      "weekly_off": "عطلة أسبوعية"
     }
   }
 }

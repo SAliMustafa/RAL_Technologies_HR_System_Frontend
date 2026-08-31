@@ -13,6 +13,7 @@ function Navbar() {
       {user 
       ? 
       (<>
+      <Link to='/attendance'>{t('nav.attendance')}</Link>
       <button onClick={logout}>{t('nav.signOut')}</button>
       </>) : 
       (<>

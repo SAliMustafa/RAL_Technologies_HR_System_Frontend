@@ -23,15 +23,18 @@ function Signup() {
   }
 
 
-  async function handleSubmit(event){
+  async function handleSubmit(event) {
     event.preventDefault();
+
     try {
-      setSubmitting(true)
+      setSubmitting(true);
       await signUp(formData);
-      navigate('/sign-in')
+      navigate("/sign-in");
     } catch (err) {
-      setError(err.response.data.message);
-      setSubmitting(false)
+      console.error(err);
+      setError(err.response?.data?.message || "Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -78,7 +81,7 @@ function Signup() {
           />
         </div>
         <div>
-          <button disabled={isFormInvalid() || submitting}>{submitting ? t('auth.signUp.submitting') : t('auth.signUp.submit')}</button>
+          <button >sign up</button>
           <button onClick={() => navigate("/")}>{t('auth.signUp.cancel')}</button>
         </div>
       </form>
