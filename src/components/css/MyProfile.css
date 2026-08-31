@@ -1,0 +1,224 @@
+:root {
+  --ink: #2B1B3D;
+  --lavender: #D1C4E9;
+  --mid: #59476B;
+  --soft: #7F6D91;
+  --card: #F5F2F9;
+  --rule: #DBD1E8;
+
+  --green: #1F7A54;
+  --amber: #A8631B;
+  --red: #A32F2F;
+}
+
+
+/* PAGE */
+
+.profile-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 35px;
+  color: var(--mid);
+}
+
+
+/* HEADER */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background-color: var(--ink);
+
+  padding: 30px;
+
+  border-radius: 14px;
+
+  margin-bottom: 25px;
+}
+
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--lavender);
+
+  color: var(--ink);
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+
+.profile-header h1 {
+  margin: 0 0 5px 0;
+
+  color: white;
+
+  font-size: 26px;
+}
+
+
+.profile-header p {
+  margin: 0 0 10px 0;
+
+  color: var(--lavender);
+}
+
+
+.role-badge {
+  display: inline-block;
+
+  padding: 5px 12px;
+
+  background-color: var(--lavender);
+
+  color: var(--ink);
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+
+/* CARD */
+
+.profile-card {
+  background-color: var(--card);
+
+  border: 1px solid var(--rule);
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  margin-bottom: 20px;
+}
+
+
+.profile-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+
+  color: var(--ink);
+
+  font-size: 19px;
+
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid var(--rule);
+}
+
+
+/* GRID */
+
+.profile-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px 35px;
+}
+
+
+/* PROFILE ITEM */
+
+.profile-item {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.profile-label {
+  color: var(--soft);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+.profile-value {
+  color: var(--mid);
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  word-break: break-word;
+}
+
+
+/* STATUS */
+
+.status {
+  display: inline-block;
+
+  width: fit-content;
+
+  padding: 5px 10px;
+
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+
+.status-active {
+  color: var(--green);
+
+  background-color: rgba(31, 122, 84, 0.1);
+}
+
+
+.status-on_leave {
+  color: var(--amber);
+
+  background-color: rgba(168, 99, 27, 0.1);
+}
+
+
+.status-suspended,
+.status-left {
+  color: var(--red);
+
+  background-color: rgba(163, 47, 47, 0.1);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .profile-page {
+    padding: 20px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+}

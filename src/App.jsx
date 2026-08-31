@@ -7,7 +7,7 @@ import SignInPage from "./pages/SigninPage";
 
 //// employee page
 import EmployeeDashboard from "./pages/Employee/Dashboard";
-
+import MyProfile from "./pages/Employee/MyProfile";
 
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
@@ -23,14 +23,15 @@ import { useAuth } from "./context/AuthContext";
 function App() {
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
-        <Route path="/dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+        <Route path="dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+        <Route path="MyProfile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 
