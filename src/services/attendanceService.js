@@ -19,7 +19,10 @@ async function getAllAttendance(params = {}) {
   return unwrap(response.data)
 }
 
-
+async function createAttendanceRecord(data) {
+  const response = await api.post('/attendance', data)
+  return response.data
+}
 
 
 
