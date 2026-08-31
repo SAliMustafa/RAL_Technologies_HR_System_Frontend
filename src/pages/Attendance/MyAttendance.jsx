@@ -55,7 +55,26 @@ function MyAttendance() {
                         <th>{t('attendance.flags')}</th>
                     </tr>
                 </thead>
+
+                <tbody>
+                    {attendance.map((record) => (
+                        <tr key={record._id}>
+                            <td>{formatDate(record.date)}</td>
+                            <td>{t('attendance.statusValue.${record.status}')}</td>
+                            <td>{formatTime(record.in_time)}</td>
+                            <td>{formatTime(record.out_time)}</td>
+                            <td>
+                                {record.is_late_entry && <span>{t('attendance.lateEntry')} </span>}
+                                {record.is_early_exit && <span>{t('attendance.earlyExit')} </span>}
+                                {record.is_incomplete && <span>{t('attendance.incomplete')} </span>}
+                            </td>
+
+                        </tr>
+                    ))}
+                </tbody>
             </table>}
         </div>
     )
 }
+
+export default MyAttendance
