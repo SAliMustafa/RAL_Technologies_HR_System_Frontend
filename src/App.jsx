@@ -4,7 +4,18 @@ import Navbar from "./components/Navbar";
 import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
 import SignInPage from "./pages/SigninPage";
-import Dashboard from "./pages/Dashboard";
+
+//// employee page
+import EmployeeDashboard from "./pages/Employee/Dashboard";
+
+
+// manager page
+import ManagerDashboard from "./pages/Manager/Dashboard";
+
+
+// Hr-Admin page
+import AdminDashboard from "./pages/Admin/Dashboard";
+
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -17,7 +28,18 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
+        {/* //// employee page */}
+        <Route path="/dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+
+        {/* // Hr-Admin page */}
+
+        <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+
+        {/* // manager page */}
+
+        <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+
       </Routes>
     </div>
   );
