@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMyProfile } from "../../services/employeeService";
-import "../../components/css/MyProfile.css";
-import Navbar from "../../components/NavbarEmployee";
+import "../../components/css/Employee/MyProfile.css";
+import Navbar from "../../components/Navbar";
 const MyProfile = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
@@ -41,7 +41,7 @@ const MyProfile = () => {
   return (
     
     <main className="profile-page">
-    <Navbar/>
+    {/* <Navbar/> */}
 
       <section className="profile-header">
         <div className="profile-avatar">

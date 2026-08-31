@@ -8,7 +8,9 @@ import SignInPage from "./pages/SigninPage";
 //// employee page
 import EmployeeDashboard from "./pages/Employee/Dashboard";
 import MyProfile from "./pages/Employee/MyProfile";
-
+import MyDocuments from "./pages/Employee/MyDocuments";
+import UploadDocument from "./pages/Employee/UploadDocument";
+import DocumentDetails from "./pages/Employee/DocumentDetails";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 
@@ -23,7 +25,10 @@ import { useAuth } from "./context/AuthContext";
 function App() {
   return (
     <div>
-      {/* <Navbar/> */}
+      <Navbar/>
+       <div className="app-content">
+
+
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/sign-up" element={<SignupPage />} />
@@ -32,6 +37,9 @@ function App() {
         {/* //// employee page */}
         <Route path="dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
         <Route path="MyProfile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
+        <Route path="mydocuments" element={<ProtectedRoute><MyDocuments /></ProtectedRoute>} />
+        <Route path="/documents/upload" element={<ProtectedRoute><UploadDocument /></ProtectedRoute>} />
+        <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 
@@ -42,6 +50,7 @@ function App() {
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
 
       </Routes>
+       </div>
     </div>
   );
 }

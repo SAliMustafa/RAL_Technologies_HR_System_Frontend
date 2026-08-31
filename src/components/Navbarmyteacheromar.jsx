@@ -13,15 +13,13 @@ function Navbar() {
       {user 
       ? 
       (<>
-
-      <Link to='/dashboard-employee'>dashboard-employee</Link>
-      <Link to='/MyProfile'>profile employee</Link>
       <button onClick={logout}>{t('nav.signOut')}</button>
       </>) : 
       (<>
+        <Link to='/sign-up'>{t('nav.signUp')}</Link>
         <Link to='/sign-in'>{t('nav.signIn')}</Link>
       </>)}
-
+    {/* <LanguageSwitcher /> */}
 
     </nav>
   )
