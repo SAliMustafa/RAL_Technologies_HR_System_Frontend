@@ -24,6 +24,11 @@ async function createAttendanceRecord(data) {
   return response.data
 }
 
+async function updateAttendanceRecord(id, data) {
+    const response = await api.put(`/attendance/${id}`, data)
+    return response.data
+}
+
 
 
 export {getMyAttendance}
