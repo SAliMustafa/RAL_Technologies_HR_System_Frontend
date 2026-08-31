@@ -16,6 +16,10 @@ import ManagerDashboard from "./pages/Manager/Dashboard";
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
 
+
+// MyAttendance page
+import MyAttendance from "./pages/Attendance/MyAttendance";
+
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -39,6 +43,10 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+
+        {/* // MyAttendance page */}
+
+        <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
 
       </Routes>
     </div>
