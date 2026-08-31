@@ -1,29 +1,202 @@
-import { Link } from 'react-router'
-import { useAuth } from '../context/AuthContext'
+import { useState } from "react";
+import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
+import { useAuth } from "../context/AuthContext";
+import "../components/css/Navbar.css";
 
 function Navbar() {
   const { t } = useTranslation();
+  const { logout, user } = useAuth();
+  const location = useLocation();
 
-  const { logout, user} = useAuth()
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
-    <nav>
-      <Link to='/'>{t('nav.home')}</Link>
-      {user 
-      ? 
-      (<>
-      <Link to='/attendance'>{t('nav.attendance')}</Link>
-      <button onClick={logout}>{t('nav.signOut')}</button>
-      </>) : 
-      (<>
-        <Link to='/sign-up'>{t('nav.signUp')}</Link>
-        <Link to='/sign-in'>{t('nav.signIn')}</Link>
-      </>)}
-    {/* <LanguageSwitcher /> */}
+    <aside className="sidebar">
+      {/* LOGO */}
+      <div className="sidebar-header">
+        <div className="sidebar-logo">R</div>
 
-    </nav>
-  )
+        <div>
+          <h2>RAL HR</h2>
+          <span>HR Management</span>
+        </div>
+      </div>
+
+      {/* USER */}
+      {user && (
+        <div className="sidebar-user">
+          <div className="user-avatar">
+            {user?.username?.charAt(0)?.toUpperCase()}
+          </div>
+
+          <div>
+            <strong>{user?.username}</strong>
+
+            <span>{user?.role?.replaceAll("_", " ")}</span>
+          </div>
+        </div>
+      )}
+
+      {/* MENU */}
+      <div className="sidebar-menu">
+        <p className="sidebar-section-title">MENU</p>
+
+
+        {/* =========================
+            EMPLOYEE
+        ========================== */}
+
+        {user?.role === "employee" && (
+          <>
+            <Link
+              to="/dashboard-employee"
+              className={isActive("/dashboard-employee") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Dashboard
+            </Link>
+
+            <Link
+              to="/MyProfile"
+              className={isActive("/MyProfile") ? "active" : ""}
+            >
+              <span className="menu-icon">♙</span>
+              My Profile
+            </Link>
+
+            <Link
+              to="/mydocuments"
+              className={isActive("/mydocuments") ? "active" : ""}
+            >
+              <span className="menu-icon">▤</span>
+              My Documents
+            </Link>
+
+            <Link
+              to="/attendance"
+              className={isActive("/attendance") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              My Attendance
+            </Link>
+
+            <Link to="/leave" className={isActive("/leave") ? "active" : ""}>
+              <span className="menu-icon">▣</span>
+              My Leave
+            </Link>
+          </>
+        )}
+
+        {/* =========================
+            MANAGER
+        ========================== */}
+
+        {user?.role === "manager" && (
+          <>
+            {/* Same employee pages */}
+            <EmployeeMenu isActive={isActive} />
+
+            <p className="sidebar-section-title">MY TEAM</p>
+
+            <Link
+              to="/manager/employees"
+              className={isActive("/manager/employees") ? "active" : ""}
+            >
+              <span className="menu-icon">♟</span>
+              My Employees
+            </Link>
+
+            <Link
+              to="/manager/attendance"
+              className={isActive("/manager/attendance") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              Team Attendance
+            </Link>
+          </>
+        )}
+
+        {/* =========================
+            HR ADMIN
+        ========================== */}
+
+        {user?.role === "hr_admin" && (
+          <>
+            <p className="sidebar-section-title">ADMINISTRATION</p>
+
+            <Link
+              to="/admin/employees"
+              className={isActive("/admin/employees") ? "active" : ""}
+            >
+              <span className="menu-icon">♟</span>
+              Employees
+            </Link>
+
+            <Link
+              to="/admin/departments"
+              className={isActive("/admin/departments") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Departments
+            </Link>
+
+            <Link
+              to="/admin/attendance"
+              className={isActive("/admin/attendance") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              Attendance
+            </Link>
+
+            <Link
+              to="/admin/checkins"
+              className={isActive("/admin/checkins") ? "active" : ""}
+            >
+              <span className="menu-icon">✓</span>
+              Check-ins
+            </Link>
+
+            <Link
+              to="/admin/leave-corrections"
+              className={isActive("/admin/leave-corrections") ? "active" : ""}
+            >
+              <span className="menu-icon">✎</span>
+              Leave Correction Requests
+            </Link>
+
+            <Link
+              to="/admin/holidays"
+              className={isActive("/admin/holidays") ? "active" : ""}
+            >
+              <span className="menu-icon">▣</span>
+              Holidays
+            </Link>
+          </>
+        )}
+      </div>
+
+      {/* LOGOUT */}
+      {user && (
+        <div className="sidebar-footer">
+          <button className="logout-btn" onClick={logout}>
+            <span>↪</span>
+            {t("nav.signOut")}
+          </button>
+        </div>
+      )}
+    </aside>
+  );
 }
 
-export default Navbar
+/* ==================================
+   EMPLOYEE MENU
+================================== */
+
+function EmployeeMenu({ isActive }) {
+  return <></>;
+}
+
+export default Navbar;

@@ -30,9 +30,18 @@ async function updateAttendanceRecord(id, data) {
 }
 
 
+async function getTodayAttendance() {
+    const response = await api.get("/attendance/my-attendance/today");
+    return response.data;
+}
+
+
+
+
 export {
   getMyAttendance,
   getAllAttendance,
   createAttendanceRecord,
-  updateAttendanceRecord
+  updateAttendanceRecord,
+  getTodayAttendance
 }
