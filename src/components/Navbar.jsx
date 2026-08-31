@@ -19,7 +19,7 @@ function Navbar() {
         <Link to='/sign-up'>{t('nav.signUp')}</Link>
         <Link to='/sign-in'>{t('nav.signIn')}</Link>
       </>)}
-    <LanguageSwitcher />
+    {/* <LanguageSwitcher /> */}
 
     </nav>
   )

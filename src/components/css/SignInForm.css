@@ -1,0 +1,305 @@
+/* ========================================
+   RAL HR BRAND COLORS
+======================================== */
+
+:root {
+  --ral-ink: #2B1B3D;
+  --ral-lavender: #D1C4E9;
+  --ral-mid: #59476B;
+  --ral-soft: #7F6D91;
+  --ral-card: #F5F2F9;
+  --ral-rule: #DBD1E8;
+
+  --ral-green: #1F7A54;
+  --ral-amber: #A8631B;
+  --ral-red: #A32F2F;
+}
+
+
+/* ========================================
+   PAGE
+======================================== */
+
+.signin-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px 20px;
+
+  background-color: #ffffff;
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.signin-card {
+  width: 100%;
+  max-width: 430px;
+
+  background-color: var(--ral-card);
+
+  border: 1px solid var(--ral-rule);
+  border-radius: 16px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 8px 30px rgba(43, 27, 61, 0.08);
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.signin-header {
+  margin-bottom: 30px;
+}
+
+.signin-header h1 {
+  margin: 0;
+
+  color: var(--ral-ink);
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.signin-subtitle {
+  margin-top: 8px;
+  margin-bottom: 0;
+
+  color: var(--ral-soft);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ========================================
+   FORM
+======================================== */
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+/* ========================================
+   LABEL
+======================================== */
+
+.form-group label {
+  color: var(--ral-mid);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* ========================================
+   INPUT
+======================================== */
+
+.form-group input {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+
+  color: var(--ral-ink);
+
+  border: 1px solid var(--ral-rule);
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--ral-soft);
+}
+
+.form-group input:hover {
+  border-color: var(--ral-lavender);
+}
+
+.form-group input:focus {
+  border-color: var(--ral-ink);
+
+  box-shadow:
+    0 0 0 3px rgba(209, 196, 233, 0.6);
+
+  background-color: #ffffff;
+}
+
+
+/* ========================================
+   ERROR
+======================================== */
+
+.error {
+  margin: 0 0 20px 0;
+
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  background-color: rgba(163, 47, 47, 0.08);
+
+  border: 1px solid rgba(163, 47, 47, 0.25);
+
+  color: var(--ral-red);
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* ========================================
+   BUTTON CONTAINER
+======================================== */
+
+.signin-actions {
+  display: flex;
+  gap: 12px;
+
+  margin-top: 5px;
+}
+
+
+/* ========================================
+   PRIMARY BUTTON
+======================================== */
+
+.signin-btn {
+  flex: 1;
+
+  padding: 13px 20px;
+
+  border: 1px solid var(--ral-ink);
+  border-radius: 8px;
+
+  background-color: var(--ral-ink);
+
+  color: var(--ral-lavender);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.signin-btn:hover {
+  background-color: var(--ral-mid);
+
+  box-shadow:
+    0 4px 12px rgba(43, 27, 61, 0.18);
+}
+
+.signin-btn:active {
+  transform: translateY(1px);
+}
+
+
+/* ========================================
+   CANCEL BUTTON
+======================================== */
+
+.cancel-btn {
+  flex: 1;
+
+  padding: 13px 20px;
+
+  border: 1px solid var(--ral-rule);
+  border-radius: 8px;
+
+  background-color: #ffffff;
+
+  color: var(--ral-mid);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background-color: var(--ral-lavender);
+
+  border-color: var(--ral-lavender);
+
+  color: var(--ral-ink);
+}
+
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+.signin-btn:focus-visible,
+.cancel-btn:focus-visible {
+  outline: 3px solid var(--ral-lavender);
+  outline-offset: 2px;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 500px) {
+
+  .signin-page {
+    padding: 20px 15px;
+  }
+
+  .signin-card {
+    padding: 28px 22px;
+  }
+
+  .signin-header h1 {
+    font-size: 27px;
+  }
+
+  .signin-actions {
+    flex-direction: column;
+  }
+}
