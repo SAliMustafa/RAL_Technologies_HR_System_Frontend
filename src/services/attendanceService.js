@@ -11,8 +11,15 @@ function unwrap(data){
 
 async function getMyAttendance(params = {}){
     const response = await api.get('/attendance', {params})
-    return response.data
+    return unwrap (response.data)
 }
+
+async function getAllAttendance(params = {}) {
+  const response = await api.get('/attendance', { params })
+  return unwrap(response.data)
+}
+
+
 
 
 
