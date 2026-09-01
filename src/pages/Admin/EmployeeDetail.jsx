@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 import {getEmployeeById, updateEmployee, updateEmployeeStatus} from "../../services/employeeService";
-import {getEmployeeName} from "../../utils/getEmployeeName"
+import getEmployeeName from "../../utils/getEmployeeName"
 import "../../style/style.css"
 
 import React from 'react'
@@ -13,7 +12,7 @@ const genderOptions = ["male", "female"];
 const employmentTypeOptions = ["full_time", "part_time", "fixed_term"];
 const roleOptions = ["employee", "manager", "hr_admin"];
 
-function toDateInputvalue(value){
+function toDateInputValue(value){
     return value ? value.slice(0,10) : ''
 }
 
@@ -71,7 +70,7 @@ function EmployeeDetail() {
 },[userId, t])
 function handleChange(event){
   const { name, value,type,checked } = event.target;
-  setForm({setForm, [name]: type === "checkbox" ? checked : value });
+  setForm({...form, [name]: type === "checkbox" ? checked : value });
 }
 async function handleSubmit(event){
   event.preventDefault();
@@ -101,7 +100,7 @@ async function handleSubmit(event){
         await updateEmployeeStatus(userId, newStatus)
         setStatus(newStatus)
       }
-    } catch(err){
+    catch(err){
       setError(err.response?.data?.error || t("employees.detail.statusUpdateError"))
     }
   }
@@ -111,5 +110,12 @@ if (loading) {
 if(!form) {
   return <p className="error-message">{error || t("error")}</p>;
 }
-return
+return (
+  <div className="page">
+    <h1 className="page-title">{t("employees.detail.title")}</h1>
+
+    {error && <p className="error-message">{error}</p>}
+  </div>
+)
+}
 export default EmployeeDetail
