@@ -54,6 +54,40 @@
   color: var(--red);
 }
 
+.allocations-success {
+  border: 1px solid #c4e6d5;
+  background: #eaf6f0;
+  color: var(--green);
+}
+
+.allocation-primary-button,
+.allocation-secondary-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-primary-button {
+  background: var(--ink);
+  color: white;
+}
+
+.allocation-secondary-button {
+  border: 1px solid var(--rule);
+  background: white;
+  color: var(--mid);
+}
+
+.allocation-primary-button:disabled,
+.allocation-secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .allocations-card {
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -189,6 +223,37 @@
   color: var(--red);
 }
 
+.allocation-row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.allocation-row-actions .allocation-delete-link {
+  color: var(--red);
+}
+
+.allocation-row-actions button {
+  border: 0;
+  background: none;
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .allocations-state {
   min-height: 220px;
   display: flex;
@@ -203,6 +268,178 @@
 .allocations-state strong {
   color: var(--ink);
   font-size: 15px;
+}
+
+.allocation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(43, 27, 61, 0.55);
+}
+
+.allocation-modal {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+
+.allocation-confirm-modal {
+  width: min(430px, 100%);
+  padding: 28px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+  text-align: center;
+}
+
+.allocation-confirm-modal h2 {
+  margin: 12px 0 8px;
+  font-size: 20px;
+}
+
+.allocation-confirm-modal p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.allocation-confirm-modal .allocation-delete-warning {
+  margin-top: 12px;
+  color: var(--red);
+}
+
+.allocation-confirm-modal .allocation-form-error {
+  margin: 16px 0 0;
+  text-align: start;
+}
+
+.allocation-warning-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fbecec;
+  color: var(--red);
+  font-weight: 800;
+}
+
+.allocation-danger-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--red);
+  color: white;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.allocation-confirm-modal .allocation-modal-actions {
+  justify-content: center;
+}
+
+.allocation-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.allocation-modal-header h2 {
+  margin: 4px 0 0;
+  font-size: 21px;
+}
+
+.allocation-close-button {
+  border: 0;
+  background: none;
+  color: var(--soft);
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.allocation-modal form {
+  padding: 22px 24px;
+}
+
+.allocation-form-error {
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border: 1px solid #efcaca;
+  border-radius: 7px;
+  background: #fbecec;
+  color: var(--red);
+  font-size: 12px;
+}
+
+.allocation-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.allocation-form-grid label {
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.allocation-form-grid label > span {
+  color: var(--red);
+}
+
+.allocation-form-grid input,
+.allocation-form-grid select {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 7px;
+  padding: 10px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+.allocation-form-grid input:focus,
+.allocation-form-grid select:focus {
+  outline: 2px solid var(--lavender);
+  border-color: var(--mid);
+}
+
+.allocation-form-grid input:disabled {
+  background: var(--card);
+}
+
+.allocation-form-grid small {
+  display: block;
+  margin-top: 5px;
+  color: var(--soft);
+  font-weight: 400;
+}
+
+.allocation-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
 }
 
 .allocations-spinner {
@@ -235,5 +472,9 @@
     width: 100%;
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .allocation-form-grid {
+    grid-template-columns: 1fr;
   }
 }
