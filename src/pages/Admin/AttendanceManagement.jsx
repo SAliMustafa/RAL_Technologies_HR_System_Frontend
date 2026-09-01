@@ -72,7 +72,7 @@ function AttendanceManagement() {
     } finally {
       setLoading(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [showTodayOnly])
 
   useEffect(() => {
@@ -80,5 +80,19 @@ function AttendanceManagement() {
     return () => window.clearTimeout(request)
   }, [loadAttendance]);
 
-  if (user?.role !== "hr_admin") return <Navigate to="/" replace />;
+  if (user?.role !== "hr_admin") return <Navigate to="/" replace />
+
+  function openCorrect(record) {
+    setEditing(record);
+    setForm({
+      status: record.status || "",
+      in_time: record.in_time ? new Date(record.in_time).toISOString().slice(0, 16) : "",
+      out_time: record.out_time ? new Date(record.out_time).toISOString().slice(0, 16) : "",
+      is_late_entry: Boolean(record.is_late_entry),
+      is_early_exit: Boolean(record.is_early_exit),
+      is_incomplete: Boolean(record.is_incomplete),
+      correction_reason: "",
+    });
+    setFormError("");
+  }
 }
