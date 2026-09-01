@@ -181,6 +181,14 @@ function Navbar() {
               <span className="menu-icon">▣</span>
               Holidays
             </Link>
+
+            <Link
+              to="/admin/leave-types"
+              className={isActive("/admin/leave-types") ? "active" : ""}
+            >
+              <span className="menu-icon">▤</span>
+              Leave Types
+            </Link>
           </>
         )}
       </div>
@@ -196,14 +204,6 @@ function Navbar() {
       )}
     </aside>
   );
-}
-
-/* ==================================
-   EMPLOYEE MENU
-================================== */
-
-function EmployeeMenu({ isActive }) {
-  return <></>;
 }
 
 export default Navbar;

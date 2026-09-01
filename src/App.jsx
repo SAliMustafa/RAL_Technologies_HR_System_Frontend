@@ -19,6 +19,7 @@ import ManagerDashboard from "./pages/Manager/Dashboard";
 
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
+import LeaveTypes from "./pages/Admin/LeaveTypes";
 
 
 // MyAttendance page
@@ -52,6 +53,14 @@ function App() {
         {/* // Hr-Admin page */}
 
         <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route
+          path="/admin/leave-types"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <LeaveTypes />
+            </ProtectedRoute>
+          }
+        />
 
         {/* // manager page */}
 
