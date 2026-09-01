@@ -13,6 +13,8 @@ function formatDate(value) {
 }
 
 function LeaveRequestTable({ requests, onView, renderActions }) {
+  const hasActions = Boolean(onView || renderActions);
+
   return (
     <div className="request-table-wrap">
       <table className="request-table">
@@ -24,7 +26,7 @@ function LeaveRequestTable({ requests, onView, renderActions }) {
             <th className="request-number-column">Total days</th>
             <th>Approver</th>
             <th>Status</th>
-            <th><span className="request-sr-only">Actions</span></th>
+            {hasActions && <th><span className="request-sr-only">Actions</span></th>}
           </tr>
         </thead>
         <tbody>
@@ -55,14 +57,18 @@ function LeaveRequestTable({ requests, onView, renderActions }) {
                 )}
               </td>
               <td><LeaveRequestStatusBadge status={request.status} /></td>
-              <td>
-                <div className="request-row-actions">
-                  <button type="button" onClick={() => onView(request)}>
-                    Details
-                  </button>
-                  {renderActions?.(request)}
-                </div>
-              </td>
+              {hasActions && (
+                <td>
+                  <div className="request-row-actions">
+                    {onView && (
+                      <button type="button" onClick={() => onView(request)}>
+                        Details
+                      </button>
+                    )}
+                    {renderActions?.(request)}
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
