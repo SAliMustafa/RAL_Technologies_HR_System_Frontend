@@ -157,5 +157,52 @@
     "created": "Department created.",
     "updated": "Department updated."
   }
+},
+"holidays": {
+  "eyebrow": "HOLIDAYS",
+  "title": "Holidays",
+  "subtitle": "Manage the company holiday calendar.",
+  "addButton": "Add Holiday",
+  "editEyebrow": "EDIT",
+  "createEyebrow": "NEW",
+  "dismiss": "Dismiss",
+  "retry": "Retry",
+  "loading": "Loading holidays...",
+  "emptyTitle": "No holidays found",
+  "confirmed": "Confirmed",
+  "unconfirmed": "Unconfirmed",
+  "day": "day",
+  "days": "days",
+  "columns": {
+    "from": "From",
+    "to": "To",
+    "days": "Days",
+    "description": "Description",
+    "confirmed": "Status",
+    "actions": "Actions"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "form": {
+    "from": "From date",
+    "to": "To date",
+    "description": "Description",
+    "confirmed": "Confirmed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving..."
+  },
+  "errors": {
+    "load": "Unable to load holidays.",
+    "save": "Unable to save this holiday.",
+    "delete": "Unable to delete this holiday."
+  },
+  "success": {
+    "created": "Holiday created.",
+    "updated": "Holiday updated.",
+    "deleted": "Holiday deleted."
+  }
 }
 }

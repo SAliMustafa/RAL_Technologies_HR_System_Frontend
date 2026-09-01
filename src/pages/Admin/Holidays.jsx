@@ -14,6 +14,13 @@ function formatDate(value) {
   return new Date(value).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+function dayCount(holiday) {
+  if (typeof holiday.days === "number") return holiday.days;
+  if (!holiday.from_date || !holiday.to_date) return "--";
+  const oneDayMs = 24 * 60 * 60 * 1000;
+  return Math.round((new Date(holiday.to_date) - new Date(holiday.from_date)) / oneDayMs) + 1;
+}
+
 function Holidays() {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -23,7 +30,7 @@ function Holidays() {
   const [success, setSuccess] = useState("");
 
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ date: "", description: "", is_confirmed: true });
+  const [form, setForm] = useState({ from_date: "", to_date: "", description: "", is_confirmed: true });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -46,7 +53,7 @@ function Holidays() {
 
   function openCreate() {
     setEditing(null);
-    setForm({ date: "", description: "", is_confirmed: true });
+    setForm({ from_date: "", to_date: "", description: "", is_confirmed: true });
     setFormError("");
     setShowForm(true);
   }
@@ -54,10 +61,11 @@ function Holidays() {
   function openEdit(holiday) {
     setEditing(holiday);
     setForm({
-      date: holiday.date ? holiday.date.slice(0, 10) : "",
-      description: holiday.description || "",
-      is_confirmed: Boolean(holiday.is_confirmed),
-    });
+  from_date: holiday.from_date ? holiday.from_date.slice(0, 10) : "",
+  to_date: holiday.to_date ? holiday.to_date.slice(0, 10) : "",
+  description: holiday.description || "",
+  is_confirmed: Boolean(holiday.is_confirmed),
+});
     setFormError("");
     setShowForm(true);
   }
@@ -122,7 +130,9 @@ function Holidays() {
             <table>
               <thead>
                 <tr>
-                  <th>{t("holidays.columns.date")}</th>
+                  <th>{t("holidays.columns.from")}</th>
+                  <th>{t("holidays.columns.to")}</th>
+                  <th>{t("holidays.columns.days")}</th>
                   <th>{t("holidays.columns.description")}</th>
                   <th>{t("holidays.columns.confirmed")}</th>
                   <th><span className="sr-only">{t("holidays.columns.actions")}</span></th>
@@ -131,7 +141,9 @@ function Holidays() {
               <tbody>
                 {holidays.map((holiday) => (
                   <tr key={holiday._id}>
-                    <td>{formatDate(holiday.date)}</td>
+                    <td>{formatDate(holiday.from_date)}</td>
+                    <td>{formatDate(holiday.to_date)}</td>
+                    <td>{dayCount(holiday)} {dayCount(holiday) === 1 ? t("holidays.day") : t("holidays.days")}</td>
                     <td><strong>{holiday.description}</strong></td>
                     <td>
                       <span className={`status-badge ${holiday.is_confirmed ? "status-present" : "status-half_day"}`}>
@@ -165,8 +177,11 @@ function Holidays() {
             <form onSubmit={submitForm}>
               {formError && <div className="form-error" role="alert">{formError}</div>}
               <div className="form-grid">
-                <label>{t("holidays.form.date")}
-                  <input type="date" name="date" value={form.date} onChange={updateField} required />
+                <label>{t("holidays.form.from")}
+                  <input type="date" name="from_date" value={form.from_date} onChange={updateField} required />
+                </label>
+                <label>{t("holidays.form.to")}
+                  <input type="date" name="to_date" value={form.to_date} onChange={updateField} required />
                 </label>
                 <label className="full-field">{t("holidays.form.description")}
                   <input name="description" value={form.description} onChange={updateField} required />
