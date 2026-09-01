@@ -168,7 +168,7 @@
 
   border-radius: 11px;
 
-  text-align: left;
+  text-align: start;
 
   cursor: pointer;
 
@@ -401,6 +401,7 @@
 
 .time-box span {
   color: var(--soft);
+  
 
   font-size: 11px;
 
@@ -692,7 +693,7 @@
 
 
 .leave-days {
-  text-align: right;
+  text-align: start;
 }
 
 
