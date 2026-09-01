@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import LeaveRequestTable from "../../components/LeaveRequests/LeaveRequestTable";
+import LeaveRequestDetails from "../../components/LeaveRequests/LeaveRequestDetails";
 import { getLeaveRequests } from "../../services/leaveRequestService";
 import "./EmployeeLeaveRequests.css";
 
@@ -18,6 +19,7 @@ function EmployeeLeaveRequests() {
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedRequestId, setSelectedRequestId] = useState(null);
 
   const loadRequests = useCallback(async () => {
     setLoading(true);
@@ -92,9 +94,19 @@ function EmployeeLeaveRequests() {
             </span>
           </div>
         ) : !error && (
-          <LeaveRequestTable requests={requests} />
+          <LeaveRequestTable
+            requests={requests}
+            onView={(request) => setSelectedRequestId(request._id)}
+          />
         )}
       </section>
+
+      {selectedRequestId && (
+        <LeaveRequestDetails
+          requestId={selectedRequestId}
+          onClose={() => setSelectedRequestId(null)}
+        />
+      )}
     </main>
   );
 }
