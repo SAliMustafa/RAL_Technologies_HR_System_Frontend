@@ -54,5 +54,71 @@
       "holiday": "Holiday",
       "weekly_off": "Weekly Off"
     }
+  },
+  "attendanceManagement": {
+    "eyebrow": "ATTENDANCE MANAGEMENT",
+    "title": "Attendance",
+    "subtitle": "Review, correct, and lock employee attendance records.",
+    "correctEyebrow": "CORRECT",
+    "dismiss": "Dismiss",
+    "retry": "Retry",
+    "recordsHeading": "Records",
+    "recordCount_one": "{{count}} record",
+    "recordCount_other": "{{count}} records",
+    "todayOnly": "Today only",
+    "allStatuses": "All statuses",
+    "employeeIdPlaceholder": "Employee ID",
+    "filter": "Filter",
+    "loading": "Loading attendance...",
+    "emptyTitle": "No attendance records found",
+    "emptySubtitle": "Try adjusting your filters.",
+    "columns": {
+      "employee": "Employee",
+      "date": "Date",
+      "status": "Status",
+      "in": "In",
+      "out": "Out",
+      "flags": "Flags",
+      "actions": "Actions"
+    },
+    "flags": {
+      "late": "Late",
+      "earlyExit": "Early Exit",
+      "incomplete": "Incomplete",
+      "corrected": "Corrected",
+      "locked": "Locked"
+    },
+    "actions": {
+      "correct": "Correct",
+      "lock": "Lock"
+    },
+    "modal": {
+      "status": "Status",
+      "inTime": "In time",
+      "outTime": "Out time",
+      "reason": "Reason for correction",
+      "flagsLegend": "Flags",
+      "cancel": "Cancel",
+      "save": "Save correction",
+      "saving": "Saving..."
+    },
+    "statusValues": {
+      "present": "Present",
+      "absent": "Absent",
+      "half_day": "Half Day",
+      "on_leave": "On Leave",
+      "holiday": "Holiday",
+      "weekly_off": "Weekly Off"
+    },
+    "errors": {
+      "load": "Unable to load attendance.",
+      "correct": "Unable to save the correction.",
+      "lock": "Unable to lock this record.",
+      "reasonRequired": "Correction reason is required."
+    },
+    "success": {
+      "corrected": "Attendance record corrected successfully.",
+      "locked": "Attendance record locked."
+    }
   }
 }

@@ -21,6 +21,8 @@ import ManagerDashboard from "./pages/Manager/Dashboard";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
+import AttendanceManagement from "./pages/Admin/AttendanceManagement";
+
 
 
 // MyAttendance page
@@ -70,6 +72,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/admin/attendance"
+  element={
+    <ProtectedRoute allowedRoles={["hr_admin"]}>
+      <AttendanceManagement />
+    </ProtectedRoute>
+  }
+/>
+
+
+
 
         {/* // manager page */}
 
