@@ -3,31 +3,46 @@ import { Navigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { getDepartments, createDepartment, updateDepartment } from "../../services/departmentService";
+import { getAllEmployees } from "../../services/employeeService";
 import "./Departments.css";
 
 function errorMessage(error, fallback) {
   return error.response?.data?.message || error.response?.data?.error || fallback;
 }
 
+function managerLabel(user) {
+  const employee = user.employeeId;
+  if (!employee) return user.username;
+  return `${employee.name_en || user.username} (${employee.employee_code || "--"})`;
+}
+
 function Departments() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [departments, setDepartments] = useState([]);
+  const [managers, setManagers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const [editing, setEditing] = useState(null); // null = create mode, object = edit mode
+  const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ name: "", manager_id: "" });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const loadDepartments = useCallback(async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      setDepartments(await getDepartments());
+      const [departmentList, employeeUsers] = await Promise.all([
+        getDepartments(),
+        getAllEmployees(),
+      ]);
+      setDepartments(departmentList);
+      setManagers(
+        employeeUsers.filter((u) => u.role === "manager" && u.employeeId)
+      );
     } catch (requestError) {
       setError(errorMessage(requestError, t("departments.errors.load")));
     } finally {
@@ -35,7 +50,7 @@ function Departments() {
     }
   }, [t]);
 
-  useEffect(() => { loadDepartments(); }, [loadDepartments]);
+  useEffect(() => { loadData(); }, [loadData]);
 
   if (user?.role !== "hr_admin") return <Navigate to="/" replace />;
 
@@ -48,7 +63,10 @@ function Departments() {
 
   function openEdit(department) {
     setEditing(department);
-    setForm({ name: department.name || "", manager_id: department.manager_id || "" });
+    setForm({
+      name: department.name || "",
+      manager_id: department.manager_id?._id || department.manager_id || "",
+    });
     setFormError("");
     setShowForm(true);
   }
@@ -62,20 +80,28 @@ function Departments() {
     setSaving(true);
     setFormError("");
     try {
+      const payload = { name: form.name, manager_id: form.manager_id || undefined };
       if (editing) {
-        await updateDepartment(editing._id, form);
+        await updateDepartment(editing._id, payload);
         setSuccess(t("departments.success.updated"));
       } else {
-        await createDepartment(form);
+        await createDepartment(payload);
         setSuccess(t("departments.success.created"));
       }
       setShowForm(false);
-      await loadDepartments();
+      await loadData();
     } catch (requestError) {
       setFormError(errorMessage(requestError, t("departments.errors.save")));
     } finally {
       setSaving(false);
     }
+  }
+
+  function managerDisplayName(managerId) {
+    if (!managerId) return "--";
+    const id = typeof managerId === "object" ? managerId._id : managerId;
+    const match = managers.find((m) => m.employeeId?._id === id);
+    return match ? managerLabel(match) : "--";
   }
 
   return (
@@ -90,7 +116,7 @@ function Departments() {
       </div>
 
       {success && <div className="notice success-notice" role="status">{success}<button onClick={() => setSuccess("")}>×</button></div>}
-      {error && <div className="notice error-notice" role="alert">{error}<button onClick={loadDepartments}>{t("departments.retry")}</button></div>}
+      {error && <div className="notice error-notice" role="alert">{error}<button onClick={loadData}>{t("departments.retry")}</button></div>}
 
       <section className="departments-card">
         {loading ? (
@@ -111,7 +137,7 @@ function Departments() {
                 {departments.map((dept) => (
                   <tr key={dept._id}>
                     <td><strong>{dept.name}</strong></td>
-                    <td>{dept.manager_id || "--"}</td>
+                    <td>{managerDisplayName(dept.manager_id)}</td>
                     <td>
                       <div className="row-actions">
                         <button onClick={() => openEdit(dept)}>{t("departments.actions.edit")}</button>
@@ -142,7 +168,14 @@ function Departments() {
                   <input name="name" value={form.name} onChange={updateField} required />
                 </label>
                 <label className="full-field">{t("departments.form.managerId")}
-                  <input name="manager_id" value={form.manager_id} onChange={updateField} />
+                  <select name="manager_id" value={form.manager_id} onChange={updateField}>
+                    <option value="">{t("departments.form.noManager")}</option>
+                    {managers.map((m) => (
+                      <option key={m.employeeId._id} value={m.employeeId._id}>
+                        {managerLabel(m)}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
               <div className="modal-actions">
@@ -161,4 +194,4 @@ function Departments() {
   );
 }
 
-export default Departments;
+export default Departments

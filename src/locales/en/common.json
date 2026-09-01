@@ -120,5 +120,42 @@
       "corrected": "Attendance record corrected successfully.",
       "locked": "Attendance record locked."
     }
+  },
+
+  "departments": {
+  "eyebrow": "DEPARTMENTS",
+  "title": "Departments",
+  "subtitle": "Manage the departments employees are organized into.",
+  "addButton": "Add Department",
+  "editEyebrow": "EDIT",
+  "createEyebrow": "NEW",
+  "dismiss": "Dismiss",
+  "retry": "Retry",
+  "loading": "Loading departments...",
+  "emptyTitle": "No departments found",
+  "columns": {
+    "name": "Name",
+    "manager": "Manager",
+    "actions": "Actions"
+  },
+  "actions": {
+    "edit": "Edit"
+  },
+  "form": {
+    "name": "Department name",
+    "managerId": "Manager (Employee ID)",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "noManager": "No manager assigned"
+  },
+  "errors": {
+    "load": "Unable to load departments.",
+    "save": "Unable to save this department."
+  },
+  "success": {
+    "created": "Department created.",
+    "updated": "Department updated."
   }
+}
 }
