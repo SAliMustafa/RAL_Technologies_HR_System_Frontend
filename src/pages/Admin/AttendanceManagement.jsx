@@ -75,7 +75,7 @@ function AttendanceManagement() {
       setLoading(false)
     }
     
-  }, [showTodayOnly])
+  }, [showTodayOnly, filters])
 
   useEffect(() => {
     const request = window.setTimeout(loadAttendance, 0)
@@ -127,7 +127,7 @@ function AttendanceManagement() {
       setSaving(false)
     }
   }
-}
+
 
 
    async function handleLock(record) {
@@ -328,6 +328,6 @@ function AttendanceManagement() {
       )}
     </main>
   );
-
+}
 
 export default AttendanceManagement;
