@@ -5,10 +5,12 @@ import LeaveRequestForm from "../../../components/LeaveRequests/LeaveRequestForm
 import LeaveRequestConfirmDialog from "../../../components/LeaveRequests/LeaveRequestConfirmDialog";
 import LeaveRequestDecisionDialog from "../../../components/LeaveRequests/LeaveRequestDecisionDialog";
 import {
+  approveLeaveRequest,
   cancelLeaveRequest,
   createLeaveRequest,
   deleteLeaveRequest,
   getLeaveRequests,
+  rejectLeaveRequest,
   submitLeaveRequest,
   updateLeaveRequest,
 } from "../../../services/leaveRequestService";
@@ -25,6 +27,10 @@ function getErrorMessage(error, fallback = "Unable to load leave requests.") {
 
 function requestEmployeeId(request) {
   return request.employee_id?._id || request.employee_id;
+}
+
+function requestApproverId(request) {
+  return request.approver_id?._id || request.approver_id;
 }
 
 function ManagerLeaveRequests() {
@@ -175,8 +181,16 @@ function ManagerLeaveRequests() {
       if (type === "submit") await submitLeaveRequest(request._id);
       if (type === "delete") await deleteLeaveRequest(request._id);
       if (type === "cancel") await cancelLeaveRequest(request._id, note);
+      if (type === "approve") await approveLeaveRequest(request._id);
+      if (type === "reject") await rejectLeaveRequest(request._id, note);
       setPendingAction(null);
-      setSuccess({ submit: "Draft submitted successfully.", delete: "Draft deleted successfully.", cancel: "Leave request cancelled successfully." }[type]);
+      setSuccess({
+        submit: "Draft submitted successfully.",
+        delete: "Draft deleted successfully.",
+        cancel: "Leave request cancelled successfully.",
+        approve: "Leave request approved successfully.",
+        reject: "Leave request rejected successfully.",
+      }[type]);
       await Promise.all([loadRequests(), loadOptions()]);
     } catch (requestError) {
       setActionError(getErrorMessage(requestError, "Unable to update the leave request."));
@@ -199,6 +213,18 @@ function ManagerLeaveRequests() {
       return <button type="button" className="request-danger-link" onClick={() => openAction("cancel", request)}>Cancel</button>;
     }
     return null;
+  }
+
+  function renderAssignedActions(request) {
+    const isAssigned = String(requestApproverId(request)) === String(managerEmployee?._id);
+    if (!isAssigned || request.status !== "pending") return null;
+
+    return (
+      <>
+        <button type="button" onClick={() => openAction("approve", request)}>Approve</button>
+        <button type="button" className="request-danger-link" onClick={() => openAction("reject", request)}>Reject</button>
+      </>
+    );
   }
 
   const renderSection = (title, description, sectionRequests, actions) => (
@@ -233,7 +259,7 @@ function ManagerLeaveRequests() {
       </div>
 
       {renderSection("My requests", "Requests you created for your own leave.", ownRequests, renderOwnActions)}
-      {renderSection("Assigned to me", "Team requests waiting for or recording your decision.", assignedRequests, undefined)}
+      {renderSection("Assigned to me", "Team requests waiting for or recording your decision.", assignedRequests, renderAssignedActions)}
 
       {selectedRequestId && <LeaveRequestDetails requestId={selectedRequestId} onClose={() => setSelectedRequestId(null)} />}
       {showCreate && managerEmployee && <LeaveRequestForm employee={managerEmployee} leaveTypes={leaveTypes} allocations={allocations} saving={saving} error={formError} onSubmit={submitCreate} onClose={() => !saving && setShowCreate(false)} />}
@@ -243,6 +269,8 @@ function ManagerLeaveRequests() {
       {pendingAction?.type === "delete" && <LeaveRequestConfirmDialog title="Delete draft request?" message="This draft will be permanently deleted. This action cannot be undone." confirmLabel="Delete draft" danger saving={saving} error={actionError} onConfirm={runConfirmedAction} onClose={() => !saving && setPendingAction(null)} />}
       {pendingAction?.type === "cancel" && pendingAction.request.status === "pending" && <LeaveRequestConfirmDialog title="Cancel leave request?" message="This pending request will be cancelled and cannot be submitted again." confirmLabel="Cancel request" danger saving={saving} error={actionError} onConfirm={runConfirmedAction} onClose={() => !saving && setPendingAction(null)} />}
       {pendingAction?.type === "cancel" && pendingAction.request.status === "approved" && <LeaveRequestDecisionDialog title="Cancel approved request" message="A reason is required. Cancelling this approved request will restore the deducted days to your matching allocation." confirmLabel="Cancel request" saving={saving} error={actionError} onConfirm={runConfirmedAction} onClose={() => !saving && setPendingAction(null)} />}
+      {pendingAction?.type === "approve" && <LeaveRequestConfirmDialog title="Approve leave request?" message="Approving this request will deduct its total days from the employee's matching leave allocation." confirmLabel="Approve request" saving={saving} error={actionError} onConfirm={runConfirmedAction} onClose={() => !saving && setPendingAction(null)} />}
+      {pendingAction?.type === "reject" && <LeaveRequestDecisionDialog title="Reject leave request" message="Provide a decision note explaining why this request is being rejected." confirmLabel="Reject request" saving={saving} error={actionError} onConfirm={runConfirmedAction} onClose={() => !saving && setPendingAction(null)} />}
     </main>
   );
 }
