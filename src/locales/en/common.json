@@ -120,5 +120,91 @@
       "corrected": "Attendance record corrected successfully.",
       "locked": "Attendance record locked."
     }
+  },
+  "employees": {
+    "fields": {
+      "employeeCode": "Employee code",
+      "name": "Name",
+      "username": "Username",
+      "role": "Role",
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "cprNumber": "CPR number",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "isBahraini": "Bahraini national",
+      "departmentId": "Department ID",
+      "reportsTo": "Reports to (employee ID)",
+      "jobTitle": "Job title",
+      "dateOfJoining": "Date of joining",
+      "probationEndDate": "Probation end date",
+      "probationExtended": "Probation extended with written consent (up to 6 months)",
+      "employmentType": "Employment type",
+      "iban": "IBAN",
+      "bankName": "Bank name",
+      "mobile": "Mobile",
+      "emailPersonal": "Personal email",
+      "emailWork": "Work email",
+      "status": "Status"
+    },
+    "list": {
+      "title": "Employees",
+      "loading": "Loading employees...",
+      "LoadError": "Could not load employees",
+      "view": "View",
+      "empty": "No employees to show"
+    },
+    "statusValues": {
+      "active": "Active",
+      "on_leave": "On leave",
+      "suspended": "Suspended",
+      "left": "Left"
+    },
+    "roleValues": {
+      "employee": "Employee",
+      "manager": "Manager",
+      "hr_admin": "HR admin"
+    },
+    "detail": {
+      "title": "Employee details",
+      "loading": "Loading employee…",
+      "loadError": "Could not load this employee.",
+      "saveError": "Could not save changes.",
+      "statusError": "Could not update status.",
+      "saving": "Saving…",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "select": "Select",
+      "yes": "Yes",
+      "no": "No",
+      "account": "Account",
+      "personal": "Personal details",
+      "employment": "Employment",
+      "banking": "Banking",
+      "contact": "Contact"
+    },
+    "profile": {
+      "title": "My profile",
+      "loading": "Loading your profile…",
+      "loadError": "Could not load your profile.",
+      "updateContact": "Update contact details",
+      "saving": "Saving…",
+      "save": "Save",
+      "saved": "Contact details updated.",
+      "saveError": "Could not update your contact details."
+    },
+    "team": {
+      "title": "My team",
+      "loading": "Loading your team…",
+      "loadError": "Could not load your team.",
+      "empty": "No one reports to you yet."
+    },
+    "department": {
+      "title": "My department",
+      "loading": "Loading department…",
+      "loadError": "Could not load your department.",
+      "empty": "No employees found in your department."
+    }
   }
 }

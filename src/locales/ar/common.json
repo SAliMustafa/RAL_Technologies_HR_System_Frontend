@@ -52,6 +52,11 @@
       "weekly_off": "عطلة أسبوعية"
     }
   },
+    "employees":{
+    "fields":{
+    "employeeCode": "Employee Code"
+    }
+  },
   "attendanceManagement": {
     "eyebrow": "إدارة الحضور",
     "title": "الحضور",
