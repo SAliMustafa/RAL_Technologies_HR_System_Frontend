@@ -54,7 +54,7 @@
   },
     "employees":{
     "fields":{
-    "employeeCode": "Employee Code",
+    "employeeCode": "Employee Code"
     }
   }
 }

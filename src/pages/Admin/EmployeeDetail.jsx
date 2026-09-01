@@ -249,7 +249,7 @@ return (
             </div>
           </div>
         </div>
-        <div className="form-sections">
+        <div className="form-section">
           <p className="form-section-title">{t("employees.detail.employment")}</p>
           <div className="form-grid">
             <div className="form-field">
@@ -333,7 +333,82 @@ return (
           </div>
         </div>
         <div className="form-section">
+          <p className="form-section-title">{t("employees.detail.banking")}</p>
+          <div className="form-grid">
+            <div className="form-field">
+              <label htmlFor="iban">{t("employees.fields.iban")}</label>
+              <input
+                type="text"
+                id="iban"
+                name="iban"
+                value={form.iban}
+                onChange={handleChange}
+                pattern="BH\d{2}[A-Z]{4}[A-Z0-9]{14}"
+                title="Bahrain IBAN"
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="bank_name">{t("employees.fields.bankName")}</label>
+              <input
+                type="text"
+                id="bank_name"
+                name="bank_name"
+                value={form.bank_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-section">
           <p className="form-section-title">{t("employees.detail.contact")}</p>
+          <div className="form-grid">
+            <div className="form-field">
+              <label htmlFor="mobile">{t("employees.fields.mobile")}</label>
+              <input
+                type="text"
+                id="mobile"
+                name="mobile"
+                value={form.mobile}
+                onChange={handleChange}
+                pattern="3\d{7}"
+                title="8 digits, starting with 3"
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="email_personal">{t("employees.fields.emailPersonal")}</label>
+              <input
+                type="email"
+                id="email_personal"
+                name="email_personal"
+                value={form.email_personal}
+                onChange={handleChange}
+                required
+              />
+            </div>
+             <div className="form-field">
+              <label htmlFor="email_work">{t("employees.fields.emailWork")}</label>
+              <input
+                type="email"
+                id="email_work"
+                name="email_work"
+                value={form.email_work}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div className="form-actions">
+          <button className="btn btn-primary" type="submit" disabled={saving}>
+            {saving ? t("employees.detail.saving") : t("employees.detail.save")}
+          </button>
+          <button className="btn btn-secondary" type="button" onClick={() => navigate("/employees")}>
+            {t("employees.detail.cancel")}
+          </button>
         </div>
         </form> 
         </div>   
