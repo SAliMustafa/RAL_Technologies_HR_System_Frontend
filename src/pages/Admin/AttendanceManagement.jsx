@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { Navigate } from "react-router"
+import { useTranslation } from "react-i18next"
 import { useAuth } from "../../context/AuthContext"
 import {
   getAllAttendance,
@@ -46,6 +47,7 @@ function AttendanceManagement() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
+  const { t } = useTranslation();
 
   const [showTodayOnly, setShowTodayOnly] = useState(false)
   const [filters, setFilters] = useState({ status: "", employee_id: "", date: "" })
@@ -125,6 +127,7 @@ function AttendanceManagement() {
       setSaving(false)
     }
   }
+}
 
 
    async function handleLock(record) {
@@ -136,3 +139,195 @@ function AttendanceManagement() {
       setError(errorMessage(requestError, "Unable to lock this record."))
     }
   }
+
+
+  return (
+    <main className="attendance-management-page">
+      <div className="attendance-header">
+        <div>
+          <p className="page-eyebrow">{t("attendanceManagement.eyebrow")}</p>
+          <h1>{t("attendanceManagement.title")}</h1>
+          <p>{t("attendanceManagement.subtitle")}</p>
+        </div>
+      </div>
+
+      {success && (
+        <div className="notice success-notice" role="status">
+          {success}
+          <button onClick={() => setSuccess("")} aria-label={t("attendanceManagement.dismiss")}>×</button>
+        </div>
+      )}
+      {error && (
+        <div className="notice error-notice" role="alert">
+          {error}
+          <button onClick={loadAttendance}>{t("attendanceManagement.retry")}</button>
+        </div>
+      )}
+
+      <section className="attendance-card">
+        <div className="table-toolbar attendance-toolbar">
+          <div>
+            <h2>{t("attendanceManagement.recordsHeading")}</h2>
+            <span>{t("attendanceManagement.recordCount", { count: attendance.length })}</span>
+          </div>
+
+          <div className="attendance-filters">
+            <label className="filter-toggle">
+              <input
+                type="checkbox"
+                checked={showTodayOnly}
+                onChange={(e) => setShowTodayOnly(e.target.checked)}
+              />
+              {t("attendanceManagement.todayOnly")}
+            </label>
+
+            {!showTodayOnly && (
+              <>
+                <select
+                  value={filters.status}
+                  onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                >
+                  <option value="">{t("attendanceManagement.allStatuses")}</option>
+                  {STATUS_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{t(`attendanceManagement.statusValues.${s}`)}</option>
+                  ))}
+                </select>
+
+                <input
+                  type="date"
+                  value={filters.date}
+                  onChange={(e) => setFilters({ ...filters, date: e.target.value })}
+                />
+
+                <input
+                  type="text"
+                  placeholder={t("attendanceManagement.employeeIdPlaceholder")}
+                  value={filters.employee_id}
+                  onChange={(e) => setFilters({ ...filters, employee_id: e.target.value })}
+                />
+
+                <button className="secondary-button" onClick={loadAttendance}>
+                  {t("attendanceManagement.filter")}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="table-state" role="status">
+            <span className="spinner" />{t("attendanceManagement.loading")}
+          </div>
+        ) : !error && attendance.length === 0 ? (
+          <div className="table-state">
+            <strong>{t("attendanceManagement.emptyTitle")}</strong>
+            <span>{t("attendanceManagement.emptySubtitle")}</span>
+          </div>
+        ) : !error && (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>{t("attendanceManagement.columns.employee")}</th>
+                  <th>{t("attendanceManagement.columns.date")}</th>
+                  <th>{t("attendanceManagement.columns.status")}</th>
+                  <th>{t("attendanceManagement.columns.in")}</th>
+                  <th>{t("attendanceManagement.columns.out")}</th>
+                  <th>{t("attendanceManagement.columns.flags")}</th>
+                  <th><span className="sr-only">{t("attendanceManagement.columns.actions")}</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendance.map((record) => (
+                  <tr key={record._id}>
+                    <td><strong>{employeeLabel(record.employee_id)}</strong></td>
+                    <td>{formatDate(record.date)}</td>
+                    <td>
+                      <span className={`status-badge status-${record.status}`}>
+                        {t(`attendanceManagement.statusValues.${record.status}`)}
+                      </span>
+                    </td>
+                    <td>{formatTime(record.in_time)}</td>
+                    <td>{formatTime(record.out_time)}</td>
+                    <td>
+                      <div className="rule-tags">
+                        {record.is_late_entry && <span>{t("attendanceManagement.flags.late")}</span>}
+                        {record.is_early_exit && <span>{t("attendanceManagement.flags.earlyExit")}</span>}
+                        {record.is_incomplete && <span>{t("attendanceManagement.flags.incomplete")}</span>}
+                        {record.is_corrected && <span>{t("attendanceManagement.flags.corrected")}</span>}
+                        {record.locked && <span className="muted-tag">{t("attendanceManagement.flags.locked")}</span>}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="row-actions">
+                        <button onClick={() => openCorrect(record)} disabled={record.locked}>
+                          {t("attendanceManagement.actions.correct")}
+                        </button>
+                        {!record.locked && (
+                          <button className="danger-link" onClick={() => handleLock(record)}>
+                            {t("attendanceManagement.actions.lock")}
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      {editing && (
+        <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && !saving && setEditing(null)}>
+          <section className="attendance-modal" role="dialog" aria-modal="true" aria-labelledby="correction-title">
+            <div className="modal-header">
+              <div>
+                <p className="page-eyebrow">{t("attendanceManagement.correctEyebrow")}</p>
+                <h2 id="correction-title">{employeeLabel(editing.employee_id)} — {formatDate(editing.date)}</h2>
+              </div>
+              <button className="close-button" onClick={() => setEditing(null)} disabled={saving} aria-label={t("attendanceManagement.dismiss")}>×</button>
+            </div>
+            <form onSubmit={submitCorrection}>
+              {formError && <div className="form-error" role="alert">{formError}</div>}
+              <div className="form-grid">
+                <label>{t("attendanceManagement.modal.status")}
+                  <select name="status" value={form.status} onChange={updateField}>
+                    {STATUS_OPTIONS.map((s) => (
+                      <option key={s} value={s}>{t(`attendanceManagement.statusValues.${s}`)}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>{t("attendanceManagement.modal.inTime")}
+                  <input type="datetime-local" name="in_time" value={form.in_time} onChange={updateField} />
+                </label>
+                <label>{t("attendanceManagement.modal.outTime")}
+                  <input type="datetime-local" name="out_time" value={form.out_time} onChange={updateField} />
+                </label>
+                <label className="full-field">{t("attendanceManagement.modal.reason")} <span>*</span>
+                  <input name="correction_reason" value={form.correction_reason} onChange={updateField} required />
+                </label>
+              </div>
+              <fieldset className="checkbox-grid">
+                <legend>{t("attendanceManagement.modal.flagsLegend")}</legend>
+                <label><input type="checkbox" name="is_late_entry" checked={form.is_late_entry} onChange={updateField} /> {t("attendanceManagement.flags.late")}</label>
+                <label><input type="checkbox" name="is_early_exit" checked={form.is_early_exit} onChange={updateField} /> {t("attendanceManagement.flags.earlyExit")}</label>
+                <label><input type="checkbox" name="is_incomplete" checked={form.is_incomplete} onChange={updateField} /> {t("attendanceManagement.flags.incomplete")}</label>
+              </fieldset>
+              <div className="modal-actions">
+                <button type="button" className="secondary-button" onClick={() => setEditing(null)} disabled={saving}>
+                  {t("attendanceManagement.modal.cancel")}
+                </button>
+                <button className="primary-button" disabled={saving}>
+                  {saving ? t("attendanceManagement.modal.saving") : t("attendanceManagement.modal.save")}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
+    </main>
+  );
+
+
+export default AttendanceManagement;
