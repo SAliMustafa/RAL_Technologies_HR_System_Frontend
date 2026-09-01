@@ -100,4 +100,11 @@ function AttendanceManagement() {
     const { name, type, checked, value } = event.target
     setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value }))
   }
+
+  async function submitCorrection(event) {
+    event.preventDefault()
+    if (!form.correction_reason.trim()) {
+      setFormError("Correction reason is required.")
+      return
+    }
 }
