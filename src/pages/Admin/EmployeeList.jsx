@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { link } from "react-router";
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { getAllEmployees } from "../../services/employeeService";
+import {getEmployeeName} from "../../utils/getEmployeeName"
 import "../../style/style.css"
-
 import React from 'react'
 
 function EmployeeList() {
@@ -50,11 +50,19 @@ function EmployeeList() {
               return (
                 <tr key={row._id}>
                   <td>{employee.employeeCode} </td>
-                  <td>{employee.employeeCode} </td>
-                  <td>{employee.employeeCode} </td>
+                  <td>{getEmployeeName(employee, i18n.language)} </td>
+                  <td>{employee.jobTitle} </td>
+                  <td><span className={`status-badge ${employee.status.toLowerCase()}`}>{t(`employees.statusValues.${employee.status.toLowerCase()}`)}</span></td>
+                  <td><Link className='table-link' to={`/employees/${row._id}`}>{t("employees.list.view")}</Link></td>
                 </tr>
               )
             })}
+            {rows.length === 0 && (
+              <tr>
+                <td className="data-table-empty" colSpan="5">{t("employees.list.empty")}</td>
+              </tr>
+            )}
+
           </tbody>
         </table>
       )}
