@@ -1,0 +1,180 @@
+.allocations-page {
+  padding: 42px;
+  color: var(--ink);
+}
+
+.allocations-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.allocations-header h1 {
+  margin: 4px 0 6px;
+  font-size: 30px;
+}
+
+.allocations-header > div > p:last-child {
+  margin: 0;
+  color: var(--soft);
+}
+
+.allocations-eyebrow {
+  margin: 0;
+  color: var(--soft);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.allocations-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.allocations-notice button {
+  border: 0;
+  background: none;
+  color: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocations-error {
+  border: 1px solid #efcaca;
+  background: #fbecec;
+  color: var(--red);
+}
+
+.allocations-card {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: white;
+}
+
+.allocations-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.allocations-toolbar h2 {
+  display: inline;
+  margin: 0 10px 0 0;
+  font-size: 16px;
+}
+
+.allocations-toolbar span {
+  color: var(--soft);
+  font-size: 12px;
+}
+
+.allocations-table-wrap {
+  overflow-x: auto;
+}
+
+.allocations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.allocations-table th {
+  padding: 12px 18px;
+  background: var(--card);
+  color: var(--soft);
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-align: start;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.allocations-table td {
+  padding: 16px 18px;
+  border-top: 1px solid #eee8f4;
+  color: var(--mid);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.allocations-table td > strong,
+.allocation-period {
+  display: block;
+  color: var(--ink);
+}
+
+.allocations-table td small,
+.allocation-period small {
+  display: block;
+  margin-top: 4px;
+  color: var(--soft);
+}
+
+.allocations-table .number-column {
+  text-align: end;
+  white-space: nowrap;
+}
+
+.remaining-balance {
+  display: inline-block;
+  min-width: 32px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #e4f4ec;
+  color: var(--green);
+  text-align: center;
+  font-size: 11px;
+}
+
+.remaining-balance.depleted {
+  background: #fbecec;
+  color: var(--red);
+}
+
+.allocations-state {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--soft);
+  font-size: 13px;
+}
+
+.allocations-state strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.allocations-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--rule);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: allocations-spin 0.8s linear infinite;
+}
+
+@keyframes allocations-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 850px) {
+  .allocations-page {
+    padding: 24px;
+  }
+}
