@@ -23,6 +23,7 @@ import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
 import Departments from "./pages/Admin/Department";
+import Holidays from "./pages/Admin/Holidays";
 
 
 
@@ -87,6 +88,10 @@ function App() {
   <ProtectedRoute allowedRoles={["hr_admin"]}><Departments /></ProtectedRoute>
 } />
 
+
+<Route path="/admin/holidays" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Holidays /></ProtectedRoute>
+} />
 
 
         {/* // manager page */}
