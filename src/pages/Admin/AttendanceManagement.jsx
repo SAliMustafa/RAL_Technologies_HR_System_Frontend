@@ -93,6 +93,11 @@ function AttendanceManagement() {
       is_incomplete: Boolean(record.is_incomplete),
       correction_reason: "",
     });
-    setFormError("");
+    setFormError("")
+  }
+
+  function updateField(event) {
+    const { name, type, checked, value } = event.target
+    setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value }))
   }
 }
