@@ -28,12 +28,26 @@ async function getExpiryAlerts() {
     const response = await api.get("/documents/status/expiring");
     return response.data;
 }
+   async function getAllDocuments() {
+  const response = await api.get("/documents");
 
+  return response.data;
+}
+ async function deleteDocument(documentId) {
+  const response = await api.put(
+    "/documents/delete",
+    {
+      documentId,
+    }
+  );
 
-
+  return response.data;
+}
 export {
    getMyDocuments,
    uploadDocumentByEmployee,
    getDocumentById,
-   getExpiryAlerts
+   getExpiryAlerts,
+   getAllDocuments,
+   deleteDocument
 }
