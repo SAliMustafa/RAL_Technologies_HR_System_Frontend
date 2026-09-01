@@ -3,12 +3,12 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { getAllEmployees } from "../../services/employeeService";
-import {getEmployeeName} from "../../utils/getEmployeeName"
+import getEmployeeName from "../../utils/getEmployeeName"
 import "../../style/style.css"
 import React from 'react'
 
 function EmployeeList() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const [rows, setRows] = useState([])
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
