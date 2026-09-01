@@ -115,7 +115,228 @@ return (
     <h1 className="page-title">{t("employees.detail.title")}</h1>
 
     {error && <p className="error-message">{error}</p>}
+
+    <div className="form-field"> 
+    <label htmlFor="status">{t("employees.fields.status")}</label>
+    <select id="status" value={status} onChange={handleStatusChange}>
+      {statusOptions.map((option) => (
+        <option key={option} value={option}>
+          {t(`employees.statusValues.${option}`)}
+        </option>
+      ))}
+    </select>
   </div>
+
+  <form onSubmit={handleSubmit}>
+    <div className="form-section">
+      <p className="form-section-title">{t("employees.detail.account")}</p>
+      <div className="form-grid">
+        <div className="form-field">
+          <label htmlFor="username">{t("employees.fields.username")}</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={form.username || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="role">{t("employees.fields.role")}</label>
+          <select id="role" name="role" value={form.role || ""} onChange={handleChange}>
+            {roleOptions.map((option) => (
+              <option key={option} value={option}>
+                {t(`employees.roleValues.${option}`)}
+              </option>
+            ))}
+          </select>
+          </div>
+      </div>
+</div>
+<div className="form-section">
+    <p className="form-section-title">{t("employees.detail.personal")}</p>
+    <div className="form-grid">
+      <div className="form-field">
+        <label htmlFor="employee_code">{t("employees.fields.employeeCode")}</label>
+        <input
+          type="text"
+          id="employee_code"
+          name="employee_code"
+          value={form.employee_code || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className='form-field'>
+        <label htmlFor="name_en">{t("employees.fields.nameEn")}</label>
+          <input
+            type="text"
+            id="name_en"
+            name="name_en"
+            value={form.name_en}
+            onChange={handleChange}
+              />
+      </div>
+      <div className="form-field">
+        <label htmlFor="name_ar">{t("employees.fields.nameAr")}</label>
+          <input
+            type="text"
+            id="name_ar"
+            name="name_ar"
+            value={form.name_ar}
+            onChange={handleChange}
+              />
+      </div>
+            <div className="form-field">
+              <label htmlFor="cpr_number">{t("employees.fields.cprNumber")}</label>
+              <input
+                type="text"
+                id="cpr_number"
+                name="cpr_number"
+                value={form.cpr_number}
+                onChange={handleChange}
+                pattern="\d{9}"
+                title="9 digits"
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="date_of_birth">{t("employees.fields.dateOfBirth")}</label>
+              <input
+                type="date"
+                id="date_of_birth"
+                name="date_of_birth"
+                value={form.date_of_birth}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="gender">{t("employees.fields.gender")}</label>
+              <select id="gender" name="gender" value={form.gender} onChange={handleChange} required>
+                <option value="" disabled>
+                  {t("employees.detail.select")}
+                </option>
+                {genderOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-field">
+              <label htmlFor="nationality">{t("employees.fields.nationality")}</label>
+              <input
+                type="text"
+                id="nationality"
+                name="nationality"
+                value={form.nationality}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="is_bahraini">{t("employees.fields.isBahraini")}</label>
+              <select
+                id="is_bahraini"
+                name="is_bahraini"
+                value={form.is_bahraini}
+                onChange={handleChange}
+                required
+              >
+                <option value="yes">{t("employees.detail.yes")}</option>
+                <option value="no">{t("employees.detail.no")}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="form-sections">
+          <p className="form-section-title">{t("employees.detail.employment")}</p>
+          <div className="form-grid">
+            <div className="form-field">
+              <label htmlFor="department_id">{t("employees.fields.departmentId")}</label>
+              <input
+                type="text"
+                id="department_id"
+                name="department_id"
+                value={form.department_id}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="reports_to">{t("employees.fields.reportsTo")}</label>
+              <input
+                type="text"
+                id="reports_to"
+                name="reports_to"
+                value={form.reports_to}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="job_title">{t("employees.fields.jobTitle")}</label>
+              <input
+                type="text"
+                id="job_title"
+                name="job_title"
+                value={form.job_title}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='form-field'>
+              <label htmlFor="date_of_joining">{t("employees.fields.dateOfJoining")}</label>
+              <input
+                type="date"
+                id="date_of_joining"
+                name="date_of_joining"
+                value={form.date_of_joining}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="probation_end_date">{t("employees.fields.probationEndDate")}</label>
+              <input
+                type="date"
+                id="probation_end_date"
+                name="probation_end_date"
+                value={form.probation_end_date}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="employment_type">{t("employees.fields.employmentType")}</label>
+              <select
+                id="employment_type"
+                name="employment_type"
+                value={form.employment_type}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>
+                  {t("employees.detail.select")}
+                </option>
+                {employmentTypeOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <label className="form-checkbox">
+              <input
+              type="checkbox"
+              name="probation_extended_with_consent"
+              checked={form.probation_extended_with_consent}
+              onChange={handleChange}
+              />
+              {t("employees.fields.probationExtended")}
+            </label>
+          </div>
+        </div>
+        <div className="form-section">
+          <p className="form-section-title">{t("employees.detail.contact")}</p>
+        </div>
+        </form> 
+        </div>   
 )
 }
 export default EmployeeDetail
