@@ -35,4 +35,50 @@ function formatStatus(status) {
   return names[status] || status || "--"
 }
 
+function employeeLabel(employee) {
+  if (!employee || typeof employee === "string") return employee || "--";
+  return `${employee.name_en || "--"} (${employee.employee_code || "--"})`;
+}
 
+function AttendanceManagement() {
+  const { user } = useAuth()
+  const [attendance, setAttendance] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+
+  const [showTodayOnly, setShowTodayOnly] = useState(false)
+  const [filters, setFilters] = useState({ status: "", employee_id: "", date: "" })
+
+  const [editing, setEditing] = useState(null)
+  const [form, setForm] = useState({})
+  const [formError, setFormError] = useState("")
+  const [saving, setSaving] = useState(false)
+
+  const loadAttendance = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      if (showTodayOnly) {
+        setAttendance(await getAllTodayAttendance());
+      } else {
+        const cleanFilters = Object.fromEntries(
+          Object.entries(filters).filter(([, v]) => v !== "")
+        )
+        setAttendance(await getAllAttendance(cleanFilters))
+      }
+    } catch (requestError) {
+      setError(errorMessage(requestError, "Unable to load attendance."))
+    } finally {
+      setLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showTodayOnly])
+
+  useEffect(() => {
+    const request = window.setTimeout(loadAttendance, 0)
+    return () => window.clearTimeout(request)
+  }, [loadAttendance]);
+
+  if (user?.role !== "hr_admin") return <Navigate to="/" replace />;
+}
