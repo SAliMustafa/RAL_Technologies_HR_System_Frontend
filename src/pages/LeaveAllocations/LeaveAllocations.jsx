@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { getLeaveAllocations } from "../../services/leaveAllocationService";
 import "./LeaveAllocations.css";
 
@@ -30,7 +31,13 @@ function calculateRemaining(allocation) {
 }
 
 function LeaveAllocations() {
+  const { user } = useAuth();
+  const role = user?.role;
   const [allocations, setAllocations] = useState([]);
+  const [employeeOptions, setEmployeeOptions] = useState([]);
+  const [leaveTypeOptions, setLeaveTypeOptions] = useState([]);
+  const [employeeFilter, setEmployeeFilter] = useState("");
+  const [leaveTypeFilter, setLeaveTypeFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -39,14 +46,46 @@ function LeaveAllocations() {
     setError("");
 
     try {
-      const response = await getLeaveAllocations();
-      setAllocations(Array.isArray(response?.data) ? response.data : []);
+      const params = {};
+      if (employeeFilter && role !== "employee") {
+        params.employee_id = employeeFilter;
+      }
+      if (leaveTypeFilter) params.leave_type_id = leaveTypeFilter;
+
+      const response = await getLeaveAllocations(params);
+      const records = Array.isArray(response?.data) ? response.data : [];
+      setAllocations(records);
+
+      if (!employeeFilter && !leaveTypeFilter) {
+        const employees = new Map();
+        const leaveTypes = new Map();
+
+        records.forEach((allocation) => {
+          if (allocation.employee_id?._id) {
+            employees.set(allocation.employee_id._id, allocation.employee_id);
+          }
+          if (allocation.leave_type_id?._id) {
+            leaveTypes.set(allocation.leave_type_id._id, allocation.leave_type_id);
+          }
+        });
+
+        setEmployeeOptions(
+          [...employees.values()].sort((first, second) =>
+            first.name_en.localeCompare(second.name_en),
+          ),
+        );
+        setLeaveTypeOptions(
+          [...leaveTypes.values()].sort((first, second) =>
+            first.leave_type_name.localeCompare(second.leave_type_name),
+          ),
+        );
+      }
     } catch (requestError) {
       setError(getErrorMessage(requestError));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [employeeFilter, leaveTypeFilter, role]);
 
   useEffect(() => {
     const request = window.setTimeout(loadAllocations, 0);
@@ -78,6 +117,50 @@ function LeaveAllocations() {
               <span>
                 {allocations.length} {allocations.length === 1 ? "allocation" : "allocations"}
               </span>
+            )}
+          </div>
+          <div className="allocation-filters" aria-label="Allocation filters">
+            {role !== "employee" && (
+              <label>
+                <span>Employee</span>
+                <select
+                  value={employeeFilter}
+                  onChange={(event) => setEmployeeFilter(event.target.value)}
+                >
+                  <option value="">All employees</option>
+                  {employeeOptions.map((employee) => (
+                    <option key={employee._id} value={employee._id}>
+                      {employee.name_en}{employee.employee_code ? ` (${employee.employee_code})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <label>
+              <span>Leave type</span>
+              <select
+                value={leaveTypeFilter}
+                onChange={(event) => setLeaveTypeFilter(event.target.value)}
+              >
+                <option value="">All leave types</option>
+                {leaveTypeOptions.map((leaveType) => (
+                  <option key={leaveType._id} value={leaveType._id}>
+                    {leaveType.leave_type_name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {(employeeFilter || leaveTypeFilter) && (
+              <button
+                type="button"
+                className="clear-filters"
+                onClick={() => {
+                  setEmployeeFilter("");
+                  setLeaveTypeFilter("");
+                }}
+              >
+                Clear
+              </button>
             )}
           </div>
         </div>

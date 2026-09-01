@@ -94,6 +94,14 @@ function Navbar() {
               <span className="menu-icon">▣</span>
               My Leave
             </Link>
+
+            <Link
+              to="/leave-allocations"
+              className={isActive("/leave-allocations") ? "active" : ""}
+            >
+              <span className="menu-icon">▤</span>
+              My Leave Balances
+            </Link>
           </>
         )}
 
@@ -103,10 +111,15 @@ function Navbar() {
 
         {user?.role === "manager" && (
           <>
-            {/* Same employee pages */}
-            <EmployeeMenu isActive={isActive} />
-
             <p className="sidebar-section-title">MY TEAM</p>
+
+            <Link
+              to="/leave-allocations"
+              className={isActive("/leave-allocations") ? "active" : ""}
+            >
+              <span className="menu-icon">▤</span>
+              Leave Balances
+            </Link>
 
             <Link
               to="/manager/employees"
@@ -188,6 +201,14 @@ function Navbar() {
             >
               <span className="menu-icon">▤</span>
               Leave Types
+            </Link>
+
+            <Link
+              to="/leave-allocations"
+              className={isActive("/leave-allocations") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Leave Allocations
             </Link>
           </>
         )}
