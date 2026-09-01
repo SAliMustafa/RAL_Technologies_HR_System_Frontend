@@ -12,7 +12,11 @@ function Navbar() {
   const isActive = (path) => {
     return location.pathname === path;
   };
+    if(!user) {
 
+      return<></>
+    }   
+   
   return (
     <aside className="sidebar">
       {/* LOGO */}
@@ -172,6 +176,13 @@ function Navbar() {
               <span className="menu-icon">▦</span>
               Departments
             </Link>
+            <Link
+              to="/admin/documents"
+              className={isActive("/admin/documents") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Documents List
+            </Link>
 
             <Link
               to="/admin/attendance"
@@ -220,6 +231,12 @@ function Navbar() {
               <span className="menu-icon">▦</span>
               Leave Allocations
             </Link>
+            <Link
+              to="/admin/audit-logs"
+              className={isActive("/admin/audit-logs") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Audit-Logs
 
             <Link
               to="/admin/leave-requests"
