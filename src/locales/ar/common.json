@@ -51,5 +51,10 @@
       "holiday": "عطلة",
       "weekly_off": "عطلة أسبوعية"
     }
+  },
+    "employees":{
+    "fields":{
+    "employeeCode": "Employee Code",
+    }
   }
 }

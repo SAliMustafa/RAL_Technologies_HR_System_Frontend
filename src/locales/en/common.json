@@ -54,5 +54,44 @@
       "holiday": "Holiday",
       "weekly_off": "Weekly Off"
     }
+  },
+  "employees": {
+    "fields": {
+      "employeeCode": "Employee code",
+      "name": "Name",
+      "username": "Username",
+      "role": "Role",
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "cprNumber": "CPR number",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "isBahraini": "Bahraini national",
+      "departmentId": "Department ID",
+      "reportsTo": "Reports to (employee ID)",
+      "jobTitle": "Job title",
+      "dateOfJoining": "Date of joining",
+      "probationEndDate": "Probation end date",
+      "probationExtended": "Probation extended with written consent (up to 6 months)",
+      "employmentType": "Employment type",
+      "iban": "IBAN",
+      "bankName": "Bank name",
+      "mobile": "Mobile",
+      "emailPersonal": "Personal email",
+      "emailWork": "Work email",
+      "status": "Status"
+    },
+    "list": {
+      "title": "Employees",
+      "loading": "Loading employees...",
+      "LoadError": "Could not load employees",
+      "view": "View",
+      "empty": "No employees to show"
+    },
+    "detail": {},
+    "profile": {},
+    "team": {},
+    "department": {}
   }
 }
