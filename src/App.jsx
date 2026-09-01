@@ -24,6 +24,7 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
+import HrLeaveRequests from "./pages/Admin/HrLeaveRequests/HrLeaveRequests";
 
 
 
@@ -72,6 +73,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["hr_admin", "manager", "employee"]}>
               <LeaveAllocations />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <HrLeaveRequests />
             </ProtectedRoute>
           }
         />
