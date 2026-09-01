@@ -148,7 +148,11 @@ function LeaveRequestForm({
             <label className="request-form-full">
               Supporting document
               <input type="file" name="document" onChange={updateField} accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" />
-              <small>PDF, JPG, or PNG up to 5 MB.</small>
+              <small>
+                {initialRequest?.document
+                  ? "A document is already attached. Choose a file only to replace it."
+                  : "PDF, JPG, or PNG up to 5 MB."}
+              </small>
             </label>
           </div>
 
