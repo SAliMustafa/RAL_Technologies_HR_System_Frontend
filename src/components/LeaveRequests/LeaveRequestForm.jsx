@@ -11,6 +11,7 @@ function toDateInput(value) {
 function LeaveRequestForm({
   title = "Create leave request",
   employee,
+  employees = [],
   leaveTypes,
   allocations,
   initialRequest = null,
@@ -20,6 +21,7 @@ function LeaveRequestForm({
   onClose,
 }) {
   const [values, setValues] = useState({
+    employee_id: initialRequest?.employee_id?._id || initialRequest?.employee_id || employee?._id || "",
     leave_type_id: initialRequest?.leave_type_id?._id || initialRequest?.leave_type_id || "",
     is_half_day: Boolean(initialRequest?.is_half_day),
     from_date: toDateInput(initialRequest?.from_date),
@@ -37,15 +39,17 @@ function LeaveRequestForm({
   const applicableAllocation = useMemo(() => {
     const start = values.is_half_day ? values.half_day_date : values.from_date;
     const end = values.is_half_day ? values.half_day_date : values.to_date;
-    if (!values.leave_type_id || !start || !end) return null;
+    if (!values.employee_id || !values.leave_type_id || !start || !end) return null;
 
     return allocations.find((allocation) => {
+      const employeeId = allocation.employee_id?._id || allocation.employee_id;
       const leaveTypeId = allocation.leave_type_id?._id || allocation.leave_type_id;
-      return leaveTypeId === values.leave_type_id &&
+      return employeeId === values.employee_id &&
+        leaveTypeId === values.leave_type_id &&
         toDateInput(allocation.period_start) <= start &&
         toDateInput(allocation.period_end) >= end;
     }) || null;
-  }, [allocations, values.from_date, values.half_day_date, values.is_half_day, values.leave_type_id, values.to_date]);
+  }, [allocations, values.employee_id, values.from_date, values.half_day_date, values.is_half_day, values.leave_type_id, values.to_date]);
 
   function updateField(event) {
     const { name, type, checked, value, files } = event.target;
@@ -57,6 +61,7 @@ function LeaveRequestForm({
   }
 
   function validate() {
+    if (!values.employee_id) return "Employee is required.";
     if (!values.leave_type_id) return "Leave type is required.";
     if (values.is_half_day && !values.half_day_date) return "Half-day date is required.";
     if (!values.is_half_day && (!values.from_date || !values.to_date)) return "From and to dates are required.";
@@ -103,7 +108,16 @@ function LeaveRequestForm({
           <div className="request-form-grid">
             <label>
               Employee
-              <input value={employee?.name_en || "Unknown employee"} disabled readOnly />
+              {employees.length > 0 && !initialRequest ? (
+                <select name="employee_id" value={values.employee_id} onChange={updateField} required>
+                  <option value="">Select employee</option>
+                  {employees.map((item) => (
+                    <option key={item._id} value={item._id}>{item.name_en} ({item.employee_code})</option>
+                  ))}
+                </select>
+              ) : (
+                <input value={employee?.name_en || initialRequest?.employee_id?.name_en || "Unknown employee"} disabled readOnly />
+              )}
             </label>
             <label>
               Leave type <span>*</span>
