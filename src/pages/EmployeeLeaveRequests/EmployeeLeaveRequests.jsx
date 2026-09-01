@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import LeaveRequestTable from "../../components/LeaveRequests/LeaveRequestTable";
 import LeaveRequestDetails from "../../components/LeaveRequests/LeaveRequestDetails";
-import { getLeaveRequests } from "../../services/leaveRequestService";
+import LeaveRequestForm from "../../components/LeaveRequests/LeaveRequestForm";
+import {
+  createLeaveRequest,
+  getLeaveRequests,
+} from "../../services/leaveRequestService";
+import { getMyProfile } from "../../services/employeeService";
+import { getLeaveTypes } from "../../services/leaveTypeService";
+import { getLeaveAllocations } from "../../services/leaveAllocationService";
 import "./EmployeeLeaveRequests.css";
 
 const statuses = ["draft", "pending", "approved", "rejected", "cancelled"];
 
-function getErrorMessage(error) {
+function getErrorMessage(error, fallback = "Unable to load your leave requests.") {
   return (
     error.response?.data?.message ||
     error.response?.data?.err ||
-    "Unable to load your leave requests."
+    fallback
   );
 }
 
@@ -20,6 +27,15 @@ function EmployeeLeaveRequests() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRequestId, setSelectedRequestId] = useState(null);
+  const [employee, setEmployee] = useState(null);
+  const [leaveTypes, setLeaveTypes] = useState([]);
+  const [allocations, setAllocations] = useState([]);
+  const [optionsLoading, setOptionsLoading] = useState(true);
+  const [optionsError, setOptionsError] = useState("");
+  const [showCreate, setShowCreate] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const loadRequests = useCallback(async () => {
     setLoading(true);
@@ -36,10 +52,68 @@ function EmployeeLeaveRequests() {
     }
   }, [statusFilter]);
 
+  const loadCreateOptions = useCallback(async () => {
+    setOptionsLoading(true);
+    setOptionsError("");
+    try {
+      const [profile, activeLeaveTypes, allocationResponse] = await Promise.all([
+        getMyProfile(),
+        getLeaveTypes(),
+        getLeaveAllocations(),
+      ]);
+      setEmployee(profile?.employeeId || null);
+      setLeaveTypes(activeLeaveTypes);
+      setAllocations(Array.isArray(allocationResponse?.data) ? allocationResponse.data : []);
+    } catch (requestError) {
+      setOptionsError(getErrorMessage(requestError, "Unable to load request form options."));
+    } finally {
+      setOptionsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const request = window.setTimeout(loadRequests, 0);
     return () => window.clearTimeout(request);
   }, [loadRequests]);
+
+  useEffect(() => {
+    const request = window.setTimeout(loadCreateOptions, 0);
+    return () => window.clearTimeout(request);
+  }, [loadCreateOptions]);
+
+  async function submitCreate(values, shouldSubmit) {
+    if (!employee?._id) {
+      setFormError("Your user account is not linked to an employee record.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("employee_id", employee._id);
+    formData.append("leave_type_id", values.leave_type_id);
+    formData.append("is_half_day", String(values.is_half_day));
+    formData.append("submit", String(shouldSubmit));
+    if (values.is_half_day) {
+      formData.append("half_day_date", values.half_day_date);
+    } else {
+      formData.append("from_date", values.from_date);
+      formData.append("to_date", values.to_date);
+    }
+    if (values.reason.trim()) formData.append("reason", values.reason.trim());
+    if (values.document) formData.append("document", values.document);
+
+    setSaving(true);
+    setFormError("");
+    try {
+      await createLeaveRequest(formData);
+      setShowCreate(false);
+      setSuccess(shouldSubmit ? "Leave request submitted successfully." : "Leave request saved as a draft.");
+      await Promise.all([loadRequests(), loadCreateOptions()]);
+    } catch (requestError) {
+      setFormError(getErrorMessage(requestError, "Unable to create the leave request."));
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <main className="employee-requests-page">
@@ -49,7 +123,32 @@ function EmployeeLeaveRequests() {
           <h1>My Leave Requests</h1>
           <p>Review your submitted requests and their current status.</p>
         </div>
+        <button
+          type="button"
+          className="employee-request-primary"
+          onClick={() => {
+            setFormError("");
+            setShowCreate(true);
+          }}
+          disabled={optionsLoading || Boolean(optionsError) || !employee}
+        >
+          + New request
+        </button>
       </div>
+
+      {success && (
+        <div className="employee-requests-notice employee-requests-success" role="status">
+          <span>{success}</span>
+          <button type="button" onClick={() => setSuccess("")} aria-label="Dismiss">×</button>
+        </div>
+      )}
+
+      {optionsError && (
+        <div className="employee-requests-notice employee-requests-error" role="alert">
+          <span>{optionsError}</span>
+          <button type="button" onClick={loadCreateOptions}>Retry</button>
+        </div>
+      )}
 
       {error && (
         <div className="employee-requests-notice employee-requests-error" role="alert">
@@ -105,6 +204,18 @@ function EmployeeLeaveRequests() {
         <LeaveRequestDetails
           requestId={selectedRequestId}
           onClose={() => setSelectedRequestId(null)}
+        />
+      )}
+
+      {showCreate && employee && (
+        <LeaveRequestForm
+          employee={employee}
+          leaveTypes={leaveTypes}
+          allocations={allocations}
+          saving={saving}
+          error={formError}
+          onSubmit={submitCreate}
+          onClose={() => !saving && setShowCreate(false)}
         />
       )}
     </main>
