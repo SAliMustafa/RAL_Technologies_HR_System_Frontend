@@ -226,6 +226,11 @@
 .allocation-row-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+}
+
+.allocation-row-actions .allocation-delete-link {
+  color: var(--red);
 }
 
 .allocation-row-actions button {
@@ -283,6 +288,70 @@
   border-radius: 14px;
   background: white;
   box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+
+.allocation-confirm-modal {
+  width: min(430px, 100%);
+  padding: 28px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+  text-align: center;
+}
+
+.allocation-confirm-modal h2 {
+  margin: 12px 0 8px;
+  font-size: 20px;
+}
+
+.allocation-confirm-modal p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.allocation-confirm-modal .allocation-delete-warning {
+  margin-top: 12px;
+  color: var(--red);
+}
+
+.allocation-confirm-modal .allocation-form-error {
+  margin: 16px 0 0;
+  text-align: start;
+}
+
+.allocation-warning-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fbecec;
+  color: var(--red);
+  font-weight: 800;
+}
+
+.allocation-danger-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--red);
+  color: white;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.allocation-confirm-modal .allocation-modal-actions {
+  justify-content: center;
 }
 
 .allocation-modal-header {

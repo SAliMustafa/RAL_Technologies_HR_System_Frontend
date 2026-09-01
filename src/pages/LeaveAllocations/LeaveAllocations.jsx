@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import {
   createLeaveAllocation,
+  deleteLeaveAllocation,
   getLeaveAllocations,
   updateLeaveAllocation,
 } from "../../services/leaveAllocationService";
@@ -67,6 +68,8 @@ function LeaveAllocations() {
   const [editingAllocation, setEditingAllocation] = useState(null);
   const [editForm, setEditForm] = useState(null);
   const [editError, setEditError] = useState("");
+  const [deletingAllocation, setDeletingAllocation] = useState(null);
+  const [deleteError, setDeleteError] = useState("");
 
   const loadAllocations = useCallback(async () => {
     setLoading(true);
@@ -273,6 +276,28 @@ function LeaveAllocations() {
     }
   }
 
+  function openDeleteConfirmation(allocation) {
+    setDeletingAllocation(allocation);
+    setDeleteError("");
+  }
+
+  async function confirmDelete() {
+    setSaving(true);
+    setDeleteError("");
+    try {
+      await deleteLeaveAllocation(deletingAllocation._id);
+      setDeletingAllocation(null);
+      setSuccess("Leave allocation deleted successfully.");
+      await loadAllocations();
+    } catch (requestError) {
+      setDeleteError(
+        getErrorMessage(requestError, "Unable to delete the leave allocation."),
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <main className="allocations-page">
       <div className="allocations-header">
@@ -426,6 +451,13 @@ function LeaveAllocations() {
                         <td>
                           <div className="allocation-row-actions">
                             <button type="button" onClick={() => openEditModal(allocation)}>Edit</button>
+                            <button
+                              type="button"
+                              className="allocation-delete-link"
+                              onClick={() => openDeleteConfirmation(allocation)}
+                            >
+                              Delete
+                            </button>
                           </div>
                         </td>
                       )}
@@ -590,6 +622,48 @@ function LeaveAllocations() {
                 <button type="submit" className="allocation-primary-button" disabled={saving}>{saving ? "Saving..." : "Save changes"}</button>
               </div>
             </form>
+          </section>
+        </div>
+      )}
+
+      {deletingAllocation && role === "hr_admin" && (
+        <div className="allocation-modal-backdrop">
+          <section
+            className="allocation-confirm-modal"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="delete-allocation-title"
+          >
+            <div className="allocation-warning-icon">!</div>
+            <h2 id="delete-allocation-title">Delete leave allocation?</h2>
+            <p>
+              This will permanently delete the <strong>{deletingAllocation.leave_type_id?.leave_type_name}</strong> allocation
+              for <strong>{deletingAllocation.employee_id?.name_en}</strong>.
+            </p>
+            {Number(deletingAllocation.days_taken) > 0 && (
+              <p className="allocation-delete-warning">
+                This allocation has {deletingAllocation.days_taken} days taken and the backend may prevent deletion.
+              </p>
+            )}
+            {deleteError && <div className="allocation-form-error" role="alert">{deleteError}</div>}
+            <div className="allocation-modal-actions">
+              <button
+                type="button"
+                className="allocation-secondary-button"
+                onClick={() => setDeletingAllocation(null)}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="allocation-danger-button"
+                onClick={confirmDelete}
+                disabled={saving}
+              >
+                {saving ? "Deleting..." : "Delete allocation"}
+              </button>
+            </div>
           </section>
         </div>
       )}
