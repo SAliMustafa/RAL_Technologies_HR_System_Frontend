@@ -7,14 +7,22 @@ import SignInPage from "./pages/SigninPage";
 
 //// employee page
 import EmployeeDashboard from "./pages/Employee/Dashboard";
-
-
+import MyProfile from "./pages/Employee/MyProfile";
+import MyDocuments from "./pages/Employee/MyDocuments";
+import UploadDocument from "./pages/Employee/UploadDocument";
+import DocumentDetails from "./pages/Employee/DocumentDetails";
+import MyCheckins from "./pages/Employee/MyCheckins";
+import MyAttendance from "./pages/Employee/MyAttendance";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 
 
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
+
+
+// MyAttendance page
+// import MyAttendance from "./pages/Attendance/MyAttendance";
 
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
@@ -24,13 +32,22 @@ function App() {
   return (
     <div>
       <Navbar/>
+       <div className="app-content">
+
+
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
-        <Route path="/dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+        <Route path="dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+        <Route path="MyProfile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
+        <Route path="mydocuments" element={<ProtectedRoute><MyDocuments /></ProtectedRoute>} />
+        <Route path="/documents/upload" element={<ProtectedRoute><UploadDocument /></ProtectedRoute>} />
+        <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
+        <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
+        <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 
@@ -40,7 +57,12 @@ function App() {
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
 
+        {/* // MyAttendance page */}
+
+        {/* <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} /> */}
+
       </Routes>
+       </div>
     </div>
   );
 }
