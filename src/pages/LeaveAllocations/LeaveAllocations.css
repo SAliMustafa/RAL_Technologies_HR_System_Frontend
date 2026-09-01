@@ -54,6 +54,40 @@
   color: var(--red);
 }
 
+.allocations-success {
+  border: 1px solid #c4e6d5;
+  background: #eaf6f0;
+  color: var(--green);
+}
+
+.allocation-primary-button,
+.allocation-secondary-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-primary-button {
+  background: var(--ink);
+  color: white;
+}
+
+.allocation-secondary-button {
+  border: 1px solid var(--rule);
+  background: white;
+  color: var(--mid);
+}
+
+.allocation-primary-button:disabled,
+.allocation-secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .allocations-card {
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -205,6 +239,114 @@
   font-size: 15px;
 }
 
+.allocation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(43, 27, 61, 0.55);
+}
+
+.allocation-modal {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+
+.allocation-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.allocation-modal-header h2 {
+  margin: 4px 0 0;
+  font-size: 21px;
+}
+
+.allocation-close-button {
+  border: 0;
+  background: none;
+  color: var(--soft);
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.allocation-modal form {
+  padding: 22px 24px;
+}
+
+.allocation-form-error {
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border: 1px solid #efcaca;
+  border-radius: 7px;
+  background: #fbecec;
+  color: var(--red);
+  font-size: 12px;
+}
+
+.allocation-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.allocation-form-grid label {
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.allocation-form-grid label > span {
+  color: var(--red);
+}
+
+.allocation-form-grid input,
+.allocation-form-grid select {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 7px;
+  padding: 10px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+.allocation-form-grid input:focus,
+.allocation-form-grid select:focus {
+  outline: 2px solid var(--lavender);
+  border-color: var(--mid);
+}
+
+.allocation-form-grid input:disabled {
+  background: var(--card);
+}
+
+.allocation-form-grid small {
+  display: block;
+  margin-top: 5px;
+  color: var(--soft);
+  font-weight: 400;
+}
+
+.allocation-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
 .allocations-spinner {
   width: 22px;
   height: 22px;
@@ -235,5 +377,9 @@
     width: 100%;
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .allocation-form-grid {
+    grid-template-columns: 1fr;
   }
 }
