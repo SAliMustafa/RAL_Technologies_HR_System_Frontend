@@ -12,7 +12,11 @@ function Navbar() {
   const isActive = (path) => {
     return location.pathname === path;
   };
+    if(!user) {
 
+      return<></>
+    }   
+   
   return (
     <aside className="sidebar">
       {/* LOGO */}

@@ -18,6 +18,8 @@ import ManagerDashboard from "./pages/Manager/Dashboard";
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
 
+import NotFoundPage from "./pages/NotFoundPage";
+
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -30,8 +32,8 @@ function App() {
 
 
       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/sign-up" element={<SignupPage />} />
+        <Route path="/" element={<Homepage /> } />
+        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
@@ -48,6 +50,7 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route path="*" element={<NotFoundPage />} />
 
       </Routes>
        </div>
