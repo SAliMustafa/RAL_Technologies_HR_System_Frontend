@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getDocumentById } from "../../services/employeeService";
+import { getDocumentById } from "../../services/documentsService";
 import "../../components/css/Employee/DocumentDetails.css";
 
 const DocumentDetails = () => {

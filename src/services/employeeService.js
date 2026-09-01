@@ -1,61 +1,51 @@
 import api from './api'
 
-
-async function getMyProfile() {
-
-    const response = await api.get("/Employees/me/profile")
+async function getAllEmployees () {
+    const response = await api.get('/employees')
     return response.data
-
 }
 
-async function getMyDocuments() {
-    const response = await api.get("/documents/my-documents");
-
-    return response.data;
+async function getEmployeeById(employeeId){
+    const response = await api.get(`/employees/${employeeId}`)
+    return response.data
 }
 
-
-async function uploadDocument(formData) {
-    const response = await api.post(
-        "/documents",
-        formData
-    );
-
-    return response.data;
+async function updateEmployee(employeeId, formData){
+    const response = await api.put(`/employees/${employeeId}`, formData)
+    return response.data
+}
+async function updateEmployeeStatus(employeeId, status) {
+    const response = await api.patch(`/employees/${employeeId}/status`, {status})
+    return response.data
+}
+async function getMyProfile() {
+    const response = await api.get(`/employees/me/profile`)
+    return response.data
+}
+async function updateMyContact (formData) {
+    const response = await api.patch(`/employees/me/contact`, formData)
+    return response.data
+}
+async function getTeam(){
+    const response = await api.get(`/employees/team`)
+    return response.data
 }
 
-async function getDocumentById(documentId) {
-    const response = await api.get(
-        `/documents/${documentId}`
-    );
-
-    return response.data;
+async function getDepartment(){
+    const response = await api.get(`/employees/department`)
+    return response.data
 }
-async function getExpiryAlerts() {
-    const response = await api.get("/documents/status/expiring");
-    return response.data;
-}
-async function checkIn() {
-    const response = await api.post("/checkIn/check-in");
-    return response.data;
-}
-async function checkOut() {
-    const response = await api.post("/checkIn/check-out");
-    return response.data;
-}
-
-async function getTodayAttendance() {
-    const response = await api.get("/attendance/my-attendance/today");
-    return response.data;
-}
-
 export {
+    getAllEmployees,
+    getEmployeeById,
+    updateEmployee,
+    updateEmployeeStatus,
     getMyProfile,
-    getMyDocuments,
-    uploadDocument,
-    getDocumentById,
-    getExpiryAlerts,
-    checkIn, checkOut,
-    getTodayAttendance
-};
+    updateMyContact,
+    getTeam,
+    getDepartment
+}
+
+
+
 

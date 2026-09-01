@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import {  getMyDocuments,getExpiryAlerts,}  from "../../services/employeeService";
+import {  getMyDocuments,getExpiryAlerts,}  from "../../services/documentsService";
 import "../../components/css/Employee/MyDocuments.css";
 import Navbar from "../../components/Navbar";
 

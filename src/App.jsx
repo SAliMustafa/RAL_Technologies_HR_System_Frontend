@@ -11,12 +11,20 @@ import MyProfile from "./pages/Employee/MyProfile";
 import MyDocuments from "./pages/Employee/MyDocuments";
 import UploadDocument from "./pages/Employee/UploadDocument";
 import DocumentDetails from "./pages/Employee/DocumentDetails";
+import MyCheckins from "./pages/Employee/MyCheckins";
+import MyAttendance from "./pages/Employee/MyAttendance";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 
 
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
+import LeaveTypes from "./pages/Admin/LeaveTypes";
+import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
+
+
+// MyAttendance page
+// import MyAttendance from "./pages/Attendance/MyAttendance";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -42,15 +50,37 @@ function App() {
         <Route path="mydocuments" element={<ProtectedRoute><MyDocuments /></ProtectedRoute>} />
         <Route path="/documents/upload" element={<ProtectedRoute><UploadDocument /></ProtectedRoute>} />
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
+        <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
+        <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 
         <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route
+          path="/admin/leave-types"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <LeaveTypes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/leave-allocations"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin", "manager", "employee"]}>
+              <LeaveAllocations />
+            </ProtectedRoute>
+          }
+        />
 
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />
+
+        {/* // MyAttendance page */}
+
+        {/* <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} /> */}
 
       </Routes>
        </div>
