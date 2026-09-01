@@ -107,4 +107,21 @@ function AttendanceManagement() {
       setFormError("Correction reason is required.")
       return
     }
-}
+
+     setSaving(true)
+    setFormError("")
+    try {
+      await updateAttendanceRecord(editing._id, {
+        ...form,
+        in_time: form.in_time ? new Date(form.in_time).toISOString() : undefined,
+        out_time: form.out_time ? new Date(form.out_time).toISOString() : undefined,
+      })
+      setSuccess("Attendance record corrected successfully.")
+      setEditing(null)
+      await loadAttendance()
+    } catch (requestError) {
+      setFormError(errorMessage(requestError, "Unable to save the correction."))
+    } finally {
+      setSaving(false)
+    }
+  }
