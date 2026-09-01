@@ -13,12 +13,24 @@ import UploadDocument from "./pages/Employee/UploadDocument";
 import DocumentDetails from "./pages/Employee/DocumentDetails";
 import MyCheckins from "./pages/Employee/MyCheckins";
 import MyAttendance from "./pages/Employee/MyAttendance";
+import EmployeeLeaveRequests from "./pages/Employee/EmployeeLeaveRequests/EmployeeLeaveRequests";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
+import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
 
 
 // Hr-Admin page
 import AdminDashboard from "./pages/Admin/Dashboard";
+import LeaveTypes from "./pages/Admin/LeaveTypes";
+import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
+import AttendanceManagement from "./pages/Admin/AttendanceManagement";
+import Departments from "./pages/Admin/Department";
+import Holidays from "./pages/Admin/Holidays";
+import HrLeaveRequests from "./pages/Admin/HrLeaveRequests/HrLeaveRequests";
+import EmployeeList from "./pages/Admin/EmployeeList";
+import EmployeeDetail from "./pages/Admin/EmployeeDetail";
+import CreateEmployee from "./pages/Admin/CreateEmployee";
+
 
 
 // MyAttendance page
@@ -48,14 +60,69 @@ function App() {
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
         <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
         <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
 
         {/* // Hr-Admin page */}
 
         <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route
+          path="/admin/leave-types"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <LeaveTypes />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/employees" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeList /></ProtectedRoute>} />
+        <Route path="/employees/create" element={<ProtectedRoute allowedRoles={["hr_admin"]}><CreateEmployee /></ProtectedRoute>} />
+        <Route path="/employees/:id" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeDetail /></ProtectedRoute>} />
+        <Route
+          path="/leave-allocations"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin", "manager", "employee"]}>
+              <LeaveAllocations />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <HrLeaveRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+  path="/admin/attendance"
+  element={
+    <ProtectedRoute allowedRoles={["hr_admin"]}>
+      <AttendanceManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route path="/admin/departments" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Departments /></ProtectedRoute>
+} />
+
+
+<Route path="/admin/holidays" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Holidays /></ProtectedRoute>
+} />
+
 
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route
+          path="/manager/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <ManagerLeaveRequests />
+            </ProtectedRoute>
+          }
+        />
 
         {/* // MyAttendance page */}
 
