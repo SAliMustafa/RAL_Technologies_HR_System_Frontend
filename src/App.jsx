@@ -13,6 +13,7 @@ import UploadDocument from "./pages/Employee/UploadDocument";
 import DocumentDetails from "./pages/Employee/DocumentDetails";
 import MyCheckins from "./pages/Employee/MyCheckins";
 import MyAttendance from "./pages/Employee/MyAttendance";
+import EmployeeLeaveRequests from "./pages/EmployeeLeaveRequests/EmployeeLeaveRequests";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
         <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
         <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
 
         {/* // Hr-Admin page */}
 
