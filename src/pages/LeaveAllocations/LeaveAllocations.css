@@ -223,6 +223,32 @@
   color: var(--red);
 }
 
+.allocation-row-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.allocation-row-actions button {
+  border: 0;
+  background: none;
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.allocation-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .allocations-state {
   min-height: 220px;
   display: flex;

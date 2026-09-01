@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import {
   createLeaveAllocation,
   getLeaveAllocations,
+  updateLeaveAllocation,
 } from "../../services/leaveAllocationService";
 import { getAllEmployees } from "../../services/employeeService";
 import { getLeaveTypes } from "../../services/leaveTypeService";
@@ -63,6 +64,9 @@ function LeaveAllocations() {
   const [createForm, setCreateForm] = useState(emptyCreateForm);
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editingAllocation, setEditingAllocation] = useState(null);
+  const [editForm, setEditForm] = useState(null);
+  const [editError, setEditError] = useState("");
 
   const loadAllocations = useCallback(async () => {
     setLoading(true);
@@ -207,6 +211,68 @@ function LeaveAllocations() {
     }
   }
 
+  function openEditModal(allocation) {
+    setEditingAllocation(allocation);
+    setEditForm({
+      period_start: allocation.period_start?.slice(0, 10) || "",
+      period_end: allocation.period_end?.slice(0, 10) || "",
+      days_allocated: String(allocation.days_allocated ?? ""),
+      days_carried_forward: String(allocation.days_carried_forward ?? 0),
+    });
+    setEditError("");
+  }
+
+  function updateEditField(event) {
+    const { name, value } = event.target;
+    setEditForm((current) => ({ ...current, [name]: value }));
+  }
+
+  function validateEditForm() {
+    if (!editForm.period_start || !editForm.period_end) return "Allocation start and end dates are required.";
+    if (editForm.period_end <= editForm.period_start) return "Period end must be after period start.";
+    if (editForm.days_allocated === "" || Number(editForm.days_allocated) < 0) return "Days allocated must be zero or greater.";
+    if (editForm.days_carried_forward === "" || Number(editForm.days_carried_forward) < 0) return "Days carried forward must be zero or greater.";
+    if (Number(editForm.days_allocated) + Number(editForm.days_carried_forward) < Number(editingAllocation.days_taken)) return "Allocated and carried-forward days cannot be less than days already taken.";
+
+    const leaveType = activeLeaveTypes.find(
+      (item) => item._id === editingAllocation.leave_type_id?._id,
+    );
+    if (leaveType && Number(editForm.days_allocated) > leaveType.max_days_per_year) return `Days allocated cannot exceed ${leaveType.max_days_per_year}.`;
+    if (leaveType && !leaveType.carry_forward && Number(editForm.days_carried_forward) > 0) return "This leave type does not allow carried-forward days.";
+    if (leaveType?.max_carry_forward != null && Number(editForm.days_carried_forward) > leaveType.max_carry_forward) return `Carried-forward days cannot exceed ${leaveType.max_carry_forward}.`;
+    return "";
+  }
+
+  async function submitEdit(event) {
+    event.preventDefault();
+    const validationError = validateEditForm();
+    if (validationError) {
+      setEditError(validationError);
+      return;
+    }
+
+    setSaving(true);
+    setEditError("");
+    try {
+      await updateLeaveAllocation(editingAllocation._id, {
+        period_start: editForm.period_start,
+        period_end: editForm.period_end,
+        days_allocated: Number(editForm.days_allocated),
+        days_carried_forward: Number(editForm.days_carried_forward),
+      });
+      setEditingAllocation(null);
+      setEditForm(null);
+      setSuccess("Leave allocation updated successfully.");
+      await loadAllocations();
+    } catch (requestError) {
+      setEditError(
+        getErrorMessage(requestError, "Unable to update the leave allocation."),
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <main className="allocations-page">
       <div className="allocations-header">
@@ -326,6 +392,7 @@ function LeaveAllocations() {
                   <th className="number-column">Carried forward</th>
                   <th className="number-column">Taken</th>
                   <th className="number-column">Remaining</th>
+                  {role === "hr_admin" && <th><span className="allocation-sr-only">Actions</span></th>}
                 </tr>
               </thead>
               <tbody>
@@ -355,6 +422,13 @@ function LeaveAllocations() {
                           {remaining}
                         </strong>
                       </td>
+                      {role === "hr_admin" && (
+                        <td>
+                          <div className="allocation-row-actions">
+                            <button type="button" onClick={() => openEditModal(allocation)}>Edit</button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
@@ -444,6 +518,76 @@ function LeaveAllocations() {
               <div className="allocation-modal-actions">
                 <button type="button" className="allocation-secondary-button" onClick={() => setShowCreate(false)} disabled={saving}>Cancel</button>
                 <button type="submit" className="allocation-primary-button" disabled={saving}>{saving ? "Creating..." : "Create allocation"}</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
+
+      {editingAllocation && editForm && role === "hr_admin" && (
+        <div
+          className="allocation-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !saving) setEditingAllocation(null);
+          }}
+        >
+          <section
+            className="allocation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-allocation-title"
+          >
+            <div className="allocation-modal-header">
+              <div>
+                <p className="allocations-eyebrow">EDIT</p>
+                <h2 id="edit-allocation-title">Edit leave allocation</h2>
+              </div>
+              <button
+                type="button"
+                className="allocation-close-button"
+                onClick={() => setEditingAllocation(null)}
+                disabled={saving}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={submitEdit}>
+              {editError && <div className="allocation-form-error" role="alert">{editError}</div>}
+              <div className="allocation-form-grid">
+                <label>
+                  Employee
+                  <input value={editingAllocation.employee_id?.name_en || "Unknown employee"} disabled readOnly />
+                </label>
+                <label>
+                  Leave type
+                  <input value={editingAllocation.leave_type_id?.leave_type_name || "Unknown leave type"} disabled readOnly />
+                </label>
+                <label>
+                  Period start <span>*</span>
+                  <input type="date" name="period_start" value={editForm.period_start} onChange={updateEditField} required />
+                </label>
+                <label>
+                  Period end <span>*</span>
+                  <input type="date" name="period_end" value={editForm.period_end} onChange={updateEditField} min={editForm.period_start || undefined} required />
+                </label>
+                <label>
+                  Days allocated <span>*</span>
+                  <input type="number" name="days_allocated" value={editForm.days_allocated} onChange={updateEditField} min="0" step="0.5" required />
+                </label>
+                <label>
+                  Days carried forward
+                  <input type="number" name="days_carried_forward" value={editForm.days_carried_forward} onChange={updateEditField} min="0" step="0.5" required />
+                </label>
+                <label>
+                  Days taken
+                  <input value={editingAllocation.days_taken} disabled readOnly />
+                </label>
+              </div>
+              <div className="allocation-modal-actions">
+                <button type="button" className="allocation-secondary-button" onClick={() => setEditingAllocation(null)} disabled={saving}>Cancel</button>
+                <button type="submit" className="allocation-primary-button" disabled={saving}>{saving ? "Saving..." : "Save changes"}</button>
               </div>
             </form>
           </section>
