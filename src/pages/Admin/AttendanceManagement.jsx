@@ -125,3 +125,14 @@ function AttendanceManagement() {
       setSaving(false)
     }
   }
+
+
+   async function handleLock(record) {
+    try {
+      await lockAttendanceRecord(record._id)
+      setSuccess("Attendance record locked.")
+      await loadAttendance();
+    } catch (requestError) {
+      setError(errorMessage(requestError, "Unable to lock this record."))
+    }
+  }
