@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import LeaveRequestTable from "../../components/LeaveRequests/LeaveRequestTable";
-import LeaveRequestDetails from "../../components/LeaveRequests/LeaveRequestDetails";
-import LeaveRequestForm from "../../components/LeaveRequests/LeaveRequestForm";
-import LeaveRequestConfirmDialog from "../../components/LeaveRequests/LeaveRequestConfirmDialog";
-import LeaveRequestDecisionDialog from "../../components/LeaveRequests/LeaveRequestDecisionDialog";
+import LeaveRequestTable from "../../../components/LeaveRequests/LeaveRequestTable";
+import LeaveRequestDetails from "../../../components/LeaveRequests/LeaveRequestDetails";
+import LeaveRequestForm from "../../../components/LeaveRequests/LeaveRequestForm";
+import LeaveRequestConfirmDialog from "../../../components/LeaveRequests/LeaveRequestConfirmDialog";
+import LeaveRequestDecisionDialog from "../../../components/LeaveRequests/LeaveRequestDecisionDialog";
 import {
   cancelLeaveRequest,
   createLeaveRequest,
@@ -11,10 +11,10 @@ import {
   getLeaveRequests,
   submitLeaveRequest,
   updateLeaveRequest,
-} from "../../services/leaveRequestService";
-import { getMyProfile } from "../../services/employeeService";
-import { getLeaveTypes } from "../../services/leaveTypeService";
-import { getLeaveAllocations } from "../../services/leaveAllocationService";
+} from "../../../services/leaveRequestService";
+import { getMyProfile } from "../../../services/employeeService";
+import { getLeaveTypes } from "../../../services/leaveTypeService";
+import { getLeaveAllocations } from "../../../services/leaveAllocationService";
 import "./EmployeeLeaveRequests.css";
 
 const statuses = ["draft", "pending", "approved", "rejected", "cancelled"];

@@ -13,9 +13,10 @@ import UploadDocument from "./pages/Employee/UploadDocument";
 import DocumentDetails from "./pages/Employee/DocumentDetails";
 import MyCheckins from "./pages/Employee/MyCheckins";
 import MyAttendance from "./pages/Employee/MyAttendance";
-import EmployeeLeaveRequests from "./pages/EmployeeLeaveRequests/EmployeeLeaveRequests";
+import EmployeeLeaveRequests from "./pages/Employee/EmployeeLeaveRequests/EmployeeLeaveRequests";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
+import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
 
 
 // Hr-Admin page
@@ -90,6 +91,14 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route
+          path="/manager/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <ManagerLeaveRequests />
+            </ProtectedRoute>
+          }
+        />
 
         {/* // MyAttendance page */}
 
