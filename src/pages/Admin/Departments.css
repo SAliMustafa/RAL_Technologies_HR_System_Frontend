@@ -1,0 +1,21 @@
+.departments-page { padding: 42px; color: var(--ink); }
+.departments-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.departments-header h1 { margin: 4px 0 6px; font-size: 30px; }
+.departments-card {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: white;
+}
+.departments-modal {
+  width: min(520px, 100%);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
