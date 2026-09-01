@@ -9,10 +9,10 @@ function unwrap(data){
   return []
 }
 
-async function getMyAttendance(params = {}){
-    const response = await api.get('/attendance', {params})
-    return unwrap (response.data)
-}
+// async function getMyAttendance(params = {}){
+//     const response = await api.get('/attendance', {params})
+//     return unwrap (response.data)
+// }
 
 async function getAllAttendance(params = {}) {
   const response = await api.get('/attendance', { params })
@@ -32,6 +32,11 @@ async function updateAttendanceRecord(id, data) {
 
 async function getTodayAttendance() {
     const response = await api.get("/attendance/my-attendance/today");
+    return response.data;
+}
+
+async function getMyAttendance() {
+    const response = await api.get("/attendance/my-attendance");
     return response.data;
 }
 

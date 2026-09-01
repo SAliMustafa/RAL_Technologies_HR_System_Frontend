@@ -710,3 +710,209 @@
 
   font-size: 10px;
 }
+
+
+
+
+.expiry-alerts {
+  margin-top: 28px;
+
+  padding: 24px;
+
+  background-color: var(--card);
+
+  border: 1px solid #DBD1E8;
+  border-radius: 16px;
+      
+ margin-bottom: 16px; 
+  box-shadow: 0 8px 24px rgba(43, 27, 61, 0.06);
+}
+
+
+/* HEADER */
+
+.expiry-alerts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+
+.expiry-alerts-header h2 {
+  margin: 0;
+
+  color: #2B1B3D;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+.expiry-alerts-header p {
+  margin: 5px 0 0;
+
+  color: #7F6D91;
+
+  font-size: 13px;
+}
+
+
+/* COUNT */
+
+.expiry-alert-count {
+  min-width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #D1C4E9;
+
+  color: #2B1B3D;
+
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* LIST */
+
+.expiry-alert-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+/* ALERT */
+
+.expiry-alert {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 16px;
+
+  background-color: #FFF9F2;
+
+  border: 1px solid rgba(168, 99, 27, 0.22);
+  border-left: 4px solid #A8631B;
+
+  border-radius: 10px;
+
+  transition: 0.2s ease;
+}
+
+
+.expiry-alert:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 16px rgba(43, 27, 61, 0.06);
+}
+
+
+/* ICON */
+
+.expiry-alert-icon {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(168, 99, 27, 0.12);
+
+  color: #A8631B;
+
+  border-radius: 9px;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+/* CONTENT */
+
+.expiry-alert-content {
+  flex: 1;
+}
+
+
+.expiry-alert-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 5px;
+}
+
+
+.expiry-alert-top strong {
+  color: #2B1B3D;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+.expiry-alert-content p {
+  margin: 0;
+
+  color: #59476B;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* DAYS BADGE */
+
+.expiry-days-badge {
+  padding: 5px 9px;
+
+  background-color: rgba(168, 99, 27, 0.1);
+
+  color: #A8631B;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .expiry-alerts {
+    padding: 18px;
+  }
+
+  .expiry-alerts-header {
+    align-items: flex-start;
+  }
+
+  .expiry-alert-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}

@@ -11,6 +11,8 @@ import MyProfile from "./pages/Employee/MyProfile";
 import MyDocuments from "./pages/Employee/MyDocuments";
 import UploadDocument from "./pages/Employee/UploadDocument";
 import DocumentDetails from "./pages/Employee/DocumentDetails";
+import MyCheckins from "./pages/Employee/MyCheckins";
+import MyAttendance from "./pages/Employee/MyAttendance";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 
@@ -20,7 +22,7 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 
 
 // MyAttendance page
-import MyAttendance from "./pages/Attendance/MyAttendance";
+// import MyAttendance from "./pages/Attendance/MyAttendance";
 
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
@@ -44,6 +46,8 @@ function App() {
         <Route path="mydocuments" element={<ProtectedRoute><MyDocuments /></ProtectedRoute>} />
         <Route path="/documents/upload" element={<ProtectedRoute><UploadDocument /></ProtectedRoute>} />
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
+        <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
+        <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 
@@ -55,7 +59,7 @@ function App() {
 
         {/* // MyAttendance page */}
 
-        <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
+        {/* <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} /> */}
 
       </Routes>
        </div>

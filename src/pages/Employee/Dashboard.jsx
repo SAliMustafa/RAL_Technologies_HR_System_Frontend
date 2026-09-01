@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import "../../components/css/Employee/Dashboard.css";
-import {  getMyProfile} from "../../services/employeeService";
-import {  getTodayAttendance} from "../../services/attendanceService";
-import {checkIn,checkOut} from "../../services/checkInService";
-import { getMyDocuments,getExpiryAlerts} from "../../services/documentsService"
+import { getMyProfile } from "../../services/employeeService";
+import { getTodayAttendance } from "../../services/attendanceService";
+import { checkIn, checkOut } from "../../services/checkInService";
+import {
+  getMyDocuments,
+  getExpiryAlerts,
+} from "../../services/documentsService";
 
 const DashboardEmployee = () => {
   const navigate = useNavigate();
@@ -12,6 +15,7 @@ const DashboardEmployee = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [expiryAlerts, setExpiryAlerts] = useState([]);
 
   // مؤقتاً بيانات تجريبية
   const employee = {
@@ -36,10 +40,7 @@ const DashboardEmployee = () => {
       setError("");
 
       const data = await checkIn();
-
-      console.log("Check in:", data);
-
-      setAttendance(data);
+      navigate("/dashboard-employee");
     } catch (err) {
       console.log(err);
       console.log("Status:", error.response?.status);
@@ -53,10 +54,7 @@ const DashboardEmployee = () => {
       setError("");
 
       const data = await checkOut();
-
-      console.log("Check out:", data);
-
-      setAttendance(data);
+      navigate("/dashboard-employee");
     } catch (err) {
       console.log(err);
 
@@ -73,14 +71,27 @@ const DashboardEmployee = () => {
     async function fetchDashboard() {
       try {
         const profileData = await getMyProfile();
-        const attendanceData = await getTodayAttendance();
 
-        console.log("Profile:", profileData);
-        console.log("Today's attendance:", attendanceData);
+        // console.log("Profile:", profileData);
 
         setProfile(profileData.employeeId);
+        const datayAlerts = await getExpiryAlerts();
 
-        setAttendance(attendanceData);
+        // console.log("Expiry alerts:", datayAlerts);
+
+        setExpiryAlerts(datayAlerts);
+        try {
+          const attendanceData = await getTodayAttendance();
+
+          setAttendance(attendanceData);
+        } catch (err) {
+          // No attendance today
+          if (err.response?.status === 404) {
+            setAttendance(null);
+          } else {
+            throw err;
+          }
+        }
       } catch (err) {
         console.log(err);
 
@@ -93,8 +104,6 @@ const DashboardEmployee = () => {
     fetchDashboard();
   }, []);
 
-  // console.log(attendance);
-
   function formatTime(date) {
     if (!date) return "--";
 
@@ -103,6 +112,7 @@ const DashboardEmployee = () => {
       minute: "2-digit",
     });
   }
+
   if (loading) {
     return <p>Loading dashboard...</p>;
   }
@@ -160,6 +170,43 @@ const DashboardEmployee = () => {
           </button>
         </div>
       </section>
+           {/* Expiry Alerts  */}
+        {expiryAlerts.length > 0 && (
+        <section className="expiry-alerts">
+          <div className="expiry-alerts-header">
+            <div>
+              <h2>Document Alerts</h2>
+              <p>Documents that need your attention soon.</p>
+            </div>
+
+            <span className="expiry-alert-count">{expiryAlerts.length}</span>
+          </div>
+
+          <div className="expiry-alert-list">
+            {expiryAlerts.map((alert, index) => (
+              <div key={index} className="expiry-alert">
+                <div className="expiry-alert-icon">⚠</div>
+
+                <div className="expiry-alert-content">
+                  <div className="expiry-alert-top">
+                    <strong>
+                      {alert.document_type
+                        .replaceAll("_", " ")
+                        .replace(/\b\w/g, (c) => c.toUpperCase())}
+                    </strong>
+
+                    <span className="expiry-days-badge">
+                      {alert.daysRemaining} days
+                    </span>
+                  </div>
+
+                  <p>{alert.message}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* DASHBOARD CARDS */}
       <section className="dashboard-main-grid">
@@ -178,9 +225,7 @@ const DashboardEmployee = () => {
           <div className="attendance-status">
             <span className="status-dot"></span>
 
-            <span>
-              {<strong>{attendance?.status}</strong> || "--"}
-            </span>
+            <span>{<strong>{attendance?.status}</strong> || "--"}</span>
           </div>
 
           <div className="attendance-times">

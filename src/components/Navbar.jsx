@@ -76,11 +76,18 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/attendance"
-              className={isActive("/attendance") ? "active" : ""}
+              to="/my-attendance"
+              className={isActive("/my-attendance") ? "active" : ""}
             >
               <span className="menu-icon">◷</span>
               My Attendance
+            </Link>
+            <Link
+              to="/my-checkins"
+              className={isActive("/my-checkins") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              My Checkins
             </Link>
 
             <Link to="/leave" className={isActive("/leave") ? "active" : ""}>
