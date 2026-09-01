@@ -51,5 +51,71 @@
       "holiday": "عطلة",
       "weekly_off": "عطلة أسبوعية"
     }
+  },
+  "attendanceManagement": {
+    "eyebrow": "إدارة الحضور",
+    "title": "الحضور",
+    "subtitle": "مراجعة وتصحيح وقفل سجلات حضور الموظفين.",
+    "correctEyebrow": "تصحيح",
+    "dismiss": "إغلاق",
+    "retry": "إعادة المحاولة",
+    "recordsHeading": "السجلات",
+    "recordCount_one": "{{count}} سجل",
+    "recordCount_other": "{{count}} سجلات",
+    "todayOnly": "اليوم فقط",
+    "allStatuses": "كل الحالات",
+    "employeeIdPlaceholder": "رقم الموظف",
+    "filter": "تصفية",
+    "loading": "جارٍ تحميل الحضور...",
+    "emptyTitle": "لا توجد سجلات حضور",
+    "emptySubtitle": "جرّب تعديل عوامل التصفية.",
+    "columns": {
+      "employee": "الموظف",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "in": "الدخول",
+      "out": "الخروج",
+      "flags": "ملاحظات",
+      "actions": "إجراءات"
+    },
+    "flags": {
+      "late": "متأخر",
+      "earlyExit": "خروج مبكر",
+      "incomplete": "غير مكتمل",
+      "corrected": "تم تصحيحه",
+      "locked": "مقفل"
+    },
+    "actions": {
+      "correct": "تصحيح",
+      "lock": "قفل"
+    },
+    "modal": {
+      "status": "الحالة",
+      "inTime": "وقت الدخول",
+      "outTime": "وقت الخروج",
+      "reason": "سبب التصحيح",
+      "flagsLegend": "ملاحظات",
+      "cancel": "إلغاء",
+      "save": "حفظ التصحيح",
+      "saving": "جارٍ الحفظ..."
+    },
+    "statusValues": {
+      "present": "حاضر",
+      "absent": "غائب",
+      "half_day": "نصف يوم",
+      "on_leave": "إجازة",
+      "holiday": "عطلة",
+      "weekly_off": "عطلة أسبوعية"
+    },
+    "errors": {
+      "load": "تعذر تحميل بيانات الحضور.",
+      "correct": "تعذر حفظ التصحيح.",
+      "lock": "تعذر قفل هذا السجل.",
+      "reasonRequired": "سبب التصحيح مطلوب."
+    },
+    "success": {
+      "corrected": "تم تصحيح سجل الحضور بنجاح.",
+      "locked": "تم قفل سجل الحضور."
+    }
   }
 }
