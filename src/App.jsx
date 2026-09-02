@@ -57,7 +57,6 @@ function App() {
       <Routes>
         {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/" element={<Homepage /> } />
-        <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
