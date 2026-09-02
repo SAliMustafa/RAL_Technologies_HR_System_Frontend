@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
-import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
 import SignInPage from "./pages/SigninPage";
 
@@ -46,10 +44,7 @@ import CreateEmployee from "./pages/Admin/CreateEmployee";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
-import { useEffect } from "react";
-import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
 function App() {
   return (
     <div>
@@ -70,7 +65,7 @@ function App() {
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
         <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
         <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
-        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee", "manager"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
 
         {/* // Hr-Admin page */}
 
