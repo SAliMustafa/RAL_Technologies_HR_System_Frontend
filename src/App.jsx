@@ -24,6 +24,8 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
+import Departments from "./pages/Admin/Department";
+import Holidays from "./pages/Admin/Holidays";
 import HrLeaveRequests from "./pages/Admin/HrLeaveRequests/HrLeaveRequests";
 import EmployeeList from "./pages/Admin/EmployeeList";
 import EmployeeDetail from "./pages/Admin/EmployeeDetail";
@@ -100,7 +102,14 @@ function App() {
   }
 />
 
+<Route path="/admin/departments" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Departments /></ProtectedRoute>
+} />
 
+
+<Route path="/admin/holidays" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Holidays /></ProtectedRoute>
+} />
 
 
         {/* // manager page */}
