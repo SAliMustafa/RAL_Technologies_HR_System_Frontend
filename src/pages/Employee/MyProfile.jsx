@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getMyProfile } from "../../services/employeeService";
+import { getDepartmentById } from "../../services/departmentService";
 import "../../components/css/Employee/MyProfile.css";
-import Navbar from "../../components/Navbar";
 const MyProfile = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
@@ -14,7 +14,13 @@ const MyProfile = () => {
 
         // console.log(data);
 
-        setProfile(data.employeeId);
+        const employee = data.employeeId;
+        let department = null;
+        const departmentId = employee?.department_id?._id || employee?.department_id;
+        if (departmentId) {
+          department = await getDepartmentById(departmentId);
+        }
+        setProfile({ ...employee, department: department?.name || "" });
       } catch (err) {
         console.log(err);
 

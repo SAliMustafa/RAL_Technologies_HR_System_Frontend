@@ -5,6 +5,11 @@ async function getDepartments() {
   return response.data
 }
 
+async function getDepartmentById(id) {
+  const response = await api.get(`/departments/${id}`)
+  return response.data
+}
+
 async function createDepartment(data) {
   const response = await api.post('/departments', data)
   return response.data
@@ -17,6 +22,7 @@ async function updateDepartment(id, data) {
 
 export {
   getDepartments,
+  getDepartmentById,
   createDepartment,
   updateDepartment,
 }

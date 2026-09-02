@@ -991,3 +991,17 @@
     width: 100%;
   }
 }
+
+.check-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+  box-shadow: none;
+}
+
+.dashboard-action-message {
+  margin: 12px 0 0;
+  color: var(--mid);
+  font-size: 13px;
+  font-weight: 600;
+}

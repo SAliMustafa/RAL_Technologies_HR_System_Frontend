@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Navigate } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { getDepartments, createDepartment, updateDepartment } from "../../services/departmentService";
@@ -50,7 +50,10 @@ function Departments() {
     }
   }, [t]);
 
-  useEffect(() => { loadData(); }, [loadData]);
+  useEffect(() => {
+    const request = window.setTimeout(loadData, 0);
+    return () => window.clearTimeout(request);
+  }, [loadData]);
 
   if (user?.role !== "hr_admin") return <Navigate to="/" replace />;
 
@@ -140,6 +143,7 @@ function Departments() {
                     <td>{managerDisplayName(dept.manager_id)}</td>
                     <td>
                       <div className="row-actions">
+                        <Link className="department-view-link" to={`/admin/departments/${dept._id}`}>View details</Link>
                         <button onClick={() => openEdit(dept)}>{t("departments.actions.edit")}</button>
                       </div>
                     </td>

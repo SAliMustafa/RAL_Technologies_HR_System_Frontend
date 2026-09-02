@@ -35,6 +35,7 @@ import AdminAuditLogs from "./pages/Admin/AdminAuditLogs";
 import AuditLogDetails from "./pages/Admin/AuditLogDetails";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
 import Departments from "./pages/Admin/Department";
+import DepartmentDetails from "./pages/Admin/DepartmentDetails";
 import Holidays from "./pages/Admin/Holidays";
 import HrLeaveRequests from "./pages/Admin/HrLeaveRequests/HrLeaveRequests";
 import EmployeeList from "./pages/Admin/EmployeeList";
@@ -121,6 +122,9 @@ function App() {
 
 <Route path="/admin/departments" element={
   <ProtectedRoute allowedRoles={["hr_admin"]}><Departments /></ProtectedRoute>
+} />
+<Route path="/admin/departments/:departmentId" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><DepartmentDetails /></ProtectedRoute>
 } />
 
 

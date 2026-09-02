@@ -8,6 +8,8 @@ import {
   getMyDocuments,
   getExpiryAlerts,
 } from "../../services/documentsService";
+import { getLeaveAllocations } from "../../services/leaveAllocationService";
+import { getDepartmentById } from "../../services/departmentService";
 
 const DashboardEmployee = () => {
   const navigate = useNavigate();
@@ -16,82 +18,67 @@ const DashboardEmployee = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [expiryAlerts, setExpiryAlerts] = useState([]);
-
-  // مؤقتاً بيانات تجريبية
-  const employee = {
-    name: "Qasem",
-    job_title: "Software Developer",
-    department: "IT",
-  };
-
-  // const attendance = {
-  //   status: "Present",
-  //   in_time: "08:04",
-  //   out_time: "--",
-  // };
-
-  const documents = {
-    verified: 5,
-    expiring: 1,
-  };
+  const [documents, setDocuments] = useState([]);
+  const [leaveBalances, setLeaveBalances] = useState([]);
+  const [departmentName, setDepartmentName] = useState("");
+  const [actionMessage, setActionMessage] = useState("");
+  const [actionLoading, setActionLoading] = useState(false);
 
   async function handleCheckIn() {
     try {
       setError("");
+      setActionMessage("");
+      setActionLoading(true);
 
-      const data = await checkIn();
-      navigate("/dashboard-employee");
+      const response = await checkIn();
+      setAttendance(response.attendance || response);
+      setActionMessage(response.message || "Checked in successfully.");
     } catch (err) {
-      console.log(err);
-      console.log("Status:", error.response?.status);
-      console.log("Backend message:", error.response?.data);
-      setError(err?.response?.data?.message || "Check in failed");
+      setActionMessage(err?.response?.data?.message || err?.response?.data?.error || "Check in failed");
+    } finally {
+      setActionLoading(false);
     }
   }
 
   async function handleCheckOut() {
     try {
       setError("");
+      setActionMessage("");
+      setActionLoading(true);
 
-      const data = await checkOut();
-      navigate("/dashboard-employee");
+      const response = await checkOut();
+      setAttendance(response.attendance || response);
+      setActionMessage(response.message || "Checked out successfully.");
     } catch (err) {
-      console.log(err);
-
-      setError(err?.response?.data?.message || "Check out failed");
+      setActionMessage(err?.response?.data?.message || err?.response?.data?.error || "Check out failed");
+    } finally {
+      setActionLoading(false);
     }
   }
-
-  const leaveBalance = {
-    annual: 23,
-    sick: 15,
-  };
 
   useEffect(() => {
     async function fetchDashboard() {
       try {
         const profileData = await getMyProfile();
+        const employee = profileData.employeeId;
+        setProfile(employee);
 
-        // console.log("Profile:", profileData);
+        const results = await Promise.allSettled([
+          getExpiryAlerts(),
+          getMyDocuments(),
+          getLeaveAllocations(),
+          getTodayAttendance(),
+          employee?.department_id?._id || employee?.department_id
+            ? getDepartmentById(employee.department_id?._id || employee.department_id)
+            : Promise.resolve(null),
+        ]);
 
-        setProfile(profileData.employeeId);
-        const datayAlerts = await getExpiryAlerts();
-
-        // console.log("Expiry alerts:", datayAlerts);
-
-        setExpiryAlerts(datayAlerts);
-        try {
-          const attendanceData = await getTodayAttendance();
-
-          setAttendance(attendanceData);
-        } catch (err) {
-          // No attendance today
-          if (err.response?.status === 404) {
-            setAttendance(null);
-          } else {
-            throw err;
-          }
-        }
+        const [alertsResult, documentsResult, balancesResult, attendanceResult, departmentResult] = results;
+        if (alertsResult.status === "fulfilled") setExpiryAlerts(Array.isArray(alertsResult.value) ? alertsResult.value : []);
+        if (documentsResult.status === "fulfilled") setDocuments(Array.isArray(documentsResult.value) ? documentsResult.value : []);
+        if (balancesResult.status === "fulfilled") setLeaveBalances(Array.isArray(balancesResult.value?.data) ? balancesResult.value.data : []);
+        if (attendanceResult.status === "fulfilled") setAttendance(attendanceResult.value);
+        if (departmentResult.status === "fulfilled") setDepartmentName(departmentResult.value?.name || "");
       } catch (err) {
         console.log(err);
 
@@ -113,6 +100,17 @@ const DashboardEmployee = () => {
     });
   }
 
+  const leaveBalanceByType = leaveBalances.reduce((balances, allocation) => {
+    const name = allocation.leave_type_id?.leave_type_name?.toLowerCase() || "";
+    const remaining = Number(allocation.days_allocated || 0) +
+      Number(allocation.days_carried_forward || 0) - Number(allocation.days_taken || 0);
+    if (name.includes("annual")) balances.annual += remaining;
+    if (name.includes("sick")) balances.sick += remaining;
+    return balances;
+  }, { annual: 0, sick: 0 });
+
+  const verifiedDocuments = documents.filter((document) => document.status === "verified").length;
+
   if (loading) {
     return <p>Loading dashboard...</p>;
   }
@@ -131,9 +129,9 @@ const DashboardEmployee = () => {
           <h1>Good Morning, {profile?.name_en} 👋</h1>
 
           <p className="employee-position">
-            {employee.job_title}
+            {profile?.job_title || "—"}
             <span>•</span>
-            {profile?.department || "—"}{" "}
+            {departmentName || "—"}{" "}
           </p>
         </div>
       </section>
@@ -148,7 +146,7 @@ const DashboardEmployee = () => {
         </div>
 
         <div className="quick-actions">
-          <button className="check-action check-in-btn" onClick={handleCheckIn}>
+          <button className="check-action check-in-btn" onClick={handleCheckIn} disabled={actionLoading || Boolean(attendance?.in_time)}>
             <span className="action-icon">→</span>
 
             <div>
@@ -160,6 +158,7 @@ const DashboardEmployee = () => {
           <button
             className="check-action check-out-btn"
             onClick={handleCheckOut}
+            disabled={actionLoading || !attendance?.in_time || Boolean(attendance?.out_time)}
           >
             <span className="action-icon">←</span>
 
@@ -169,6 +168,7 @@ const DashboardEmployee = () => {
             </div>
           </button>
         </div>
+        {actionMessage && <p className="dashboard-action-message" role="status">{actionMessage}</p>}
       </section>
            {/* Expiry Alerts  */}
         {expiryAlerts.length > 0 && (
@@ -225,7 +225,7 @@ const DashboardEmployee = () => {
           <div className="attendance-status">
             <span className="status-dot"></span>
 
-            <span>{<strong>{attendance?.status}</strong> || "--"}</span>
+            <span><strong>{attendance?.status || "--"}</strong></span>
           </div>
 
           <div className="attendance-times">
@@ -246,7 +246,7 @@ const DashboardEmployee = () => {
 
           <button
             className="card-link-btn"
-            onClick={() => navigate("/attendance")}
+            onClick={() => navigate("/my-attendance")}
           >
             View Attendance
             <span>→</span>
@@ -276,7 +276,7 @@ const DashboardEmployee = () => {
               </div>
 
               <div className="leave-days">
-                <strong>{leaveBalance.annual}</strong>
+                <strong>{leaveBalanceByType.annual}</strong>
                 <span>days</span>
               </div>
             </div>
@@ -292,7 +292,7 @@ const DashboardEmployee = () => {
               </div>
 
               <div className="leave-days">
-                <strong>{leaveBalance.sick}</strong>
+                <strong>{leaveBalanceByType.sick}</strong>
                 <span>days</span>
               </div>
             </div>
@@ -321,7 +321,7 @@ const DashboardEmployee = () => {
               <div className="stat-icon">✓</div>
 
               <div>
-                <strong>{documents.verified}</strong>
+                <strong>{verifiedDocuments}</strong>
 
                 <span>Verified</span>
               </div>
@@ -331,19 +331,19 @@ const DashboardEmployee = () => {
               <div className="stat-icon">⚠</div>
 
               <div>
-                <strong>{documents.expiring}</strong>
+                <strong>{expiryAlerts.length}</strong>
 
                 <span>Expiring Soon</span>
               </div>
             </div>
           </div>
 
-          {documents.expiring > 0 && (
+          {expiryAlerts.length > 0 && (
             <div className="document-warning">
               <span>⚠</span>
 
               <p>
-                You have {documents.expiring} document that needs your
+                You have {expiryAlerts.length} document(s) that need your
                 attention.
               </p>
             </div>
