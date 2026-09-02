@@ -21,8 +21,14 @@ import ManagerDashboard from "./pages/Manager/Dashboard";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
-
-
+import AdminDocuments from "./pages/Admin/AdminDocuments";
+import UploadEmployeeDocument from "./pages/Admin/UploadEmployeeDocument";
+import AdminDocumentDetails from "./pages/Admin/AdminDocumentDetails";
+import EditAdminDocument from "./pages/Admin/EditAdminDocument";
+import ReviewDocument from "./pages/Admin/ReviewDocument";
+import AdminCheckins from "./pages/Admin/AdminCheckins";
+import AdminAuditLogs from "./pages/Admin/AdminAuditLogs";
+import AuditLogDetails from "./pages/Admin/AuditLogDetails";
 // MyAttendance page
 // import MyAttendance from "./pages/Attendance/MyAttendance";
 
@@ -56,6 +62,14 @@ function App() {
         {/* // Hr-Admin page */}
 
         <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/documents" element={<ProtectedRoute><AdminDocuments /></ProtectedRoute>} />
+        <Route path="/admin/documents/upload" element={<ProtectedRoute><UploadEmployeeDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId" element={<ProtectedRoute><AdminDocumentDetails /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/edit" element={<ProtectedRoute><EditAdminDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/review" element={<ProtectedRoute><ReviewDocument /></ProtectedRoute>} />
+        <Route path="/admin/checkins" element={<ProtectedRoute><AdminCheckins /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs" element={<ProtectedRoute><AdminAuditLogs /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs/:auditLogId" element={<ProtectedRoute><AuditLogDetails /></ProtectedRoute>} />
         <Route
           path="/admin/leave-types"
           element={

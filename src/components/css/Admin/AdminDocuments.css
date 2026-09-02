@@ -17,11 +17,13 @@
 =========================== */
 
 .admin-documents-page {
-  max-width: 1350px;
-  margin: 0 auto;
-  padding: 35px;
-}
+  width: 100%;
+  max-width: none;
 
+  box-sizing: border-box;
+
+  padding: 32px;
+}
 
 /* ===========================
    HEADER
@@ -393,28 +395,32 @@
 =========================== */
 
 .admin-documents-table-card {
-  overflow: hidden;
+  width: 100%;
+
+  overflow-x: auto;
 
   background: white;
 
   border: 1px solid var(--rule);
 
-  border-radius: 11px;
+  border-radius: 12px;
 
   box-shadow:
     0 5px 18px rgba(43, 27, 61, 0.035);
 }
 
-
 .admin-documents-table {
   width: 100%;
 
+  min-width: 1050px;
+
   border-collapse: collapse;
+
+  table-layout: auto;
 }
 
-
 .admin-documents-table th {
-  padding: 13px 15px;
+  padding: 15px 16px;
 
   background: var(--card);
 
@@ -424,28 +430,30 @@
 
   text-align: left;
 
-  font-size: 9px;
+  font-size: clamp(11px, 0.75vw, 13px);
+
   font-weight: 700;
 
-  letter-spacing: 0.6px;
+  letter-spacing: 0.4px;
 
   text-transform: uppercase;
+
+  white-space: nowrap;
 }
 
-
 .admin-documents-table td {
-  padding: 15px;
+  padding: 16px;
 
   color: var(--mid);
 
-  border-bottom:
-    1px solid #eee9f2;
+  border-bottom: 1px solid #eee9f2;
 
-  font-size: 11px;
+  font-size: clamp(12px, 0.8vw, 14px);
 
   vertical-align: middle;
-}
 
+  white-space: nowrap;
+}
 
 .admin-documents-table tbody tr:last-child td {
   border-bottom: none;
@@ -568,12 +576,14 @@
   display: flex;
   align-items: center;
 
-  gap: 5px;
+  gap: 6px;
+
+  white-space: nowrap;
 }
 
 
 .doc-action-btn {
-  padding: 6px 8px;
+  padding: 7px 10px;
 
   background: transparent;
 
@@ -581,8 +591,10 @@
 
   border-radius: 6px;
 
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
+
+  white-space: nowrap;
 
   cursor: pointer;
 
@@ -671,4 +683,199 @@
   color: var(--soft);
 
   font-size: 11px;
+}
+
+.active-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+.active-status span {
+  font-size: 8px;
+}
+
+
+.active-status.active {
+  color: var(--green);
+
+  background:
+    rgba(31, 122, 84, 0.08);
+}
+
+
+.active-status.inactive {
+  color: var(--soft);
+
+  background: var(--card);
+}
+
+.documents-pagination {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 16px 20px;
+
+  background: white;
+
+  border-top: 1px solid var(--rule);
+}
+
+
+.pagination-info {
+  color: var(--soft);
+
+  font-size: 12px;
+}
+
+
+.pagination-info strong {
+  color: var(--ink);
+}
+
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.pagination-number,
+.pagination-arrow {
+  min-width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 8px;
+
+  background: white;
+
+  color: var(--mid);
+
+  border: 1px solid var(--rule);
+
+  border-radius: 7px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.pagination-number:hover,
+.pagination-arrow:hover:not(:disabled) {
+  background: var(--card);
+
+  border-color: var(--lavender);
+}
+
+
+.pagination-number.active {
+  background: var(--ink);
+
+  color: white;
+
+  border-color: var(--ink);
+}
+
+
+.pagination-arrow:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+.document-table-row {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+
+.document-table-row:hover {
+  background-color: #f9f7fb;
+}
+.document-table-row td:first-child {
+  border-left: 3px solid transparent;
+}
+
+
+.document-table-row:hover td:first-child {
+  border-left-color: var(--lavender);
+}
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.delete-popup {
+  width: 380px;
+  max-width: 90%;
+
+  background: white;
+
+  padding: 24px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+.delete-popup h3 {
+  margin: 0 0 12px;
+}
+
+.delete-popup p {
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn,
+.delete-btn {
+  padding: 9px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  border: none;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
 }
