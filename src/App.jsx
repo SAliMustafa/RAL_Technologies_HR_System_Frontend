@@ -24,6 +24,14 @@ import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLe
 import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
+import AdminDocuments from "./pages/Admin/AdminDocuments";
+import UploadEmployeeDocument from "./pages/Admin/UploadEmployeeDocument";
+import AdminDocumentDetails from "./pages/Admin/AdminDocumentDetails";
+import EditAdminDocument from "./pages/Admin/EditAdminDocument";
+import ReviewDocument from "./pages/Admin/ReviewDocument";
+import AdminCheckins from "./pages/Admin/AdminCheckins";
+import AdminAuditLogs from "./pages/Admin/AdminAuditLogs";
+import AuditLogDetails from "./pages/Admin/AuditLogDetails";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
 import Departments from "./pages/Admin/Department";
 import Holidays from "./pages/Admin/Holidays";
@@ -36,6 +44,8 @@ import CreateEmployee from "./pages/Admin/CreateEmployee";
 
 // MyAttendance page
 // import MyAttendance from "./pages/Attendance/MyAttendance";
+
+import NotFoundPage from "./pages/NotFoundPage";
 
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
@@ -131,6 +141,102 @@ function App() {
 
         </Routes>
       </div>
+      <Navbar/>
+       <div className="app-content">
+
+
+      <Routes>
+        <Route path="/" element={<Homepage /> } />
+        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
+        <Route path="/sign-in" element={<SignInPage />} />
+
+        {/* //// employee page */}
+        <Route path="dashboard-employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+        <Route path="MyProfile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
+        <Route path="mydocuments" element={<ProtectedRoute><MyDocuments /></ProtectedRoute>} />
+        <Route path="/documents/upload" element={<ProtectedRoute><UploadDocument /></ProtectedRoute>} />
+        <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
+        <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
+        <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
+
+        {/* // Hr-Admin page */}
+
+        <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/documents" element={<ProtectedRoute><AdminDocuments /></ProtectedRoute>} />
+        <Route path="/admin/documents/upload" element={<ProtectedRoute><UploadEmployeeDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId" element={<ProtectedRoute><AdminDocumentDetails /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/edit" element={<ProtectedRoute><EditAdminDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/review" element={<ProtectedRoute><ReviewDocument /></ProtectedRoute>} />
+        <Route path="/admin/checkins" element={<ProtectedRoute><AdminCheckins /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs" element={<ProtectedRoute><AdminAuditLogs /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs/:auditLogId" element={<ProtectedRoute><AuditLogDetails /></ProtectedRoute>} />
+        <Route
+          path="/admin/leave-types"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <LeaveTypes />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/employees" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeList /></ProtectedRoute>} />
+        <Route path="/employees/create" element={<ProtectedRoute allowedRoles={["hr_admin"]}><CreateEmployee /></ProtectedRoute>} />
+        <Route path="/employees/:id" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeDetail /></ProtectedRoute>} />
+        <Route
+          path="/leave-allocations"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin", "manager", "employee"]}>
+              <LeaveAllocations />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["hr_admin"]}>
+              <HrLeaveRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+  path="/admin/attendance"
+  element={
+    <ProtectedRoute allowedRoles={["hr_admin"]}>
+      <AttendanceManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route path="/admin/departments" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Departments /></ProtectedRoute>
+} />
+
+
+<Route path="/admin/holidays" element={
+  <ProtectedRoute allowedRoles={["hr_admin"]}><Holidays /></ProtectedRoute>
+} />
+
+
+        {/* // manager page */}
+
+        <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path="/manager/leave-requests"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <ManagerLeaveRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* // MyAttendance page */}
+
+        {/* <Route path="/attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} /> */}
+
+      </Routes>
+       </div>
     </div>
   );
 }

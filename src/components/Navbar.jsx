@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
@@ -13,6 +12,11 @@ function Navbar() {
     return location.pathname === path;
   };
 
+  // Hide navbar if user is not logged in
+  if (!user) {
+    return <></>;
+  }
+
   return (
     <aside className="sidebar">
       {/* LOGO */}
@@ -26,24 +30,20 @@ function Navbar() {
       </div>
 
       {/* USER */}
-      {user && (
-        <div className="sidebar-user">
-          <div className="user-avatar">
-            {user?.username?.charAt(0)?.toUpperCase()}
-          </div>
-
-          <div>
-            <strong>{user?.username}</strong>
-
-            <span>{user?.role?.replaceAll("_", " ")}</span>
-          </div>
+      <div className="sidebar-user">
+        <div className="user-avatar">
+          {user?.username?.charAt(0)?.toUpperCase()}
         </div>
-      )}
+
+        <div>
+          <strong>{user?.username}</strong>
+          <span>{user?.role?.replaceAll("_", " ")}</span>
+        </div>
+      </div>
 
       {/* MENU */}
       <div className="sidebar-menu">
         <p className="sidebar-section-title">MENU</p>
-
 
         {/* =========================
             EMPLOYEE
@@ -82,6 +82,7 @@ function Navbar() {
               <span className="menu-icon">◷</span>
               My Attendance
             </Link>
+
             <Link
               to="/my-checkins"
               className={isActive("/my-checkins") ? "active" : ""}
@@ -90,7 +91,10 @@ function Navbar() {
               My Checkins
             </Link>
 
-            <Link to="/leave" className={isActive("/leave") ? "active" : ""}>
+            <Link
+              to="/leave"
+              className={isActive("/leave") ? "active" : ""}
+            >
               <span className="menu-icon">▣</span>
               My Leave
             </Link>
@@ -105,7 +109,9 @@ function Navbar() {
 
             <Link
               to="/employee/leave-requests"
-              className={isActive("/employee/leave-requests") ? "active" : ""}
+              className={
+                isActive("/employee/leave-requests") ? "active" : ""
+              }
             >
               <span className="menu-icon">▣</span>
               My Leave Requests
@@ -131,7 +137,9 @@ function Navbar() {
 
             <Link
               to="/manager/leave-requests"
-              className={isActive("/manager/leave-requests") ? "active" : ""}
+              className={
+                isActive("/manager/leave-requests") ? "active" : ""
+              }
             >
               <span className="menu-icon">▣</span>
               Leave Requests
@@ -163,7 +171,13 @@ function Navbar() {
           <>
             <p className="sidebar-section-title">ADMINISTRATION</p>
 
-            <Link to="/employees" className={isActive("/employees") ? "active" : ""}><span className="menu-icon">♟</span>Employees</Link>
+            <Link
+              to="/employees"
+              className={isActive("/employees") ? "active" : ""}
+            >
+              <span className="menu-icon">♟</span>
+              Employees
+            </Link>
 
             <Link
               to="/admin/departments"
@@ -171,6 +185,14 @@ function Navbar() {
             >
               <span className="menu-icon">▦</span>
               Departments
+            </Link>
+
+            <Link
+              to="/admin/documents"
+              className={isActive("/admin/documents") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Documents List
             </Link>
 
             <Link
@@ -191,7 +213,9 @@ function Navbar() {
 
             <Link
               to="/admin/leave-corrections"
-              className={isActive("/admin/leave-corrections") ? "active" : ""}
+              className={
+                isActive("/admin/leave-corrections") ? "active" : ""
+              }
             >
               <span className="menu-icon">✎</span>
               Leave Correction Requests
@@ -222,6 +246,14 @@ function Navbar() {
             </Link>
 
             <Link
+              to="/admin/audit-logs"
+              className={isActive("/admin/audit-logs") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Audit Logs
+            </Link>
+
+            <Link
               to="/admin/leave-requests"
               className={isActive("/admin/leave-requests") ? "active" : ""}
             >
@@ -233,14 +265,12 @@ function Navbar() {
       </div>
 
       {/* LOGOUT */}
-      {user && (
-        <div className="sidebar-footer">
-          <button className="logout-btn" onClick={logout}>
-            <span>↪</span>
-            {t("nav.signOut")}
-          </button>
-        </div>
-      )}
+      <div className="sidebar-footer">
+        <button className="logout-btn" onClick={logout}>
+          <span>↪</span>
+          {t("nav.signOut")}
+        </button>
+      </div>
     </aside>
   );
 }

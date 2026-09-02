@@ -23,6 +23,9 @@ const SignInForm = ({}) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+  }
+  async function handleSubmit(event) {
+    event.preventDefault();
     try {
       const signedInUser = await signIn(formData);
 

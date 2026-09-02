@@ -15,6 +15,24 @@ async function getMyCheckins() {
 }
 
 
+ async function getAllCheckins() {
+  const response = await api.get(
+    "/checkIn"
+  );
+
+  return response.data;
+}
+
+
+ async function getEmployeeCheckins(
+  userId
+) {
+  const response = await api.get(
+    `/checkIn/employee/${userId}`
+  );
+
+  return response.data;
+}
 
 
 
@@ -24,6 +42,8 @@ export {
 
     checkIn, 
     checkOut,
-    getMyCheckins
+    getMyCheckins,
+    getAllCheckins,
+    getEmployeeCheckins
 
 };
