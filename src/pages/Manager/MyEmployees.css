@@ -1,0 +1,61 @@
+.manager-employees-page {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 35px;
+  color: #2b1b3d;
+}
+
+.manager-employees-header { margin-bottom: 24px; }
+.manager-employees-header p { margin: 0 0 5px; color: #7f6d91; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; }
+.manager-employees-header h1 { margin: 0; font-size: 30px; }
+.manager-employees-header span { display: block; margin-top: 7px; color: #7f6d91; font-size: 13px; }
+
+.manager-employees-error { margin-bottom: 20px; padding: 13px; color: #a32f2f; background: rgba(163, 47, 47, .06); border: 1px solid rgba(163, 47, 47, .2); border-radius: 9px; }
+
+.manager-employees-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+.manager-employees-summary-card { padding: 18px; background: #fff; border: 1px solid #dbd1e8; border-radius: 11px; }
+.manager-employees-summary-card span { display: block; color: #7f6d91; font-size: 11px; }
+.manager-employees-summary-card strong { display: block; margin-top: 6px; font-size: 24px; }
+.manager-employees-summary-card.green strong { color: #1f7a54; }
+.manager-employees-summary-card.amber strong { color: #a8631b; }
+
+.manager-employees-card { overflow: hidden; background: #fff; border: 1px solid #dbd1e8; border-radius: 12px; }
+.manager-employees-toolbar { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; padding: 20px 22px; border-bottom: 1px solid #dbd1e8; }
+.manager-employees-toolbar h2 { display: inline; margin: 0 10px 0 0; font-size: 18px; }
+.manager-employees-toolbar span { color: #7f6d91; font-size: 12px; }
+.manager-employees-filters { display: flex; gap: 10px; }
+.manager-employees-filters input, .manager-employees-filters select { min-width: 190px; padding: 9px 11px; color: #59476b; background: #fff; border: 1px solid #dbd1e8; border-radius: 7px; }
+
+.manager-employee-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 20px; background: #faf8fc; }
+.manager-employee-card { padding: 18px; background: #fff; border: 1px solid #dbd1e8; border-radius: 11px; }
+.manager-employee-card-top { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #eee8f4; }
+.manager-employee-avatar { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; color: #fff; background: #59476b; border-radius: 50%; font-weight: 700; }
+.manager-employee-card h3 { margin: 0; font-size: 15px; }
+.manager-employee-card-top p { margin: 3px 0 0; color: #7f6d91; font-size: 12px; }
+.manager-employee-status { padding: 5px 9px; border-radius: 20px; background: #f5f2f9; font-size: 10px; font-weight: 700; }
+.manager-employee-status.status-active { color: #1f7a54; background: #e4f4ec; }
+.manager-employee-status.status-on_leave { color: #a8631b; background: #fff1dc; }
+.manager-employee-status.status-suspended, .manager-employee-status.status-left { color: #a32f2f; background: #fbecec; }
+
+.manager-employee-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 16px 0 0; }
+.manager-employee-details div { min-width: 0; }
+.manager-employee-details dt { color: #7f6d91; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.manager-employee-details dd { overflow: hidden; margin: 5px 0 0; color: #59476b; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.manager-employee-details-button { display: block; margin-top: 18px; padding: 10px 14px; color: #fff; background: #2b1b3d; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: center; text-decoration: none; }
+.manager-employee-details-button:hover { background: #59476b; }
+.manager-employees-state { padding: 50px 20px; color: #7f6d91; text-align: center; }
+
+@media (max-width: 850px) {
+  .manager-employees-toolbar { align-items: stretch; flex-direction: column; }
+  .manager-employee-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .manager-employees-page { padding: 22px 16px; }
+  .manager-employees-summary { grid-template-columns: 1fr; }
+  .manager-employees-filters { flex-direction: column; }
+  .manager-employees-filters input, .manager-employees-filters select { width: 100%; box-sizing: border-box; }
+  .manager-employee-card-top { grid-template-columns: auto 1fr; }
+  .manager-employee-status { grid-column: 1 / -1; width: fit-content; }
+  .manager-employee-details { grid-template-columns: 1fr; }
+}

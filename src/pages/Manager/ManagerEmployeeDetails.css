@@ -1,0 +1,33 @@
+.manager-employee-detail-page { max-width: 1050px; margin: 0 auto; padding: 35px; color: #2b1b3d; }
+.manager-detail-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.manager-detail-header p { margin: 0 0 5px; color: #7f6d91; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; }
+.manager-detail-header h1 { margin: 0; font-size: 30px; }
+.manager-detail-header div > span { display: block; margin-top: 7px; color: #7f6d91; font-size: 13px; }
+.manager-detail-back { padding: 10px 14px; color: #59476b; background: #fff; border: 1px solid #dbd1e8; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; }
+
+.manager-detail-error { margin-bottom: 18px; padding: 13px; color: #a32f2f; background: rgba(163, 47, 47, .06); border: 1px solid rgba(163, 47, 47, .2); border-radius: 9px; }
+.manager-detail-state { padding: 50px; color: #7f6d91; text-align: center; }
+.manager-detail-profile { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin-bottom: 18px; padding: 22px; background: #fff; border: 1px solid #dbd1e8; border-radius: 12px; }
+.manager-detail-avatar { display: flex; align-items: center; justify-content: center; width: 58px; height: 58px; color: #fff; background: #59476b; border-radius: 50%; font-size: 22px; font-weight: 700; }
+.manager-detail-profile h2 { margin: 0; font-size: 20px; }
+.manager-detail-profile p { margin: 3px 0; color: #7f6d91; font-size: 13px; }
+.manager-detail-profile div > span { color: #59476b; font-size: 12px; }
+.manager-detail-status { padding: 6px 10px; background: #f5f2f9; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.manager-detail-status.status-active { color: #1f7a54; background: #e4f4ec; }
+.manager-detail-status.status-on_leave { color: #a8631b; background: #fff1dc; }
+.manager-detail-status.status-suspended, .manager-detail-status.status-left { color: #a32f2f; background: #fbecec; }
+
+.manager-detail-section { margin-bottom: 18px; padding: 22px; background: #fff; border: 1px solid #dbd1e8; border-radius: 12px; }
+.manager-detail-section h2 { margin: 0 0 18px; font-size: 17px; }
+.manager-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0; }
+.manager-detail-item dt { color: #7f6d91; font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; }
+.manager-detail-item dd { margin: 6px 0 0; color: #59476b; font-size: 13px; overflow-wrap: anywhere; }
+
+@media (max-width: 700px) {
+  .manager-employee-detail-page { padding: 22px 16px; }
+  .manager-detail-header { align-items: stretch; flex-direction: column; }
+  .manager-detail-back { width: fit-content; }
+  .manager-detail-profile { grid-template-columns: auto 1fr; }
+  .manager-detail-status { grid-column: 1 / -1; width: fit-content; }
+  .manager-detail-grid { grid-template-columns: 1fr; }
+}

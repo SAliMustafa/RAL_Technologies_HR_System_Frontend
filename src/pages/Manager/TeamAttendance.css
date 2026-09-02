@@ -1,0 +1,54 @@
+.team-attendance-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 35px;
+  color: #2b1b3d;
+}
+
+.team-attendance-header { margin-bottom: 24px; }
+.team-attendance-header p { margin: 0 0 5px; color: #7f6d91; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; }
+.team-attendance-header h1 { margin: 0; font-size: 30px; }
+.team-attendance-header span { display: block; margin-top: 7px; color: #7f6d91; font-size: 13px; }
+
+.team-attendance-error { margin-bottom: 20px; padding: 13px; color: #a32f2f; background: rgba(163, 47, 47, .06); border: 1px solid rgba(163, 47, 47, .2); border-radius: 9px; }
+
+.team-attendance-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+.team-summary-card { padding: 18px; background: #fff; border: 1px solid #dbd1e8; border-radius: 11px; }
+.team-summary-card span { display: block; color: #7f6d91; font-size: 11px; }
+.team-summary-card strong { display: block; margin-top: 6px; font-size: 24px; }
+.team-summary-card.green strong { color: #1f7a54; }
+.team-summary-card.amber strong { color: #a8631b; }
+
+.team-attendance-card { overflow: hidden; background: #fff; border: 1px solid #dbd1e8; border-radius: 12px; }
+.team-attendance-toolbar { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; padding: 20px; border-bottom: 1px solid #eee8f4; }
+.team-attendance-toolbar h2 { margin: 0; font-size: 18px; }
+.team-attendance-toolbar > div > span { color: #7f6d91; font-size: 12px; }
+.team-attendance-filters { display: flex; flex-wrap: wrap; gap: 9px; }
+.team-attendance-filters input, .team-attendance-filters select { padding: 9px 10px; color: #59476b; background: #fff; border: 1px solid #dbd1e8; border-radius: 7px; }
+.team-attendance-filters button { padding: 9px 12px; color: #59476b; background: #f5f2f9; border: 0; border-radius: 7px; cursor: pointer; }
+
+.team-attendance-table-wrap { overflow-x: auto; }
+.team-attendance-table { width: 100%; border-collapse: collapse; }
+.team-attendance-table th { padding: 12px 15px; color: #7f6d91; background: #faf8fc; text-align: left; font-size: 11px; text-transform: uppercase; }
+.team-attendance-table td { padding: 14px 15px; border-top: 1px solid #eee8f4; color: #59476b; font-size: 13px; white-space: nowrap; }
+.team-attendance-table td:first-child strong, .team-attendance-table td:first-child span { display: block; }
+.team-attendance-table td:first-child strong { color: #2b1b3d; }
+.team-attendance-table td:first-child span { margin-top: 3px; color: #7f6d91; font-size: 11px; }
+.team-status { display: inline-block; padding: 5px 9px; background: #f5f2f9; border-radius: 20px; font-size: 11px; }
+.team-status.status-present { color: #1f7a54; background: rgba(31, 122, 84, .09); }
+.team-status.status-absent { color: #a32f2f; background: rgba(163, 47, 47, .08); }
+.team-status.status-pending, .team-status.status-half_day { color: #a8631b; background: rgba(168, 99, 27, .09); }
+.attendance-flags span { display: inline-block; margin-right: 5px; padding: 4px 7px; color: #a8631b; background: rgba(168, 99, 27, .09); border-radius: 5px; font-size: 10px; }
+.team-attendance-state { padding: 45px 20px; color: #7f6d91; text-align: center; }
+
+@media (max-width: 900px) {
+  .team-attendance-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team-attendance-toolbar { align-items: stretch; flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .team-attendance-page { padding: 22px 16px; }
+  .team-attendance-summary { grid-template-columns: 1fr; }
+  .team-attendance-filters { flex-direction: column; }
+  .team-attendance-filters input, .team-attendance-filters select, .team-attendance-filters button { width: 100%; }
+}

@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
-import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
 import SignInPage from "./pages/SigninPage";
 
@@ -18,6 +16,9 @@ import AttendanceDetail from "./pages/Attendance/AttendanceDetail";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
+import TeamAttendance from "./pages/Manager/TeamAttendance";
+import MyEmployees from "./pages/Manager/MyEmployees";
+import ManagerEmployeeDetails from "./pages/Manager/ManagerEmployeeDetails";
 
 
 // Hr-Admin page
@@ -47,16 +48,14 @@ import CreateEmployee from "./pages/Admin/CreateEmployee";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
-import { useEffect } from "react";
-import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
 function App() {
   return (
     <div>
       <Navbar />
       <div className="app-content">
       <Routes>
+        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/" element={<Homepage /> } />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
@@ -69,6 +68,7 @@ function App() {
         <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetails /></ProtectedRoute>} />
         <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
         <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee", "manager"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
         <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
         <Route path="/attendance/:id" element={<ProtectedRoute><AttendanceDetail /></ProtectedRoute>} />
 
@@ -133,6 +133,30 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route
+          path="/manager/attendance"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <TeamAttendance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/employees"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <MyEmployees />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/employees/:employeeId"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <ManagerEmployeeDetails />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/manager/leave-requests"

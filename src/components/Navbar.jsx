@@ -125,15 +125,59 @@ function Navbar() {
 
         {user?.role === "manager" && (
           <>
-            <p className="sidebar-section-title">MY TEAM</p>
+            <p className="sidebar-section-title">MY ACCOUNT</p>
+
+            <Link
+              to="/dashboard-manager"
+              className={isActive("/dashboard-manager") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Dashboard
+            </Link>
+
+            <Link
+              to="/MyProfile"
+              className={isActive("/MyProfile") ? "active" : ""}
+            >
+              <span className="menu-icon">♙</span>
+              My Profile
+            </Link>
+
+            <Link
+              to="/my-attendance"
+              className={isActive("/my-attendance") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              My Attendance
+            </Link>
+
+            <Link
+              to="/my-checkins"
+              className={isActive("/my-checkins") ? "active" : ""}
+            >
+              <span className="menu-icon">◷</span>
+              My Checkins
+            </Link>
 
             <Link
               to="/leave-allocations"
               className={isActive("/leave-allocations") ? "active" : ""}
             >
               <span className="menu-icon">▤</span>
-              Leave Balances
+              My Leave Balances
             </Link>
+
+            <Link
+              to="/employee/leave-requests"
+              className={
+                isActive("/employee/leave-requests") ? "active" : ""
+              }
+            >
+              <span className="menu-icon">▣</span>
+              My Leave Requests
+            </Link>
+
+            <p className="sidebar-section-title">MY TEAM</p>
 
             <Link
               to="/manager/leave-requests"
