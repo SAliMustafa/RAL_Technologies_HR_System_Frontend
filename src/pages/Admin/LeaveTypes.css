@@ -198,6 +198,9 @@ button:disabled {
 .row-actions .danger-link {
   color: var(--red);
 }
+.row-actions .activate-link {
+  color: var(--green);
+}
 .table-state {
   min-height: 220px;
   display: flex;

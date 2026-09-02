@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import {
+  activateLeaveType,
   createLeaveType,
   deactivateLeaveType,
   getLeaveTypes,
@@ -39,6 +40,7 @@ function LeaveTypes() {
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
   const [deactivating, setDeactivating] = useState(null);
+  const [activatingId, setActivatingId] = useState(null);
 
   const loadLeaveTypes = useCallback(async () => {
     setLoading(true);
@@ -151,6 +153,20 @@ function LeaveTypes() {
     }
   }
 
+  async function reactivate(leaveType) {
+    setActivatingId(leaveType._id);
+    setError("");
+    try {
+      await activateLeaveType(leaveType._id);
+      setSuccess("Leave type reactivated successfully.");
+      await loadLeaveTypes();
+    } catch (requestError) {
+      setError(errorMessage(requestError, "Unable to reactivate the leave type."));
+    } finally {
+      setActivatingId(null);
+    }
+  }
+
   return (
     <main className="leave-types-page">
       <div className="leave-types-header">
@@ -200,7 +216,16 @@ function LeaveTypes() {
                       {!leaveType.requires_document && !leaveType.carry_forward && !leaveType.requires_service_months && !leaveType.gender_restriction && !leaveType.once_per_lifetime && <span className="muted-tag">Standard</span>}
                     </div></td>
                     <td><span className={`status-badge ${leaveType.is_active ? "active" : "inactive"}`}>{leaveType.is_active ? "Active" : "Inactive"}</span></td>
-                    <td><div className="row-actions"><button onClick={() => openEdit(leaveType)}>Edit</button>{leaveType.is_active && <button className="danger-link" onClick={() => setDeactivating(leaveType)}>Deactivate</button>}</div></td>
+                    <td><div className="row-actions">
+                      <button onClick={() => openEdit(leaveType)}>Edit</button>
+                      {leaveType.is_active ? (
+                        <button className="danger-link" onClick={() => setDeactivating(leaveType)}>Deactivate</button>
+                      ) : (
+                        <button className="activate-link" onClick={() => reactivate(leaveType)} disabled={activatingId === leaveType._id}>
+                          {activatingId === leaveType._id ? "Reactivating..." : "Reactivate"}
+                        </button>
+                      )}
+                    </div></td>
                   </tr>
                 ))}
               </tbody>
