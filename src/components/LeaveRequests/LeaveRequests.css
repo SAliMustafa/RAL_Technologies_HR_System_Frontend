@@ -58,6 +58,10 @@
   cursor: pointer;
 }
 
+.request-row-actions .request-danger-link {
+  color: var(--red);
+}
+
 .request-status {
   display: inline-block;
   padding: 5px 9px;
@@ -422,7 +426,8 @@
 }
 
 .request-primary-button,
-.request-secondary-button {
+.request-secondary-button,
+.request-danger-button {
   padding: 11px 16px;
   border: 0;
   border-radius: 8px;
@@ -443,10 +448,113 @@
   color: var(--mid);
 }
 
+.request-danger-button {
+  background: var(--red);
+  color: white;
+}
+
 .request-primary-button:disabled,
-.request-secondary-button:disabled {
+.request-secondary-button:disabled,
+.request-danger-button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.request-confirm-modal {
+  width: min(430px, 100%);
+  padding: 28px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+  text-align: center;
+}
+
+.request-confirm-modal h2 {
+  margin: 12px 0 8px;
+  font-size: 20px;
+}
+
+.request-confirm-modal > p,
+.request-decision-content > p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.request-confirm-modal .request-form-error {
+  margin: 16px 0 0;
+  text-align: start;
+}
+
+.request-confirm-modal .request-form-actions {
+  justify-content: center;
+}
+
+.request-confirm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff1dc;
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.request-confirm-icon.danger {
+  background: #fbecec;
+  color: var(--red);
+}
+
+.request-decision-modal {
+  width: min(520px, 100%);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+
+.request-decision-content {
+  padding: 22px 24px 24px;
+}
+
+.request-decision-content > p {
+  margin-bottom: 18px;
+}
+
+.request-decision-content label {
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.request-decision-content label > span {
+  color: var(--red);
+}
+
+.request-decision-content textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 7px;
+  padding: 10px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+
+.request-decision-content textarea:focus {
+  outline: 2px solid var(--lavender);
+  border-color: var(--mid);
+}
+
+.request-decision-content small {
+  display: block;
+  margin-top: 5px;
+  color: var(--soft);
+  font-weight: 400;
 }
 
 @media (max-width: 650px) {
