@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router'
-import {createEmployee, getDepartment} from '../../services/employeeService'
+import {createEmployee, getAllEmployees} from '../../services/employeeService'
+import {getDepartments} from '../../services/departmentService'
+import generateEmployeeCode from '../../utils/generateEmployeeCode'
 import './EmployeeManagement.css'
 
 const genderOptions = ["male", "female"];
@@ -38,17 +40,65 @@ function CreateEmployee() {
     const [form, setForm] = useState(createuser)
     const [error, setError] = useState("")
     const [saving, setSaving] = useState(false)
+    const [departments, setDepartments] = useState([])
+    const [employees, setEmployees] = useState([])
+
+    useEffect(() => {
+      async function loadData() {
+        try {
+            const [departmentsData, employeesData] = await Promise.all([
+                getDepartments(),
+                getAllEmployees()
+            ]);
+            setDepartments(departmentsData);
+            setEmployees(employeesData);
+            setForm((prevForm) => ({
+                ...prevForm,
+                employee_code: generateEmployeeCode(employeesData)
+            }));
+        } catch(err){
+            setError(err.response?.data?.error || "Failed to load data")
+        }
+    }
+    loadData()
+    }, [])
 
     function handleChange(event){
   const { name, value,type,checked } = event.target;
   setForm({...form, [name]: type === "checkbox" ? checked : value });
 }
+function handleDepartmentChange(event) {
+    const departmentId = event.target.value
+    const department = departments.find((dept) => dept._id === departmentId)
+    setForm((prev) => ({
+      ...prev,
+      department_id: departmentId,
+      reports_to: department?.head_employee_id || prev.reports_to,
+    }))
+  }
+
+  async function attemptCreate(payload, attempt = 0) {
+    try {
+      await createEmployee(payload)
+    } catch (err) {
+      const isDuplicateCode =
+        err.response?.status === 409 &&
+        err.response?.data?.error?.toLowerCase().includes("employee code")
+      if (isDuplicateCode && attempt < 3) {
+        const match = payload.employee_code.match(/^EMP-(\d+)$/)
+        const nextNumber = (match ? parseInt(match[1], 10) : 0) + 1
+        const nextCode = `EMP-${String(nextNumber).padStart(4, "0")}`
+        return attemptCreate({ ...payload, employee_code: nextCode }, attempt + 1)
+      }
+      throw err
+    }
+  }
 async function handleSubmit(event){
   event.preventDefault();
   setError("");
   setSaving(true);
   try{
-      await createEmployee({
+      await attemptCreate({
         ...form, 
         is_bahraini: form.is_bahraini === "yes" ? true : false,
         department_id: form.department_id || undefined,
@@ -118,9 +168,8 @@ async function handleSubmit(event){
           type="text"
           id="employee_code"
           name="employee_code"
-          value={form.employee_code || ""}
-          onChange={handleChange}
-          required
+          value={form.employee_code}
+          readOnly
         />
       </div>
       <div className='form-field'>
@@ -214,23 +263,40 @@ async function handleSubmit(event){
           <div className="form-grid">
             <div className="form-field">
               <label htmlFor="department_id">Department ID</label>
-              <input
+              <select
                 type="text"
                 id="department_id"
                 name="department_id"
                 value={form.department_id}
-                onChange={handleChange}
-              />
+                onChange={handleDepartmentChange}
+              >
+              <option value="" disabled>Select Department</option>
+              {departments.map((department) => (
+                <option key={department._id} value={department._id}>
+                  {department.name}
+                </option>
+              ))}
+              </select>
             </div>
             <div className="form-field">
               <label htmlFor="reports_to">Reports To</label>
-              <input
+              <select
                 type="text"
                 id="reports_to"
                 name="reports_to"
                 value={form.reports_to}
                 onChange={handleChange}
-              />
+              >
+                <option value="" disabled>Select Manager</option>
+                {employees.map((row) => {
+                    const employee = row.employeeId || row
+                    return (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.name_en} ({employee.employee_code})
+                  </option>
+                    )
+                })}
+              </select>
             </div>
             <div className="form-field">
               <label htmlFor="job_title">Job Title</label>

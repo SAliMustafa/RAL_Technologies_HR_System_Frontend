@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import {getEmployeeById, updateEmployee, updateEmployeeStatus} from "../../services/employeeService";
-import getEmployeeName from "../../utils/getEmployeeName"
+import {getDepartments} from "../../services/departmentService";
 import "../../style/style.css"
 import "./EmployeeManagement.css"
 
@@ -28,11 +28,19 @@ function EmployeeDetail() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [departments, setDepartments] = useState([]);
+    const [employees, setEmployees] = useState([]);
 
     useEffect(()=>{
       async function loadEmployee(){
         try{
-          const data = await getEmployeeById(id)
+          const [data, departmentData, employeeData] = await Promise.all([
+            getEmployeeById(id),
+            getDepartments(),
+            getAllEmployees()
+          ])
+          setDepartments(departmentData)
+          setEmployees(employeeData)
           const employee = data.employeeId || {}
           setForm({
           username: data.username || "",
@@ -72,6 +80,11 @@ function EmployeeDetail() {
 function handleChange(event){
   const { name, value,type,checked } = event.target;
   setForm({...form, [name]: type === "checkbox" ? checked : value });
+}
+function handledepartmentChange(event){
+  const departmentId = event.target.value;
+  const department = departments.find((dept) => dept._id === departmentId);
+  setForm((prev) => ({ ...prev, department_id: departmentId, reports_to: department?.head_employee_id || prev.reports_to }));
 }
 async function handleSubmit(event){
   event.preventDefault();
@@ -259,23 +272,44 @@ return (
           <div className="form-grid">
             <div className="form-field">
               <label htmlFor="department_id">{t("employees.fields.departmentId")}</label>
-              <input
-                type="text"
+              <select
                 id="department_id"
                 name="department_id"
                 value={form.department_id}
-                onChange={handleChange}
-              />
+                onChange={handleDepartmentChange}
+              >
+                <option value="" disabled>
+                  --Select Department--
+                </option>
+                {departments.map((dept) => (
+                  <option key={dept._id} value={dept._id}>
+                    {dept.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-field">
               <label htmlFor="reports_to">{t("employees.fields.reportsTo")}</label>
-              <input
-                type="text"
+              <select
                 id="reports_to"
                 name="reports_to"
                 value={form.reports_to}
                 onChange={handleChange}
-              />
+              >
+                <option value="">
+                  --None--
+                </option>
+                {employees
+                .filter((row) => (row.employeeId?._id || row._id) !== id)
+                .map((row) =>  {
+                  const employee = row.employeeId || row
+                  return (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.name_en} ({employee.employee_code})
+                  </option>
+                  )
+                })}
+              </select>
             </div>
             <div className="form-field">
               <label htmlFor="job_title">{t("employees.fields.jobTitle")}</label>

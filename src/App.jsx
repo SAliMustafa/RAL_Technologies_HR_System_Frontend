@@ -12,6 +12,7 @@ import DocumentDetails from "./pages/Employee/DocumentDetails";
 import MyCheckins from "./pages/Employee/MyCheckins";
 import MyAttendance from "./pages/Employee/MyAttendance";
 import EmployeeLeaveRequests from "./pages/Employee/EmployeeLeaveRequests/EmployeeLeaveRequests";
+import AttendanceDetail from "./pages/Attendance/AttendanceDetail";
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
@@ -51,12 +52,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <div>
-      <Navbar/>
-       <div className="app-content">
-
-
+      <Navbar />
+      <div className="app-content">
       <Routes>
         {/* <Route path="/sign-up" element={<SignupPage />} /> */}
+        <Route path="/" element={<Homepage /> } />
+        <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
@@ -68,6 +69,8 @@ function App() {
         <Route path="/my-checkins" element={<ProtectedRoute><MyCheckins /></ProtectedRoute>} />
         <Route path="/my-attendance" element={<ProtectedRoute><MyAttendance /></ProtectedRoute>} />
         <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee", "manager"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
+        <Route path="/employee/leave-requests"element={<ProtectedRoute allowedRoles={["employee"]}><EmployeeLeaveRequests /></ProtectedRoute>}/>
+        <Route path="/attendance/:id" element={<ProtectedRoute><AttendanceDetail /></ProtectedRoute>} />
 
         {/* // Hr-Admin page */}
 

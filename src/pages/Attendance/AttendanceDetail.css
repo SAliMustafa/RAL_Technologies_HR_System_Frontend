@@ -1,0 +1,17 @@
+.attendance-detail-page { padding: 42px; color: var(--ink); max-width: 720px; }
+.attendance-detail-header { margin-bottom: 24px; }
+.attendance-detail-header h1 { margin: 4px 0 6px; font-size: 28px; }
+.attendance-detail-card {
+  margin-bottom: 20px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: white;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 32px;
+}
+.detail-grid dt { font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--soft); margin-bottom: 4px; }
+.detail-grid dd { margin: 0; font-size: 15px; }
