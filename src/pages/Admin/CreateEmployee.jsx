@@ -2,14 +2,13 @@ import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router'
 import {createEmployee, getAllEmployees} from '../../services/employeeService'
 import {getDepartments} from '../../services/departmentService'
-import generateEmployeeCode from '../../utils/generateEmployeeCode'
+import generateNextEmployeeCode from '../../utils/generateNextEmployeeCode'
 import './EmployeeManagement.css'
 
 const genderOptions = ["male", "female"];
 const employmentTypeOptions = ["full_time", "part_time", "fixed_term"];
 const roleOptions = ["employee", "manager", "hr_admin"];
 
-import React from 'react'
 const createuser ={
     username: "",
     password: "",
@@ -54,7 +53,7 @@ function CreateEmployee() {
             setEmployees(employeesData);
             setForm((prevForm) => ({
                 ...prevForm,
-                employee_code: generateEmployeeCode(employeesData)
+                employee_code: generateNextEmployeeCode(employeesData)
             }));
         } catch(err){
             setError(err.response?.data?.error || "Failed to load data")
