@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router'
 import {createEmployee, getDepartment} from '../../services/employeeService'
+import './EmployeeManagement.css'
 
 const genderOptions = ["male", "female"];
 const employmentTypeOptions = ["full_time", "part_time", "fixed_term"];
@@ -281,19 +282,22 @@ async function handleSubmit(event){
                 ))}
               </select>
             </div>
-            <label className="form-checkbox">
+            <label className="probation-consent-field">
               <input
               type="checkbox"
               name="probation_extended_with_consent"
               checked={form.probation_extended_with_consent}
               onChange={handleChange}
               />
-                Probation Extended with Consent 
+              <span>
+                <strong>Probation extended with written consent</strong>
+                <small>Extension is permitted up to a total probation period of 6 months.</small>
+              </span>
             </label>
           </div>
         </div>
         <div className="form-section">
-          <p className="form-section-title">Iban</p>
+          <p className="form-section-title">Bank Details</p>
           <div className="form-grid">
             <div className="form-field">
               <label htmlFor="iban">IBAN</label>
