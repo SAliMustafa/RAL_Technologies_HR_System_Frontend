@@ -1,74 +1,44 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router";
-import { useTranslation } from "react-i18next";
-import {getEmployeeById, updateEmployee, updateEmployeeStatus} from "../../services/employeeService";
-import getEmployeeName from "../../utils/getEmployeeName"
-import "../../style/style.css"
+import {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router'
+import {createEmployee, getDepartment} from '../../services/employeeService'
 
-import React from 'react'
-const statusOptions = ["active", "on_leave", "suspended", "left"];
 const genderOptions = ["male", "female"];
 const employmentTypeOptions = ["full_time", "part_time", "fixed_term"];
 const roleOptions = ["employee", "manager", "hr_admin"];
 
-function toDateInputValue(value){
-    return value ? value.slice(0,10) : ''
+import React from 'react'
+const createuser ={
+    username: "",
+    password: "",
+    role: "employee",
+    employee_code: "",
+    name_en: "",
+    name_ar: "",
+    cpr_number: "",
+    date_of_birth: "",
+    gender: "",
+    nationality: "",
+    is_bahraini: "",
+    department_id: "",
+    reports_to: "",
+    job_title: "",
+    date_of_joining: "",
+    probation_end_date: "",
+    probation_extended_with_consent: false,
+    employment_type: "",
+    iban: "",
+    bank_name: "",
+    mobile: "",
+    email_personal: "",
+    email_work: "",
 }
-
-function EmployeeDetail() {
-
-    const { t } = useTranslation()
-    const {id} = useParams()
+function CreateEmployee() {
     const navigate = useNavigate()
+    const [form, setForm] = useState(createuser)
+    const [error, setError] = useState("")
+    const [saving, setSaving] = useState(false)
 
-    const [form, setForm] = useState(null)
-    const [status, setStatus] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [saving, setSaving] = useState(false);
-
-    useEffect(()=>{
-      async function loadEmployee(){
-        try{
-          const data = await getEmployeeById(id)
-          const employee = data.employeeId || {}
-          setForm({
-          username: data.username || "",
-          role: data.role || "employee",
-          employee_code: employee.employee_code || "",
-          name_en: employee.name_en || "",
-          name_ar: employee.name_ar || "",
-          cpr_number: employee.cpr_number || "",
-          date_of_birth: toDateInputValue(employee.date_of_birth),
-          gender: employee.gender || "",
-          nationality: employee.nationality || "",
-          is_bahraini: employee.is_bahraini ? "yes" : "no",
-          department_id: employee.department_id || "",
-          reports_to: employee.reports_to || "",
-          job_title: employee.job_title || "",
-          date_of_joining: toDateInputValue(employee.date_of_joining),
-          probation_end_date: toDateInputValue(employee.probation_end_date),
-          probation_extended_with_consent:
-          employee.probation_extended_with_consent || false,
-          employment_type: employee.employment_type || "",
-          iban: employee.iban || "",
-          bank_name: employee.bank_name || "",
-          mobile: employee.mobile || "",
-          email_personal: employee.email_personal || "",
-          email_work: employee.email_work || "",
-        })
-          setStatus(employee.status || "")
-        } catch(err){
-          setError(err.response?.data?.error || t("employees.detail.loadError"))
-        } finally{
-          setLoading(false)
-        }
-    }
-
-    loadEmployee()
-},[id, t])
-function handleChange(event){
+    function handleChange(event){
   const { name, value,type,checked } = event.target;
   setForm({...form, [name]: type === "checkbox" ? checked : value });
 }
@@ -77,62 +47,35 @@ async function handleSubmit(event){
   setError("");
   setSaving(true);
   try{
-    await updateEmployee(id, {
-      ...form, 
-      is_bahraini: form.is_bahraini === "yes" ? true : false,
-      department_id: form.department_id || undefined,
-      reports_to: form.reports_to || undefined,
-      probation_end_date: form.probation_end_date || undefined,
-      email_personal: form.email_personal || undefined,
-      email_work: form.email_work || undefined
-    })
-    navigate("/employees")
-  } catch(err){
-    setError(err.response?.data?.error || t("employees.detail.saveError"))
-  }finally{
-    setSaving(false)
-  }
+      await createEmployee({
+        ...form, 
+        is_bahraini: form.is_bahraini === "yes" ? true : false,
+        department_id: form.department_id || undefined,
+        reports_to: form.reports_to || undefined,
+        probation_end_date: form.probation_end_date || undefined,
+        email_personal: form.email_personal || undefined,
+        email_work: form.email_work || undefined
+      })
+      navigate("/employees")
+    }  catch(err){
+        setError(err.response?.data?.error || "Failed to create employee")
+    } finally{
+        setSaving(false)
     }
-    async function handleStatusChange(event){
-      const newStatus = event.target.value;
-      setError("");
-      try{
-        await updateEmployeeStatus(id, newStatus)
-        setStatus(newStatus)
-      }
-    catch(err){
-      setError(err.response?.data?.error || t("employees.detail.statusUpdateError"))
-    }
-  }
-if (loading) {
-  return <p className="loading-text">{t("employees.detail.loading")}</p>;
 }
-if(!form) {
-  return <p className="error-message">{error || t("error")}</p>;
-}
-return (
-  <div className="page">
-    <h1 className="page-title">{t("employees.detail.title")}</h1>
+  return (
+    <div className="page">
+    <h1 className="page-title">Create Employee</h1>
 
     {error && <p className="error-message">{error}</p>}
 
-    <div className="form-field"> 
-    <label htmlFor="status">{t("employees.fields.status")}</label>
-    <select id="status" value={status} onChange={handleStatusChange}>
-      {statusOptions.map((option) => (
-        <option key={option} value={option}>
-          {t(`employees.statusValues.${option}`)}
-        </option>
-      ))}
-    </select>
-  </div>
 
   <form onSubmit={handleSubmit}>
     <div className="form-section">
-      <p className="form-section-title">{t("employees.detail.account")}</p>
+      <p className="form-section-title">Account</p>
       <div className="form-grid">
         <div className="form-field">
-          <label htmlFor="username">{t("employees.fields.username")}</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
@@ -143,11 +86,22 @@ return (
           />
         </div>
         <div className="form-field">
-          <label htmlFor="role">{t("employees.fields.role")}</label>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={form.password || ""}
+              onChange={handleChange}
+              required
+            />
+        </div>
+        <div className="form-field">
+          <label htmlFor="role">Role</label>
           <select id="role" name="role" value={form.role || ""} onChange={handleChange}>
             {roleOptions.map((option) => (
               <option key={option} value={option}>
-                {t(`employees.roleValues.${option}`)}
+                {option}
               </option>
             ))}
           </select>
@@ -155,10 +109,10 @@ return (
       </div>
 </div>
 <div className="form-section">
-    <p className="form-section-title">{t("employees.detail.personal")}</p>
+    <p className="form-section-title">Personal Information</p>
     <div className="form-grid">
       <div className="form-field">
-        <label htmlFor="employee_code">{t("employees.fields.employeeCode")}</label>
+        <label htmlFor="employee_code">Employee Code</label>
         <input
           type="text"
           id="employee_code"
@@ -169,7 +123,7 @@ return (
         />
       </div>
       <div className='form-field'>
-        <label htmlFor="name_en">{t("employees.fields.nameEn")}</label>
+        <label htmlFor="name_en">Name (English)</label>
           <input
             type="text"
             id="name_en"
@@ -180,7 +134,7 @@ return (
               />
       </div>
       <div className="form-field">
-        <label htmlFor="name_ar">{t("employees.fields.nameAr")}</label>
+        <label htmlFor="name_ar">Name (Arabic)</label>
           <input
             type="text"
             id="name_ar"
@@ -191,7 +145,7 @@ return (
               />
       </div>
             <div className="form-field">
-              <label htmlFor="cpr_number">{t("employees.fields.cprNumber")}</label>
+              <label htmlFor="cpr_number">CPR Number</label>
               <input
                 type="text"
                 id="cpr_number"
@@ -204,7 +158,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="date_of_birth">{t("employees.fields.dateOfBirth")}</label>
+              <label htmlFor="date_of_birth">Date of Birth</label>
               <input
                 type="date"
                 id="date_of_birth"
@@ -215,10 +169,10 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="gender">{t("employees.fields.gender")}</label>
+              <label htmlFor="gender">Gender</label>
               <select id="gender" name="gender" value={form.gender} onChange={handleChange} required>
                 <option value="" disabled>
-                  {t("employees.detail.select")}
+                  Select Gender
                 </option>
                 {genderOptions.map((option) => (
                   <option key={option} value={option}>
@@ -228,7 +182,7 @@ return (
               </select>
             </div>
             <div className="form-field">
-              <label htmlFor="nationality">{t("employees.fields.nationality")}</label>
+              <label htmlFor="nationality">Nationality</label>
               <input
                 type="text"
                 id="nationality"
@@ -239,7 +193,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="is_bahraini">{t("employees.fields.isBahraini")}</label>
+              <label htmlFor="is_bahraini">Is Bahraini</label>
               <select
                 id="is_bahraini"
                 name="is_bahraini"
@@ -247,17 +201,18 @@ return (
                 onChange={handleChange}
                 required
               >
-                <option value="yes">{t("employees.detail.yes")}</option>
-                <option value="no">{t("employees.detail.no")}</option>
+                <option value="" disabled>Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
               </select>
             </div>
           </div>
         </div>
         <div className="form-section">
-          <p className="form-section-title">{t("employees.detail.employment")}</p>
+          <p className="form-section-title">Employment Details</p>
           <div className="form-grid">
             <div className="form-field">
-              <label htmlFor="department_id">{t("employees.fields.departmentId")}</label>
+              <label htmlFor="department_id">Department ID</label>
               <input
                 type="text"
                 id="department_id"
@@ -267,7 +222,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="reports_to">{t("employees.fields.reportsTo")}</label>
+              <label htmlFor="reports_to">Reports To</label>
               <input
                 type="text"
                 id="reports_to"
@@ -277,7 +232,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="job_title">{t("employees.fields.jobTitle")}</label>
+              <label htmlFor="job_title">Job Title</label>
               <input
                 type="text"
                 id="job_title"
@@ -287,7 +242,7 @@ return (
               />
             </div>
             <div className='form-field'>
-              <label htmlFor="date_of_joining">{t("employees.fields.dateOfJoining")}</label>
+              <label htmlFor="date_of_joining">Date of Joining</label>
               <input
                 type="date"
                 id="date_of_joining"
@@ -298,7 +253,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="probation_end_date">{t("employees.fields.probationEndDate")}</label>
+              <label htmlFor="probation_end_date">Probation End Date</label>
               <input
                 type="date"
                 id="probation_end_date"
@@ -308,7 +263,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="employment_type">{t("employees.fields.employmentType")}</label>
+              <label htmlFor="employment_type">Employment Type</label>
               <select
                 id="employment_type"
                 name="employment_type"
@@ -317,7 +272,7 @@ return (
                 required
               >
                 <option value="" disabled>
-                  {t("employees.detail.select")}
+                  Select Employment Type
                 </option>
                 {employmentTypeOptions.map((option) => (
                   <option key={option} value={option}>
@@ -333,15 +288,15 @@ return (
               checked={form.probation_extended_with_consent}
               onChange={handleChange}
               />
-              {t("employees.fields.probationExtended")}
+                Probation Extended with Consent 
             </label>
           </div>
         </div>
         <div className="form-section">
-          <p className="form-section-title">{t("employees.detail.banking")}</p>
+          <p className="form-section-title">Iban</p>
           <div className="form-grid">
             <div className="form-field">
-              <label htmlFor="iban">{t("employees.fields.iban")}</label>
+              <label htmlFor="iban">IBAN</label>
               <input
                 type="text"
                 id="iban"
@@ -354,7 +309,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="bank_name">{t("employees.fields.bankName")}</label>
+              <label htmlFor="bank_name">Bank Name</label>
               <input
                 type="text"
                 id="bank_name"
@@ -367,10 +322,10 @@ return (
           </div>
         </div>
         <div className="form-section">
-          <p className="form-section-title">{t("employees.detail.contact")}</p>
+          <p className="form-section-title">Contact Information</p>
           <div className="form-grid">
             <div className="form-field">
-              <label htmlFor="mobile">{t("employees.fields.mobile")}</label>
+              <label htmlFor="mobile">Mobile</label>
               <input
                 type="text"
                 id="mobile"
@@ -383,7 +338,7 @@ return (
               />
             </div>
             <div className="form-field">
-              <label htmlFor="email_personal">{t("employees.fields.emailPersonal")}</label>
+              <label htmlFor="email_personal">Personal Email</label>
               <input
                 type="email"
                 id="email_personal"
@@ -394,7 +349,7 @@ return (
               />
             </div>
              <div className="form-field">
-              <label htmlFor="email_work">{t("employees.fields.emailWork")}</label>
+              <label htmlFor="email_work">Work Email</label>
               <input
                 type="email"
                 id="email_work"
@@ -409,14 +364,15 @@ return (
         
         <div className="form-actions">
           <button className="btn btn-primary" type="submit" disabled={saving}>
-            {saving ? t("employees.detail.saving") : t("employees.detail.save")}
+            {saving ? "Creating..." : "Create Employee"}
           </button>
           <button className="btn btn-secondary" type="button" onClick={() => navigate("/employees")}>
-            {t("employees.detail.cancel")}
+            Cancel
           </button>
         </div>
         </form> 
         </div>   
 )
 }
-export default EmployeeDetail
+
+export default CreateEmployee
