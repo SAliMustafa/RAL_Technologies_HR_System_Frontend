@@ -25,6 +25,9 @@ import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
 import HrLeaveRequests from "./pages/Admin/HrLeaveRequests/HrLeaveRequests";
+import EmployeeList from "./pages/Admin/EmployeeList";
+import EmployeeDetail from "./pages/Admin/EmployeeDetail";
+import CreateEmployee from "./pages/Admin/CreateEmployee";
 
 
 
@@ -68,6 +71,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/employees" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeList /></ProtectedRoute>} />
+        <Route path="/employees/create" element={<ProtectedRoute allowedRoles={["hr_admin"]}><CreateEmployee /></ProtectedRoute>} />
+        <Route path="/employees/:id" element={<ProtectedRoute allowedRoles={["hr_admin"]}><EmployeeDetail /></ProtectedRoute>} />
         <Route
           path="/leave-allocations"
           element={
