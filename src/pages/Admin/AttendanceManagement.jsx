@@ -11,7 +11,7 @@ import {
 import "./AttendanceManagement.css"
 
 
-const STATUS_OPTIONS = ["present", "absent", "half_day", "on_leave", "holiday", "weekly_off"]
+const STATUS_OPTIONS = ["pending", "present", "absent", "half_day", "on_leave", "holiday", "weekly_off"]
 
 
 function errorMessage(error, fallback) {
