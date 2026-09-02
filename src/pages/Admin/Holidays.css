@@ -1,4 +1,4 @@
-.holidays-page { padding: 42px; color: var(--ink); }
+.holidays-page { max-width: 1200px; margin: 0 auto; padding: 42px; color: var(--ink); }
 .holidays-header {
   display: flex;
   align-items: flex-end;
@@ -7,6 +7,11 @@
   margin-bottom: 28px;
 }
 .holidays-header h1 { margin: 4px 0 6px; font-size: 30px; }
+.holidays-header > div > p:last-child { margin: 0; color: var(--soft); }
+.holidays-header .page-eyebrow { margin: 0; color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
+.holidays-header .primary-button, .holidays-modal .primary-button, .holidays-modal .secondary-button { padding: 11px 16px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.holidays-header .primary-button, .holidays-modal .primary-button { border: 0; background: var(--ink); color: white; }
+.holidays-modal .secondary-button { border: 1px solid var(--rule); background: white; color: var(--mid); }
 .holidays-card {
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -18,4 +23,35 @@
   border-radius: 14px;
   background: white;
   box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+.holidays-card .table-wrap { overflow-x: auto; }
+.holidays-card table { width: 100%; border-collapse: collapse; }
+.holidays-card th { padding: 12px 18px; background: var(--card); color: var(--soft); font-size: 10px; letter-spacing: .7px; text-align: start; text-transform: uppercase; white-space: nowrap; }
+.holidays-card td { padding: 16px 18px; border-top: 1px solid #eee8f4; color: var(--mid); font-size: 13px; vertical-align: middle; }
+.holidays-card tbody tr:hover { background: #fcfafd; }
+.holidays-card td strong { color: var(--ink); }
+.holidays-card .row-actions { display: flex; justify-content: flex-end; gap: 8px; white-space: nowrap; }
+.holidays-card .row-actions button { border: 0; background: none; color: var(--mid); font-size: 12px; font-weight: 700; cursor: pointer; }
+.holidays-card .row-actions .danger-link { color: var(--red); }
+.holidays-page .table-state { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--soft); font-size: 13px; }
+.holidays-page .notice { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; padding: 12px 15px; border-radius: 8px; font-size: 13px; }
+.holidays-page .success-notice { background: #eaf6f0; border: 1px solid #c4e6d5; color: var(--green); }
+.holidays-page .error-notice, .holidays-modal .form-error { background: #fbecec; border: 1px solid #efcaca; color: var(--red); }
+.holidays-page .notice button { border: 0; background: none; color: inherit; font-weight: 700; cursor: pointer; }
+.holidays-modal .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 22px 24px 18px; border-bottom: 1px solid var(--rule); }
+.holidays-modal .modal-header h2 { margin: 4px 0 0; color: var(--ink); font-size: 21px; }
+.holidays-modal .close-button { border: 0; background: none; color: var(--soft); font-size: 22px; cursor: pointer; }
+.holidays-modal form { padding: 22px 24px 24px; }
+.holidays-modal .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+.holidays-modal label { color: var(--mid); font-size: 12px; font-weight: 700; }
+.holidays-modal .full-field { grid-column: 1 / -1; }
+.holidays-modal input { box-sizing: border-box; width: 100%; margin-top: 7px; padding: 10px 11px; border: 1px solid var(--rule); border-radius: 7px; background: white; color: var(--ink); font: inherit; }
+.holidays-modal .checkbox-grid { margin: 20px 0 0; padding: 14px; border: 1px solid var(--rule); color: var(--mid); font-size: 12px; }
+.holidays-modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+@media (max-width: 760px) {
+  .holidays-page { padding: 24px 18px; }
+  .holidays-header { align-items: stretch; flex-direction: column; }
+  .holidays-modal .form-grid { grid-template-columns: 1fr; }
+  .holidays-modal .full-field { grid-column: auto; }
 }

@@ -1,4 +1,4 @@
-.departments-page { padding: 42px; color: var(--ink); }
+.departments-page { max-width: 1200px; margin: 0 auto; padding: 42px; color: var(--ink); }
 .departments-header {
   display: flex;
   align-items: flex-end;
@@ -7,15 +7,51 @@
   margin-bottom: 28px;
 }
 .departments-header h1 { margin: 4px 0 6px; font-size: 30px; }
+.departments-header > div > p:last-child { margin: 0; color: var(--soft); }
+.departments-header .page-eyebrow { margin: 0; color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
+.departments-header button,
+.departments-modal button { font: inherit; }
+.departments-header .primary-button,
+.departments-modal .primary-button,
+.departments-modal .secondary-button { padding: 11px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.departments-header .primary-button,
+.departments-modal .primary-button { border: 0; background: var(--ink); color: white; }
+.departments-modal .secondary-button { border: 1px solid var(--rule); background: white; color: var(--mid); }
 .departments-card {
   overflow: hidden;
   border: 1px solid var(--rule);
   border-radius: 12px;
   background: white;
 }
+.departments-card .table-wrap { overflow-x: auto; }
+.departments-card table { width: 100%; border-collapse: collapse; }
+.departments-card th { padding: 12px 18px; background: var(--card); color: var(--soft); font-size: 10px; letter-spacing: .7px; text-align: start; text-transform: uppercase; white-space: nowrap; }
+.departments-card td { padding: 16px 18px; border-top: 1px solid #eee8f4; color: var(--mid); font-size: 13px; }
+.departments-card td strong { color: var(--ink); }
+.departments-card tbody tr:hover { background: #fcfafd; }
+.departments-card .row-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.departments-card .row-actions button { border: 0; background: none; color: var(--mid); font-size: 12px; font-weight: 700; cursor: pointer; }
+.departments-page .table-state { min-height: 220px; display: flex; align-items: center; justify-content: center; color: var(--soft); font-size: 13px; }
+.departments-page .notice { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; padding: 12px 15px; border-radius: 8px; font-size: 13px; }
+.departments-page .success-notice { background: #eaf6f0; border: 1px solid #c4e6d5; color: var(--green); }
+.departments-page .error-notice, .departments-modal .form-error { background: #fbecec; border: 1px solid #efcaca; color: var(--red); }
+.departments-page .notice button { border: 0; background: none; color: inherit; font-weight: 700; cursor: pointer; }
 .departments-modal {
   width: min(520px, 100%);
   border-radius: 14px;
   background: white;
   box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+.departments-modal .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 22px 24px 18px; border-bottom: 1px solid var(--rule); }
+.departments-modal .modal-header h2 { margin: 4px 0 0; color: var(--ink); font-size: 21px; }
+.departments-modal .close-button { border: 0; background: none; color: var(--soft); font-size: 22px; cursor: pointer; }
+.departments-modal form { padding: 22px 24px 24px; }
+.departments-modal .form-grid { display: grid; gap: 17px; }
+.departments-modal .full-field { display: block; color: var(--mid); font-size: 12px; font-weight: 700; }
+.departments-modal input, .departments-modal select { box-sizing: border-box; width: 100%; margin-top: 7px; padding: 10px 11px; border: 1px solid var(--rule); border-radius: 7px; background: white; color: var(--ink); font: inherit; }
+.departments-modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+@media (max-width: 760px) {
+  .departments-page { padding: 24px 18px; }
+  .departments-header { align-items: stretch; flex-direction: column; }
 }

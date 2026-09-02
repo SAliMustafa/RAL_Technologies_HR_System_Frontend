@@ -1,4 +1,6 @@
 .attendance-management-page {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 42px;
   color: var(--ink);
 }
@@ -13,6 +15,8 @@
   margin: 4px 0 6px;
   font-size: 30px;
 }
+.attendance-header > div > p:last-child { margin: 0; color: var(--soft); }
+.attendance-header .page-eyebrow { margin: 0; color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
 .attendance-card {
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -51,4 +55,35 @@
   border-radius: 14px;
   background: white;
   box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}
+.attendance-card .table-wrap { overflow-x: auto; }
+.attendance-card table { width: 100%; border-collapse: collapse; }
+.attendance-card th { padding: 12px 18px; background: var(--card); color: var(--soft); font-size: 10px; letter-spacing: .7px; text-align: start; text-transform: uppercase; white-space: nowrap; }
+.attendance-card td { padding: 16px 18px; border-top: 1px solid #eee8f4; color: var(--mid); font-size: 13px; vertical-align: middle; }
+.attendance-card tbody tr:hover { background: #fcfafd; }
+.attendance-card td strong { display: block; color: var(--ink); }
+.attendance-card .row-actions { display: flex; justify-content: flex-end; align-items: center; gap: 8px; white-space: nowrap; }
+.attendance-card .row-actions button, .attendance-card .row-actions a { border: 0; background: none; color: var(--mid); font-size: 12px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.attendance-card .row-actions .danger-link { color: var(--red); }
+.attendance-management-page .notice { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; padding: 12px 15px; border-radius: 8px; font-size: 13px; }
+.attendance-management-page .success-notice { background: #eaf6f0; border: 1px solid #c4e6d5; color: var(--green); }
+.attendance-management-page .error-notice { background: #fbecec; border: 1px solid #efcaca; color: var(--red); }
+.attendance-management-page .notice button { border: 0; background: none; color: inherit; font-weight: 700; cursor: pointer; }
+.attendance-management-page .table-state { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--soft); font-size: 13px; }
+.attendance-modal .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 22px 24px 18px; border-bottom: 1px solid var(--rule); }
+.attendance-modal .modal-header h2 { margin: 4px 0 0; color: var(--ink); font-size: 21px; }
+.attendance-modal .close-button { border: 0; background: none; color: var(--soft); font-size: 22px; cursor: pointer; }
+.attendance-modal form { padding: 22px 24px 24px; }
+.attendance-modal .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+.attendance-modal label { color: var(--mid); font-size: 12px; font-weight: 700; }
+.attendance-modal .full-field { grid-column: 1 / -1; }
+.attendance-modal input, .attendance-modal select { box-sizing: border-box; width: 100%; margin-top: 7px; padding: 10px 11px; border: 1px solid var(--rule); border-radius: 7px; background: white; color: var(--ink); font: inherit; }
+.attendance-modal .checkbox-grid { display: flex; gap: 16px; margin: 20px 0 0; padding: 14px; border: 1px solid var(--rule); color: var(--mid); font-size: 12px; }
+.attendance-modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+@media (max-width: 760px) {
+  .attendance-management-page { padding: 24px 18px; }
+  .attendance-header { align-items: stretch; flex-direction: column; }
+  .attendance-modal .form-grid { grid-template-columns: 1fr; }
+  .attendance-modal .full-field { grid-column: auto; }
 }
