@@ -22,9 +22,15 @@ async function deactivateLeaveType(id) {
   return response.data;
 }
 
+async function activateLeaveType(id) {
+  const response = await api.patch(`/leave/${id}`);
+  return response.data;
+}
+
 export {
   getLeaveTypes,
   createLeaveType,
   updateLeaveType,
   deactivateLeaveType,
+  activateLeaveType,
 };
