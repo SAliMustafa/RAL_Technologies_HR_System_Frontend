@@ -54,5 +54,242 @@
       "holiday": "Holiday",
       "weekly_off": "Weekly Off"
     }
+  },
+  "attendanceManagement": {
+    "eyebrow": "ATTENDANCE MANAGEMENT",
+    "title": "Attendance",
+    "subtitle": "Review, correct, and lock employee attendance records.",
+    "correctEyebrow": "CORRECT",
+    "dismiss": "Dismiss",
+    "retry": "Retry",
+    "recordsHeading": "Records",
+    "recordCount_one": "{{count}} record",
+    "recordCount_other": "{{count}} records",
+    "todayOnly": "Today only",
+    "allStatuses": "All statuses",
+    "employeeIdPlaceholder": "Employee ID",
+    "filter": "Filter",
+    "loading": "Loading attendance...",
+    "emptyTitle": "No attendance records found",
+    "emptySubtitle": "Try adjusting your filters.",
+    "columns": {
+      "employee": "Employee",
+      "date": "Date",
+      "status": "Status",
+      "in": "In",
+      "out": "Out",
+      "flags": "Flags",
+      "actions": "Actions"
+    },
+    "flags": {
+      "late": "Late",
+      "earlyExit": "Early Exit",
+      "incomplete": "Incomplete",
+      "corrected": "Corrected",
+      "locked": "Locked"
+    },
+    "actions": {
+      "correct": "Correct",
+      "lock": "Lock"
+    },
+    "modal": {
+      "status": "Status",
+      "inTime": "In time",
+      "outTime": "Out time",
+      "reason": "Reason for correction",
+      "flagsLegend": "Flags",
+      "cancel": "Cancel",
+      "save": "Save correction",
+      "saving": "Saving..."
+    },
+    "statusValues": {
+      "present": "Present",
+      "absent": "Absent",
+      "half_day": "Half Day",
+      "on_leave": "On Leave",
+      "holiday": "Holiday",
+      "weekly_off": "Weekly Off",
+      "pending": "Pending"
+    },
+    "errors": {
+      "load": "Unable to load attendance.",
+      "correct": "Unable to save the correction.",
+      "lock": "Unable to lock this record.",
+      "reasonRequired": "Correction reason is required."
+    },
+    "success": {
+      "corrected": "Attendance record corrected successfully.",
+      "locked": "Attendance record locked."
+    }
+  },
+
+  "departments": {
+  "eyebrow": "DEPARTMENTS",
+  "title": "Departments",
+  "subtitle": "Manage the departments employees are organized into.",
+  "addButton": "Add Department",
+  "editEyebrow": "EDIT",
+  "createEyebrow": "NEW",
+  "dismiss": "Dismiss",
+  "retry": "Retry",
+  "loading": "Loading departments...",
+  "emptyTitle": "No departments found",
+  "columns": {
+    "name": "Name",
+    "manager": "Manager",
+    "actions": "Actions"
+  },
+  "actions": {
+    "edit": "Edit"
+  },
+  "form": {
+    "name": "Department name",
+    "managerId": "Manager (Employee ID)",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "noManager": "No manager assigned"
+  },
+  "errors": {
+    "load": "Unable to load departments.",
+    "save": "Unable to save this department."
+  },
+  "success": {
+    "created": "Department created.",
+    "updated": "Department updated."
+  }
+},
+"holidays": {
+  "eyebrow": "HOLIDAYS",
+  "title": "Holidays",
+  "subtitle": "Manage the company holiday calendar.",
+  "addButton": "Add Holiday",
+  "editEyebrow": "EDIT",
+  "createEyebrow": "NEW",
+  "dismiss": "Dismiss",
+  "retry": "Retry",
+  "loading": "Loading holidays...",
+  "emptyTitle": "No holidays found",
+  "confirmed": "Confirmed",
+  "unconfirmed": "Unconfirmed",
+  "day": "day",
+  "days": "days",
+  "columns": {
+    "from": "From",
+    "to": "To",
+    "days": "Days",
+    "description": "Description",
+    "confirmed": "Status",
+    "actions": "Actions"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "form": {
+    "from": "From date",
+    "to": "To date",
+    "description": "Description",
+    "confirmed": "Confirmed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving..."
+  },
+  "errors": {
+    "load": "Unable to load holidays.",
+    "save": "Unable to save this holiday.",
+    "delete": "Unable to delete this holiday."
+  },
+  "success": {
+    "created": "Holiday created.",
+    "updated": "Holiday updated.",
+    "deleted": "Holiday deleted."
+  }
+},
+  "employees": {
+    "fields": {
+      "employeeCode": "Employee code",
+      "name": "Name",
+      "username": "Username",
+      "role": "Role",
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "cprNumber": "CPR number",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "isBahraini": "Bahraini national",
+      "departmentId": "Department ID",
+      "reportsTo": "Reports to (employee ID)",
+      "jobTitle": "Job title",
+      "dateOfJoining": "Date of joining",
+      "probationEndDate": "Probation end date",
+      "probationExtended": "Probation extended with written consent (up to 6 months)",
+      "employmentType": "Employment type",
+      "iban": "IBAN",
+      "bankName": "Bank name",
+      "mobile": "Mobile",
+      "emailPersonal": "Personal email",
+      "emailWork": "Work email",
+      "status": "Status"
+    },
+    "list": {
+      "title": "Employees",
+      "loading": "Loading employees...",
+      "LoadError": "Could not load employees",
+      "view": "View",
+      "empty": "No employees to show"
+    },
+    "statusValues": {
+      "active": "Active",
+      "on_leave": "On leave",
+      "suspended": "Suspended",
+      "left": "Left"
+    },
+    "roleValues": {
+      "employee": "Employee",
+      "manager": "Manager",
+      "hr_admin": "HR admin"
+    },
+    "detail": {
+      "title": "Employee details",
+      "loading": "Loading employee…",
+      "loadError": "Could not load this employee.",
+      "saveError": "Could not save changes.",
+      "statusError": "Could not update status.",
+      "saving": "Saving…",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "select": "Select",
+      "yes": "Yes",
+      "no": "No",
+      "account": "Account",
+      "personal": "Personal details",
+      "employment": "Employment",
+      "banking": "Banking",
+      "contact": "Contact"
+    },
+    "profile": {
+      "title": "My profile",
+      "loading": "Loading your profile…",
+      "loadError": "Could not load your profile.",
+      "updateContact": "Update contact details",
+      "saving": "Saving…",
+      "save": "Save",
+      "saved": "Contact details updated.",
+      "saveError": "Could not update your contact details."
+    },
+    "team": {
+      "title": "My team",
+      "loading": "Loading your team…",
+      "loadError": "Could not load your team.",
+      "empty": "No one reports to you yet."
+    },
+    "department": {
+      "title": "My department",
+      "loading": "Loading department…",
+      "loadError": "Could not load your department.",
+      "empty": "No employees found in your department."
+    }
   }
 }

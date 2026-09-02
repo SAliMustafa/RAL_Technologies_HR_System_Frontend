@@ -1,0 +1,54 @@
+.attendance-management-page {
+  padding: 42px;
+  color: var(--ink);
+}
+.attendance-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.attendance-header h1 {
+  margin: 4px 0 6px;
+  font-size: 30px;
+}
+.attendance-card {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: white;
+}
+.attendance-toolbar {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.attendance-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.attendance-filters select,
+.attendance-filters input[type="date"],
+.attendance-filters input[type="text"] {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--mid);
+}
+.status-badge.status-present { background: #e4f4ec; color: var(--green); }
+.status-badge.status-absent { background: #fbecec; color: var(--red); }
+.status-badge.status-half_day,
+.status-badge.status-on_leave { background: #fdf3e4; color: #a8631b; }
+.status-badge.status-holiday,
+.status-badge.status-weekly_off { background: #eeeaf2; color: var(--soft); }
+.attendance-modal {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(43, 27, 61, 0.25);
+}

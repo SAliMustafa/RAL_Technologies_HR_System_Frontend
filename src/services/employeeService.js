@@ -35,6 +35,10 @@ async function getDepartment(){
     const response = await api.get(`/employees/department`)
     return response.data
 }
+async function createEmployee(formData) {
+  const response = await api.post('/employees', formData)
+  return response.data
+}
 export {
     getAllEmployees,
     getEmployeeById,
@@ -43,7 +47,8 @@ export {
     getMyProfile,
     updateMyContact,
     getTeam,
-    getDepartment
+    getDepartment,
+    createEmployee
 }
 
 

@@ -1,0 +1,132 @@
+.employee-list-page,
+.employee-detail-page {
+  padding: 42px;
+  color: var(--ink);
+}
+
+.employee-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.employee-page-header h1 { margin: 4px 0 6px; font-size: 30px; }
+.employee-page-header > div > p:last-child { margin: 0; color: var(--soft); }
+.employee-page-eyebrow { margin: 0; color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
+
+.employee-primary-button,
+.employee-back-link {
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.employee-primary-button { background: var(--ink); color: white; }
+.employee-back-link { border: 1px solid var(--rule); background: white; color: var(--mid); }
+
+.employee-list-card,
+.employee-detail-form,
+.employee-status-card {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: white;
+}
+
+.employee-list-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+.employee-list-toolbar h2 { display: inline; margin: 0 10px 0 0; font-size: 16px; }
+.employee-list-toolbar span { color: var(--soft); font-size: 12px; }
+.employee-list-filters { display: flex; gap: 10px; }
+.employee-list-filters input,
+.employee-list-filters select {
+  min-width: 190px;
+  padding: 9px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: white;
+  color: var(--mid);
+  font: inherit;
+  font-size: 12px;
+}
+.employee-list-filters input:focus,
+.employee-list-filters select:focus,
+.employee-detail-page input:focus,
+.employee-detail-page select:focus { outline: 2px solid var(--lavender); border-color: var(--mid); }
+
+.employee-table-wrap { overflow-x: auto; }
+.employee-table { width: 100%; border-collapse: collapse; }
+.employee-table th { padding: 12px 18px; background: var(--card); color: var(--soft); font-size: 10px; letter-spacing: .7px; text-align: start; text-transform: uppercase; }
+.employee-table td { padding: 16px 18px; border-top: 1px solid #eee8f4; color: var(--mid); font-size: 13px; }
+.employee-table tbody tr:hover { background: #fcfafd; }
+.employee-table-link { color: var(--mid); font-size: 12px; font-weight: 700; text-decoration: none; }
+.employee-table-empty { padding: 42px !important; color: var(--soft) !important; text-align: center; }
+
+.employee-list-page .status-badge { display: inline-block; padding: 5px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: capitalize; }
+.employee-list-page .status-active { background: #e4f4ec; color: var(--green); }
+.employee-list-page .status-on_leave { background: #fff1dc; color: var(--amber); }
+.employee-list-page .status-suspended,
+.employee-list-page .status-left { background: #fbecec; color: var(--red); }
+
+.employee-page-error { margin-bottom: 16px; padding: 12px 15px; border: 1px solid #efcaca; border-radius: 8px; background: #fbecec; color: var(--red); font-size: 13px; }
+.employee-list-state,
+.employee-detail-state { min-height: 220px; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--soft); font-size: 13px; }
+.employee-spinner { width: 22px; height: 22px; border: 3px solid var(--rule); border-top-color: var(--ink); border-radius: 50%; animation: employee-spin .8s linear infinite; }
+@keyframes employee-spin { to { transform: rotate(360deg); } }
+
+.employee-status-card { margin-bottom: 18px; padding: 18px 22px; }
+.employee-status-card label { color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+.employee-status-card select { display: block; width: min(280px, 100%); margin-top: 7px; }
+.employee-detail-form { padding: 0 24px 24px; }
+.employee-detail-page .form-section { margin: 0; padding: 24px 0; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; box-shadow: none; }
+.employee-detail-page .form-section-title { margin: 0 0 18px; color: var(--ink); font-size: 16px; font-weight: 700; }
+.employee-detail-page .form-grid { gap: 17px; }
+.employee-detail-page .form-field label { color: var(--mid); font-size: 12px; font-weight: 700; }
+.employee-detail-page .form-field input,
+.employee-detail-page .form-field select { box-sizing: border-box; width: 100%; margin-top: 7px; padding: 10px 11px; border: 1px solid var(--rule); border-radius: 7px; background: white; color: var(--ink); font: inherit; }
+.employee-detail-page .form-checkbox { color: var(--mid); font-size: 12px; font-weight: 700; }
+.probation-consent-field {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 15px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--mid);
+  cursor: pointer;
+}
+.probation-consent-field input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: var(--ink);
+}
+.probation-consent-field span,
+.probation-consent-field strong,
+.probation-consent-field small { display: block; }
+.probation-consent-field strong { color: var(--ink); font-size: 12px; line-height: 1.4; }
+.probation-consent-field small { margin-top: 3px; color: var(--soft); font-size: 11px; font-weight: 400; line-height: 1.4; }
+.employee-detail-page .form-actions { display: flex; flex-direction: row-reverse; justify-content: flex-start; gap: 10px; padding-top: 22px; }
+.employee-detail-page .btn { padding: 11px 16px; border: 0; border-radius: 8px; font-size: 13px; font-weight: 700; }
+.employee-detail-page .btn-primary { background: var(--ink); color: white; }
+.employee-detail-page .btn-secondary { border: 1px solid var(--rule); background: white; color: var(--mid); }
+
+@media (max-width: 760px) {
+  .employee-list-page, .employee-detail-page { padding: 24px 18px; }
+  .employee-page-header, .employee-list-toolbar { align-items: stretch; flex-direction: column; }
+  .employee-list-filters { flex-direction: column; }
+  .employee-list-filters input, .employee-list-filters select { width: 100%; }
+}

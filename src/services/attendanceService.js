@@ -40,7 +40,20 @@ async function getMyAttendance() {
     return response.data;
 }
 
+async function getAllTodayAttendance() {
+  const response = await api.get('/attendance/today')
+  return unwrap(response.data)
+}
 
+async function getEmployeeAttendanceHistory(userId) {
+  const response = await api.get(`/attendance/employee/${userId}`)
+  return unwrap(response.data)
+}
+
+async function lockAttendanceRecord(id) {
+  const response = await api.put(`/attendance/${id}/lock`)
+  return response.data
+}
 
 
 export {
@@ -48,5 +61,8 @@ export {
   getAllAttendance,
   createAttendanceRecord,
   updateAttendanceRecord,
-  getTodayAttendance
+  getTodayAttendance,
+  getAllTodayAttendance,
+  getEmployeeAttendanceHistory,
+  lockAttendanceRecord
 }
