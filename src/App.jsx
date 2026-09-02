@@ -15,6 +15,7 @@ import EmployeeLeaveRequests from "./pages/Employee/EmployeeLeaveRequests/Employ
 // manager page
 import ManagerDashboard from "./pages/Manager/Dashboard";
 import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
+import TeamAttendance from "./pages/Manager/TeamAttendance";
 
 
 // Hr-Admin page
@@ -128,6 +129,14 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route
+          path="/manager/attendance"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <TeamAttendance />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/manager/leave-requests"

@@ -40,6 +40,11 @@ async function getMyAttendance() {
     return response.data;
 }
 
+async function getTeamAttendance() {
+  const response = await api.get("/attendance/team");
+  return unwrap(response.data);
+}
+
 async function getAllTodayAttendance() {
   const response = await api.get('/attendance/today')
   return unwrap(response.data)
@@ -58,6 +63,7 @@ async function lockAttendanceRecord(id) {
 
 export {
   getMyAttendance,
+  getTeamAttendance,
   getAllAttendance,
   createAttendanceRecord,
   updateAttendanceRecord,
