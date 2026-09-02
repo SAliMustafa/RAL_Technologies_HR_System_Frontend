@@ -23,6 +23,14 @@ import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLe
 import AdminDashboard from "./pages/Admin/Dashboard";
 import LeaveTypes from "./pages/Admin/LeaveTypes";
 import LeaveAllocations from "./pages/LeaveAllocations/LeaveAllocations";
+import AdminDocuments from "./pages/Admin/AdminDocuments";
+import UploadEmployeeDocument from "./pages/Admin/UploadEmployeeDocument";
+import AdminDocumentDetails from "./pages/Admin/AdminDocumentDetails";
+import EditAdminDocument from "./pages/Admin/EditAdminDocument";
+import ReviewDocument from "./pages/Admin/ReviewDocument";
+import AdminCheckins from "./pages/Admin/AdminCheckins";
+import AdminAuditLogs from "./pages/Admin/AdminAuditLogs";
+import AuditLogDetails from "./pages/Admin/AuditLogDetails";
 import AttendanceManagement from "./pages/Admin/AttendanceManagement";
 import Departments from "./pages/Admin/Department";
 import Holidays from "./pages/Admin/Holidays";
@@ -36,6 +44,8 @@ import CreateEmployee from "./pages/Admin/CreateEmployee";
 // MyAttendance page
 // import MyAttendance from "./pages/Attendance/MyAttendance";
 
+import NotFoundPage from "./pages/NotFoundPage";
+
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -48,8 +58,8 @@ function App() {
 
 
       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/sign-up" element={<SignupPage />} />
+        <Route path="/" element={<Homepage /> } />
+        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/sign-in" element={<SignInPage />} />
 
         {/* //// employee page */}
@@ -65,6 +75,14 @@ function App() {
         {/* // Hr-Admin page */}
 
         <Route path="/dashboard-Admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/documents" element={<ProtectedRoute><AdminDocuments /></ProtectedRoute>} />
+        <Route path="/admin/documents/upload" element={<ProtectedRoute><UploadEmployeeDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId" element={<ProtectedRoute><AdminDocumentDetails /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/edit" element={<ProtectedRoute><EditAdminDocument /></ProtectedRoute>} />
+        <Route path="/admin/documents/:documentId/review" element={<ProtectedRoute><ReviewDocument /></ProtectedRoute>} />
+        <Route path="/admin/checkins" element={<ProtectedRoute><AdminCheckins /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs" element={<ProtectedRoute><AdminAuditLogs /></ProtectedRoute>} />
+        <Route path="/admin/audit-logs/:auditLogId" element={<ProtectedRoute><AuditLogDetails /></ProtectedRoute>} />
         <Route
           path="/admin/leave-types"
           element={
@@ -115,6 +133,7 @@ function App() {
         {/* // manager page */}
 
         <Route path="/dashboard-manager" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+        <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/manager/leave-requests"
           element={

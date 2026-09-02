@@ -1,0 +1,500 @@
+:root {
+  --ink: #2B1B3D;
+  --lavender: #D1C4E9;
+  --mid: #59476B;
+  --soft: #7F6D91;
+  --card: #F5F2F9;
+  --rule: #DBD1E8;
+
+  --green: #1F7A54;
+  --amber: #A8631B;
+  --red: #A32F2F;
+}
+
+
+.admin-upload-document-page {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 28px 32px;
+
+  box-sizing: border-box;
+}
+
+
+/* BACK */
+
+.upload-back-btn {
+  margin-bottom: 24px;
+
+  padding: 0;
+
+  background: transparent;
+
+  color: var(--mid);
+
+  border: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.upload-back-btn:hover {
+  color: var(--ink);
+}
+
+
+/* HEADER */
+
+.upload-document-header {
+  margin-bottom: 25px;
+}
+
+
+.upload-page-label {
+  margin: 0 0 6px;
+
+  color: var(--soft);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+}
+
+
+.upload-document-header h1 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-size: 30px;
+}
+
+
+.upload-document-header > p:last-child {
+  margin: 7px 0 0;
+
+  color: var(--soft);
+
+  font-size: 13px;
+}
+
+
+/* MESSAGE */
+
+.upload-message {
+  margin-bottom: 18px;
+
+  padding: 13px 15px;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+}
+
+
+.upload-message.error {
+  color: var(--red);
+
+  background:
+    rgba(163, 47, 47, 0.06);
+
+  border:
+    1px solid rgba(163, 47, 47, 0.18);
+}
+
+
+.upload-message.success {
+  color: var(--green);
+
+  background:
+    rgba(31, 122, 84, 0.06);
+
+  border:
+    1px solid rgba(31, 122, 84, 0.18);
+}
+
+
+/* FORM */
+
+.admin-upload-form {
+  padding: 27px;
+
+  background: white;
+
+  border: 1px solid var(--rule);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 20px rgba(43, 27, 61, 0.04);
+}
+
+
+.upload-form-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-bottom: 20px;
+
+  margin-bottom: 24px;
+
+  border-bottom: 1px solid var(--rule);
+}
+
+
+.upload-form-heading h2 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-size: 19px;
+}
+
+
+.upload-form-heading p {
+  margin: 5px 0 0;
+
+  color: var(--soft);
+
+  font-size: 12px;
+}
+
+
+.auto-verified-badge {
+  padding: 7px 10px;
+
+  color: var(--green);
+
+  background:
+    rgba(31, 122, 84, 0.08);
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* GRID */
+
+.upload-form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+.upload-form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 20px;
+}
+
+
+.upload-form-group.full-width {
+  width: 100%;
+}
+
+
+.upload-form-group label {
+  color: var(--ink);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.upload-form-group label > span {
+  color: var(--red);
+
+  margin-left: 3px;
+}
+
+
+.upload-form-group input,
+.upload-form-group select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  color: var(--mid);
+
+  background: white;
+
+  border: 1px solid var(--rule);
+
+  border-radius: 8px;
+
+  outline: none;
+
+  font-size: 12px;
+
+  transition: 0.2s;
+}
+
+
+.upload-form-group input:focus,
+.upload-form-group select:focus {
+  border-color: var(--lavender);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(209, 196, 233, 0.25);
+}
+
+
+.upload-form-group small {
+  color: var(--soft);
+
+  font-size: 10px;
+}
+
+
+/* FILE */
+
+.document-file-upload {
+  display: block;
+
+  padding: 28px;
+
+  border: 2px dashed var(--rule);
+
+  border-radius: 11px;
+
+  background: #fcfbfd;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.document-file-upload:hover {
+  border-color: var(--lavender);
+
+  background: var(--card);
+}
+
+
+.document-file-upload input {
+  display: none;
+}
+
+
+.file-empty {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  text-align: center;
+}
+
+
+.file-upload-icon {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 5px;
+
+  color: var(--ink);
+
+  background: var(--lavender);
+
+  border-radius: 10px;
+
+  font-size: 22px;
+}
+
+
+.file-empty strong {
+  color: var(--ink);
+
+  font-size: 12px;
+}
+
+
+.file-empty span {
+  color: var(--soft) !important;
+
+  font-size: 10px;
+}
+
+
+/* SELECTED FILE */
+
+.selected-file {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+
+.selected-file-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--ink);
+
+  background: var(--lavender);
+
+  border-radius: 9px;
+}
+
+
+.selected-file strong {
+  display: block;
+
+  color: var(--ink);
+
+  font-size: 12px;
+}
+
+
+.selected-file span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--soft) !important;
+
+  font-size: 10px;
+}
+
+
+/* HR INFO */
+
+.hr-upload-info {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 14px;
+
+  margin-top: 3px;
+
+  color: var(--green);
+
+  background:
+    rgba(31, 122, 84, 0.055);
+
+  border:
+    1px solid rgba(31, 122, 84, 0.14);
+
+  border-radius: 9px;
+}
+
+
+.hr-upload-info > span {
+  font-weight: 700;
+}
+
+
+.hr-upload-info strong {
+  color: var(--green);
+
+  font-size: 11px;
+}
+
+
+.hr-upload-info p {
+  margin: 3px 0 0;
+
+  color: var(--mid);
+
+  font-size: 10px;
+}
+
+
+/* ACTIONS */
+
+.upload-form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding-top: 22px;
+
+  margin-top: 24px;
+
+  border-top: 1px solid var(--rule);
+}
+
+
+.upload-cancel-btn,
+.upload-submit-btn {
+  padding: 10px 17px;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.upload-cancel-btn {
+  background: white;
+
+  color: var(--mid);
+
+  border: 1px solid var(--rule);
+}
+
+
+.upload-cancel-btn:hover {
+  background: var(--card);
+}
+
+
+.upload-submit-btn {
+  background: var(--ink);
+
+  color: white;
+
+  border: 1px solid var(--ink);
+}
+
+
+.upload-submit-btn:hover:not(:disabled) {
+  background: var(--mid);
+}
+
+
+.upload-submit-btn:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
