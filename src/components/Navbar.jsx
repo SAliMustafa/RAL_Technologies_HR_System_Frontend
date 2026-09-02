@@ -216,6 +216,14 @@ function Navbar() {
             <p className="sidebar-section-title">ADMINISTRATION</p>
 
             <Link
+              to="/dashboard-Admin"
+              className={isActive("/dashboard-Admin") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Dashboard
+            </Link>
+
+            <Link
               to="/employees"
               className={isActive("/employees") ? "active" : ""}
             >

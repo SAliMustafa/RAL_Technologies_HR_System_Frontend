@@ -455,6 +455,18 @@
   border-radius: 10px;
 }
 
+.document-action-stat {
+  width: 100%;
+  border: 0;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.document-action-stat:hover {
+  background-color: var(--rule);
+}
+
 
 .stat-icon {
   width: 34px;
@@ -916,4 +928,16 @@
     align-items: flex-start;
   }
 
+}
+
+.leave-balance-action {
+  width: 100%;
+  border: 0;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.leave-balance-action:hover {
+  background-color: var(--card);
 }
