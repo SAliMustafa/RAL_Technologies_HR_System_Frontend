@@ -108,7 +108,8 @@
       "half_day": "Half Day",
       "on_leave": "On Leave",
       "holiday": "Holiday",
-      "weekly_off": "Weekly Off"
+      "weekly_off": "Weekly Off",
+      "pending": "Pending"
     },
     "errors": {
       "load": "Unable to load attendance.",
@@ -204,8 +205,7 @@
     "updated": "Holiday updated.",
     "deleted": "Holiday deleted."
   }
-}
-}
+},
   "employees": {
     "fields": {
       "employeeCode": "Employee code",
