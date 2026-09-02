@@ -54,7 +54,36 @@
       "holiday": "Holiday",
       "weekly_off": "Weekly Off"
     }
+    
   },
+  "attendanceDetail": {
+  "eyebrow": "ATTENDANCE RECORD",
+  "title": "Attendance Detail",
+  "loading": "Loading record...",
+  "back": "Back",
+  "yes": "Yes",
+  "no": "No",
+  "fields": {
+    "status": "Status",
+    "date": "Date",
+    "inTime": "In time",
+    "outTime": "Out time",
+    "workedHours": "Worked hours",
+    "lateEntry": "Late entry",
+    "earlyExit": "Early exit",
+    "incomplete": "Incomplete",
+    "leaveRequest": "Linked leave request",
+    "corrected": "Corrected",
+    "correctedBy": "Corrected by",
+    "correctionReason": "Correction reason",
+    "locked": "Locked",
+    "createdAt": "Created",
+    "updatedAt": "Last updated"
+  },
+  "errors": {
+    "load": "Unable to load this attendance record."
+  }
+},
   "attendanceManagement": {
     "eyebrow": "ATTENDANCE MANAGEMENT",
     "title": "Attendance",
@@ -90,7 +119,8 @@
     },
     "actions": {
       "correct": "Correct",
-      "lock": "Lock"
+      "lock": "Lock",
+      "view": "View"
     },
     "modal": {
       "status": "Status",

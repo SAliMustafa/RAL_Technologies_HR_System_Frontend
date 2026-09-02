@@ -10,6 +10,7 @@ import {
 } from "../../services/attendanceService"
 import "./AttendanceManagement.css"
 import { getAllEmployees } from "../../services/employeeService";
+import { Link } from "react-router";
 
 const STATUS_OPTIONS = ["pending", "present", "absent", "half_day", "on_leave", "holiday", "weekly_off"]
 
@@ -282,6 +283,7 @@ function AttendanceManagement() {
                     </td>
                     <td>
                       <div className="row-actions">
+                         <Link to={`/attendance/${record._id}`}>{t("attendanceManagement.actions.view")}</Link>,
                         <button onClick={() => openCorrect(record)} disabled={record.locked}>
                           {t("attendanceManagement.actions.correct")}
                         </button>
