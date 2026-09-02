@@ -24,6 +24,11 @@ async function createAttendanceRecord(data) {
   return response.data
 }
 
+async function getAttendanceById(id) {
+  const response = await api.get(`/attendance/${id}`)
+  return response.data
+}
+
 async function updateAttendanceRecord(id, data) {
     const response = await api.put(`/attendance/${id}`, data)
     return response.data
@@ -60,9 +65,11 @@ export {
   getMyAttendance,
   getAllAttendance,
   createAttendanceRecord,
+  getAttendanceById,
   updateAttendanceRecord,
   getTodayAttendance,
   getAllTodayAttendance,
   getEmployeeAttendanceHistory,
-  lockAttendanceRecord
+  lockAttendanceRecord,
+  
 }
