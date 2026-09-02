@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getAllEmployees } from "../../services/employeeService";
 import getEmployeeName from "../../utils/getEmployeeName"
 import "../../style/style.css"
+import "./EmployeeManagement.css"
 import React from 'react'
 
 function EmployeeList() {
@@ -40,14 +41,17 @@ function EmployeeList() {
 
     },[t])
   return (
-    <div className="page">
-      <div className="list-header">
-      <h1 className="page-title">{t('employee.list.title')} </h1>
-      <Link to="/employees/create" className="btn btn-primary">
+    <main className="employee-list-page">
+      <div className="employee-page-header">
+      <div><p className="employee-page-eyebrow">EMPLOYEE MANAGEMENT</p><h1>{t("employees.list.title")}</h1><p>View and manage employee records across the organization.</p></div>
+      <Link to="/employees/create" className="employee-primary-button">
         Create Employee
       </Link>
       </div>
-      <div className="list-toolbar">
+      <section className="employee-list-card">
+      <div className="employee-list-toolbar">
+        <div><h2>Employees</h2>{!loading && !error && <span>{filteredRows.length} {filteredRows.length === 1 ? "employee" : "employees"}</span>}</div>
+        <div className="employee-list-filters">
         <input
           type="text"
           className="list-search"
@@ -66,13 +70,14 @@ function EmployeeList() {
             </option>
           ))}
         </select>
+        </div>
       </div>
 
-      {error && <p className="error-message">{error}</p>}
-      {loading && <p className="loading-text">{t("employees.list.loading")}</p>}
+      {error && <div className="employee-page-error" role="alert">{error}</div>}
+      {loading && <div className="employee-list-state"><span className="employee-spinner" />{t("employees.list.loading")}</div>}
 
       {!loading && (
-        <table className="data-table">
+        <div className="employee-table-wrap"><table className="employee-table">
           <thead>
             <tr>
               <th>{t("employees.fields.employeeCode")} </th>
@@ -91,21 +96,21 @@ function EmployeeList() {
                   <td>{getEmployeeName(employee, i18n.language)} </td>
                   <td>{employee.job_title} </td>
                   <td><span className={`status-badge status-${employee.status.toLowerCase()}`}>{employee.status}</span></td>
-                  <td><Link className='table-link' to={`/employees/${row._id}`}>Update</Link></td>
+                  <td><Link className="employee-table-link" to={`/employees/${row._id}`}>View / edit</Link></td>
                 </tr>
               )
             })}
             {filteredRows.length === 0 && (
               <tr>
-                <td className="data-table-empty" colSpan="5">{t("employees.list.empty")}</td>
+                <td className="employee-table-empty" colSpan="5">{t("employees.list.empty")}</td>
               </tr>
             )}
 
           </tbody>
-        </table>
+        </table></div>
       )}
-
-    </div>
+      </section>
+    </main>
   )
 }
 

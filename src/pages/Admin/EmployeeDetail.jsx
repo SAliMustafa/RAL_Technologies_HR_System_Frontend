@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import {getEmployeeById, updateEmployee, updateEmployeeStatus} from "../../services/employeeService";
 import getEmployeeName from "../../utils/getEmployeeName"
 import "../../style/style.css"
+import "./EmployeeManagement.css"
 
 import React from 'react'
 const statusOptions = ["active", "on_leave", "suspended", "left"];
@@ -105,18 +106,18 @@ async function handleSubmit(event){
     }
   }
 if (loading) {
-  return <p className="loading-text">{t("employees.detail.loading")}</p>;
+  return <div className="employee-detail-page"><div className="employee-detail-state"><span className="employee-spinner" />{t("employees.detail.loading")}</div></div>;
 }
 if(!form) {
-  return <p className="error-message">{error || t("error")}</p>;
+  return <div className="employee-detail-page"><div className="employee-page-error">{error || t("error")}</div></div>;
 }
 return (
-  <div className="page">
-    <h1 className="page-title">{t("employees.detail.title")}</h1>
+  <main className="employee-detail-page">
+    <div className="employee-page-header"><div><p className="employee-page-eyebrow">EMPLOYEE MANAGEMENT</p><h1>{t("employees.detail.title")}</h1><p>Update the employee's account, personal, and employment information.</p></div><Link to="/employees" className="employee-back-link">← Back to employees</Link></div>
 
-    {error && <p className="error-message">{error}</p>}
+    {error && <div className="employee-page-error" role="alert">{error}</div>}
 
-    <div className="form-field"> 
+    <div className="employee-status-card form-field">
     <label htmlFor="status">{t("employees.fields.status")}</label>
     <select id="status" value={status} onChange={handleStatusChange}>
       {statusOptions.map((option) => (
@@ -127,7 +128,7 @@ return (
     </select>
   </div>
 
-  <form onSubmit={handleSubmit}>
+  <form className="employee-detail-form" onSubmit={handleSubmit}>
     <div className="form-section">
       <p className="form-section-title">{t("employees.detail.account")}</p>
       <div className="form-grid">
@@ -326,14 +327,17 @@ return (
                 ))}
               </select>
             </div>
-            <label className="form-checkbox">
+            <label className="probation-consent-field">
               <input
               type="checkbox"
               name="probation_extended_with_consent"
               checked={form.probation_extended_with_consent}
               onChange={handleChange}
               />
-              {t("employees.fields.probationExtended")}
+              <span>
+                <strong>{t("employees.fields.probationExtended")}</strong>
+                <small>Extension is permitted up to a total probation period of 6 months.</small>
+              </span>
             </label>
           </div>
         </div>
@@ -416,7 +420,7 @@ return (
           </button>
         </div>
         </form> 
-        </div>   
+        </main>
 )
 }
 export default EmployeeDetail
