@@ -16,6 +16,8 @@ import EmployeeLeaveRequests from "./pages/Employee/EmployeeLeaveRequests/Employ
 import ManagerDashboard from "./pages/Manager/Dashboard";
 import ManagerLeaveRequests from "./pages/Manager/ManagerLeaveRequests/ManagerLeaveRequests";
 import TeamAttendance from "./pages/Manager/TeamAttendance";
+import MyEmployees from "./pages/Manager/MyEmployees";
+import ManagerEmployeeDetails from "./pages/Manager/ManagerEmployeeDetails";
 
 
 // Hr-Admin page
@@ -54,7 +56,6 @@ function App() {
 
 
       <Routes>
-        <Route path="/" element={<Homepage /> } />
         {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/sign-in" element={<SignInPage />} />
 
@@ -134,6 +135,22 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["manager"]}>
               <TeamAttendance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/employees"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <MyEmployees />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/employees/:employeeId"
+          element={
+            <ProtectedRoute allowedRoles={["manager"]}>
+              <ManagerEmployeeDetails />
             </ProtectedRoute>
           }
         />
