@@ -19,7 +19,7 @@ function toDateInputValue(value){
 function EmployeeDetail() {
 
     const { t } = useTranslation()
-    const {userId} = useParams()
+    const {id} = useParams()
     const navigate = useNavigate()
 
     const [form, setForm] = useState(null)
@@ -31,7 +31,7 @@ function EmployeeDetail() {
     useEffect(()=>{
       async function loadEmployee(){
         try{
-          const data = await getEmployeeById(userId)
+          const data = await getEmployeeById(id)
           const employee = data.employeeId || {}
           setForm({
           username: data.username || "",
@@ -67,7 +67,7 @@ function EmployeeDetail() {
     }
 
     loadEmployee()
-},[userId, t])
+},[id, t])
 function handleChange(event){
   const { name, value,type,checked } = event.target;
   setForm({...form, [name]: type === "checkbox" ? checked : value });
@@ -77,7 +77,7 @@ async function handleSubmit(event){
   setError("");
   setSaving(true);
   try{
-    await updateEmployee(userId, {
+    await updateEmployee(id, {
       ...form, 
       is_bahraini: form.is_bahraini === "yes" ? true : false,
       department_id: form.department_id || null,
@@ -97,7 +97,7 @@ async function handleSubmit(event){
       const newStatus = event.target.value;
       setError("");
       try{
-        await updateEmployeeStatus(userId, newStatus)
+        await updateEmployeeStatus(id, newStatus)
         setStatus(newStatus)
       }
     catch(err){
