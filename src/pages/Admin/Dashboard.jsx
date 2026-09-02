@@ -1,10 +1,50 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import "../../components/css/Employee/Dashboard.css";
+import { getAllEmployees } from "../../services/employeeService";
+import { getDepartments } from "../../services/departmentService";
+import { getLeaveRequests } from "../../services/leaveRequestService";
+import { getAllAuditLogs } from "../../services/auditLogService";
 
 function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [employees, setEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [pendingReviews, setPendingReviews] = useState([]);
+  const [auditLogs, setAuditLogs] = useState([]);
+
+  useEffect(() => {
+    async function loadDashboard() {
+      const results = await Promise.allSettled([
+        getAllEmployees(),
+        getDepartments(),
+        getLeaveRequests({ status: "pending" }),
+        getAllAuditLogs(),
+      ]);
+
+      const [employeeResult, departmentResult, leaveResult, auditResult] = results;
+      if (employeeResult.status === "fulfilled") {
+        setEmployees(
+          (Array.isArray(employeeResult.value) ? employeeResult.value : [])
+            .map((record) => record.employeeId)
+            .filter(Boolean),
+        );
+      }
+      if (departmentResult.status === "fulfilled") {
+        setDepartments(Array.isArray(departmentResult.value) ? departmentResult.value : []);
+      }
+      if (leaveResult.status === "fulfilled") {
+        setPendingReviews(Array.isArray(leaveResult.value?.data) ? leaveResult.value.data : []);
+      }
+      if (auditResult.status === "fulfilled") {
+        setAuditLogs(Array.isArray(auditResult.value?.data) ? auditResult.value.data : auditResult.value);
+      }
+    }
+
+    loadDashboard();
+  }, []);
 
   return (
     <main className="employee-dashboard">
@@ -39,17 +79,17 @@ function Dashboard() {
         <article className="dashboard-card attendance-card">
           <div className="dashboard-card-header"><div><span className="card-label">PEOPLE</span><h2>Employee Directory</h2></div><span className="attendance-icon">♟</span></div>
           <div className="attendance-status"><span className="status-dot"></span><span><strong>Team records</strong></span></div>
-          <div className="attendance-times"><div className="time-box"><span>Employees</span><strong>—</strong></div><div className="time-divider"></div><div className="time-box"><span>Departments</span><strong>—</strong></div></div>
+          <div className="attendance-times"><div className="time-box"><span>Employees</span><strong>{employees.length}</strong></div><div className="time-divider"></div><div className="time-box"><span>Departments</span><strong>{departments.length}</strong></div></div>
           <button className="card-link-btn" onClick={() => navigate("/employees")}>View Employees <span>→</span></button>
         </article>
         <article className="dashboard-card leave-card">
           <div className="dashboard-card-header"><div><span className="card-label">REQUESTS</span><h2>Leave Requests</h2></div><span className="leave-dashboard-icon">◫</span></div>
-          <div className="leave-balance-list"><div className="leave-balance-item"><div className="leave-type"><span className="leave-dot annual-dot"></span><div><strong>Pending review</strong><span>Requests from employees</span></div></div><div className="leave-days"><strong>—</strong><span>items</span></div></div><div className="leave-balance-item"><div className="leave-type"><span className="leave-dot sick-dot"></span><div><strong>Leave setup</strong><span>Types and allocations</span></div></div><div className="leave-days"><strong>→</strong><span>manage</span></div></div></div>
+          <div className="leave-balance-list"><button type="button" className="leave-balance-item leave-balance-action" onClick={() => navigate("/admin/leave-requests")}><span className="leave-type"><span className="leave-dot annual-dot"></span><span><strong>Pending review</strong><span>Requests from employees</span></span></span><span className="leave-days"><strong>{pendingReviews.length}</strong><span>items</span></span></button><button type="button" className="leave-balance-item leave-balance-action" onClick={() => navigate("/leave-allocations")}><span className="leave-type"><span className="leave-dot sick-dot"></span><span><strong>Leave setup</strong><span>Types and allocations</span></span></span><span className="leave-days"><strong>→</strong><span>manage</span></span></button></div>
           <button className="card-link-btn" onClick={() => navigate("/admin/leave-requests")}>Review Requests <span>→</span></button>
         </article>
         <article className="dashboard-card documents-dashboard-card">
           <div className="dashboard-card-header"><div><span className="card-label">OPERATIONS</span><h2>Attendance & Logs</h2></div><span className="document-dashboard-icon">◷</span></div>
-          <div className="document-dashboard-stats"><div className="document-stat verified-stat"><div className="stat-icon">◷</div><div><strong>Attendance</strong><span>Review daily records</span></div></div><div className="document-stat expiring-stat"><div className="stat-icon">▤</div><div><strong>Audit logs</strong><span>Track system activity</span></div></div></div>
+          <div className="document-dashboard-stats"><button type="button" className="document-stat document-action-stat verified-stat" onClick={() => navigate("/admin/attendance")}><span className="stat-icon">◷</span><span><strong>Attendance</strong><span>Review daily records</span></span></button><button type="button" className="document-stat document-action-stat expiring-stat" onClick={() => navigate("/admin/audit-logs")}><span className="stat-icon">▤</span><span><strong>Audit logs</strong><span>{auditLogs.length} recorded activities</span></span></button></div>
           <button className="card-link-btn" onClick={() => navigate("/admin/attendance")}>Open Attendance <span>→</span></button>
         </article>
       </section>

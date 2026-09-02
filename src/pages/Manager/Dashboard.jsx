@@ -1,10 +1,28 @@
 import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "../../components/css/Employee/Dashboard.css";
+import { getTeam } from "../../services/employeeService";
 
 function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [team, setTeam] = useState([]);
+
+  useEffect(() => {
+    async function loadTeam() {
+      try {
+        const employees = await getTeam();
+        setTeam(Array.isArray(employees) ? employees : []);
+      } catch {
+        setTeam([]);
+      }
+    }
+
+    loadTeam();
+  }, []);
+
+  const activeMembers = team.filter((employee) => employee.status === "active").length;
 
   return (
     <main className="employee-dashboard">
@@ -25,8 +43,8 @@ function Dashboard() {
       </section>
 
       <section className="dashboard-main-grid">
-        <article className="dashboard-card attendance-card"><div className="dashboard-card-header"><div><span className="card-label">MY TEAM</span><h2>Team Directory</h2></div><span className="attendance-icon">♟</span></div><div className="attendance-status"><span className="status-dot"></span><span><strong>Team overview</strong></span></div><div className="attendance-times"><div className="time-box"><span>Members</span><strong>—</strong></div><div className="time-divider"></div><div className="time-box"><span>Active</span><strong>—</strong></div></div><button className="card-link-btn" onClick={() => navigate("/manager/employees")}>View Employees <span>→</span></button></article>
-        <article className="dashboard-card leave-card"><div className="dashboard-card-header"><div><span className="card-label">LEAVE</span><h2>Team Requests</h2></div><span className="leave-dashboard-icon">◫</span></div><div className="leave-balance-list"><div className="leave-balance-item"><div className="leave-type"><span className="leave-dot annual-dot"></span><div><strong>Pending review</strong><span>Requests from your team</span></div></div><div className="leave-days"><strong>—</strong><span>items</span></div></div><div className="leave-balance-item"><div className="leave-type"><span className="leave-dot sick-dot"></span><div><strong>Team balances</strong><span>Check allocated leave</span></div></div><div className="leave-days"><strong>→</strong><span>view</span></div></div></div><button className="card-link-btn" onClick={() => navigate("/manager/leave-requests")}>Review Requests <span>→</span></button></article>
+        <article className="dashboard-card attendance-card"><div className="dashboard-card-header"><div><span className="card-label">MY TEAM</span><h2>Team Directory</h2></div><span className="attendance-icon">♟</span></div><div className="attendance-status"><span className="status-dot"></span><span><strong>Team overview</strong></span></div><div className="attendance-times"><div className="time-box"><span>Members</span><strong>{team.length}</strong></div><div className="time-divider"></div><div className="time-box"><span>Active</span><strong>{activeMembers}</strong></div></div><button className="card-link-btn" onClick={() => navigate("/manager/employees")}>View Employees <span>→</span></button></article>
+        <article className="dashboard-card leave-card"><div className="dashboard-card-header"><div><span className="card-label">LEAVE</span><h2>Team Requests</h2></div><span className="leave-dashboard-icon">◫</span></div><div className="leave-balance-list"><button type="button" className="leave-balance-item leave-balance-action" onClick={() => navigate("/manager/leave-requests")}><span className="leave-type"><span className="leave-dot annual-dot"></span><span><strong>Pending review</strong><span>Requests from your team</span></span></span><span className="leave-days"><strong>—</strong><span>items</span></span></button><button type="button" className="leave-balance-item leave-balance-action" onClick={() => navigate("/leave-allocations")}><span className="leave-type"><span className="leave-dot sick-dot"></span><span><strong>Team balances</strong><span>Check allocated leave</span></span></span><span className="leave-days"><strong>→</strong><span>view</span></span></button></div><button className="card-link-btn" onClick={() => navigate("/manager/leave-requests")}>Review Requests <span>→</span></button></article>
         <article className="dashboard-card documents-dashboard-card"><div className="dashboard-card-header"><div><span className="card-label">ATTENDANCE</span><h2>Team Attendance</h2></div><span className="document-dashboard-icon">◷</span></div><div className="document-dashboard-stats"><div className="document-stat verified-stat"><div className="stat-icon">◷</div><div><strong>Today</strong><span>Team attendance</span></div></div><div className="document-stat expiring-stat"><div className="stat-icon">▤</div><div><strong>History</strong><span>Review records</span></div></div></div><button className="card-link-btn" onClick={() => navigate("/manager/attendance")}>Open Attendance <span>→</span></button></article>
       </section>
     </main>
