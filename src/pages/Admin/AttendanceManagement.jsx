@@ -9,7 +9,7 @@ import {
   lockAttendanceRecord,
 } from "../../services/attendanceService"
 import "./AttendanceManagement.css"
-
+import { getAllEmployees } from "../../services/employeeService";
 
 const STATUS_OPTIONS = ["pending", "present", "absent", "half_day", "on_leave", "holiday", "weekly_off"]
 
@@ -47,6 +47,7 @@ function AttendanceManagement() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
+   const [employeeOptions, setEmployeeOptions] = useState([])
   const { t } = useTranslation();
 
   const [showTodayOnly, setShowTodayOnly] = useState(false)
@@ -74,13 +75,29 @@ function AttendanceManagement() {
     } finally {
       setLoading(false)
     }
-    
+
   }, [showTodayOnly, filters])
 
   useEffect(() => {
     const request = window.setTimeout(loadAttendance, 0)
     return () => window.clearTimeout(request)
   }, [loadAttendance]);
+
+  useEffect(() => {
+    async function loadEmployeeOptions() {
+      try {
+        const users = await getAllEmployees();
+        const employees = (Array.isArray(users) ? users : [])
+          .map((record) => record.employeeId)
+          .filter(Boolean)
+          .sort((first, second) => first.name_en.localeCompare(second.name_en));
+        setEmployeeOptions(employees);
+      } catch (err) {
+        console.error("Unable to load employee options:", err);
+      }
+    }
+    loadEmployeeOptions();
+  }, []);
 
   if (user?.role !== "hr_admin") return <Navigate to="/" replace />
 
@@ -110,7 +127,7 @@ function AttendanceManagement() {
       return
     }
 
-     setSaving(true)
+    setSaving(true)
     setFormError("")
     try {
       await updateAttendanceRecord(editing._id, {
@@ -130,7 +147,7 @@ function AttendanceManagement() {
 
 
 
-   async function handleLock(record) {
+  async function handleLock(record) {
     try {
       await lockAttendanceRecord(record._id)
       setSuccess("Attendance record locked.")
@@ -199,12 +216,17 @@ function AttendanceManagement() {
                   onChange={(e) => setFilters({ ...filters, date: e.target.value })}
                 />
 
-                <input
-                  type="text"
-                  placeholder={t("attendanceManagement.employeeIdPlaceholder")}
+                <select
                   value={filters.employee_id}
                   onChange={(e) => setFilters({ ...filters, employee_id: e.target.value })}
-                />
+                >
+                  <option value="">All employees</option>
+                  {employeeOptions.map((employee) => (
+                    <option key={employee._id} value={employee._id}>
+                      {employee.name_en} ({employee.employee_code})
+                    </option>
+                  ))}
+                </select>
 
                 <button className="secondary-button" onClick={loadAttendance}>
                   {t("attendanceManagement.filter")}
