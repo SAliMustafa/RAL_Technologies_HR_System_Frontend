@@ -4,6 +4,31 @@
   color: var(--ink);
 }
 
+.employee-detail-page,
+.create-employee-page {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.create-employee-page {
+  padding: 42px;
+  color: var(--ink);
+}
+
+.create-employee-page .page-title {
+  margin: 0 0 28px;
+}
+
+.create-employee-page > form {
+  margin: 0 0 32px;
+}
+
+.create-employee-page .form-section {
+  margin-bottom: 20px;
+}
+
 .employee-page-header {
   display: flex;
   align-items: flex-end;
@@ -86,7 +111,7 @@
 .employee-status-card { margin-bottom: 18px; padding: 18px 22px; }
 .employee-status-card label { color: var(--soft); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
 .employee-status-card select { display: block; width: min(280px, 100%); margin-top: 7px; }
-.employee-detail-form { padding: 0 24px 24px; }
+.employee-detail-form { margin-bottom: 32px; padding: 0 24px 24px; }
 .employee-detail-page .form-section { margin: 0; padding: 24px 0; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; box-shadow: none; }
 .employee-detail-page .form-section-title { margin: 0 0 18px; color: var(--ink); font-size: 16px; font-weight: 700; }
 .employee-detail-page .form-grid { gap: 17px; }
@@ -124,9 +149,36 @@
 .employee-detail-page .btn-primary { background: var(--ink); color: white; }
 .employee-detail-page .btn-secondary { border: 1px solid var(--rule); background: white; color: var(--mid); }
 
+.create-employee-page .form-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 24px 0 8px;
+}
+.create-employee-page .btn {
+  min-width: 140px;
+  padding: 11px 18px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.create-employee-page .btn:hover:not(:disabled) { transform: translateY(-1px); }
+.create-employee-page .btn-primary { border: 1px solid var(--ink); background: var(--ink); color: white; }
+.create-employee-page .btn-primary:hover:not(:disabled) { background: var(--mid); border-color: var(--mid); }
+.create-employee-page .btn-secondary { border: 1px solid var(--rule); background: white; color: var(--mid); }
+.create-employee-page .btn-secondary:hover:not(:disabled) { border-color: var(--mid); background: var(--card); color: var(--ink); }
+.create-employee-page .btn:focus-visible { outline: 3px solid var(--lavender); outline-offset: 2px; }
+.create-employee-page .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
 @media (max-width: 760px) {
-  .employee-list-page, .employee-detail-page { padding: 24px 18px; }
+  .employee-list-page, .employee-detail-page, .create-employee-page { padding: 24px 18px; }
   .employee-page-header, .employee-list-toolbar { align-items: stretch; flex-direction: column; }
   .employee-list-filters { flex-direction: column; }
   .employee-list-filters input, .employee-list-filters select { width: 100%; }
+  .create-employee-page .form-actions { flex-direction: column; }
+  .create-employee-page .btn { width: 100%; }
 }

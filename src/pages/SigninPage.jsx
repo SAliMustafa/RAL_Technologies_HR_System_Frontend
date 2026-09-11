@@ -1,6 +1,6 @@
 // src/components/SignInForm/SignInForm.jsx
 
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import { signIn } from "../services/authService";
@@ -8,8 +8,8 @@ import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import "../components/css/SignInForm.css";
 
-const SignInForm = ({}) => {
-  const { user, setUser } = useAuth();
+const SignInForm = () => {
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -21,9 +21,6 @@ const SignInForm = ({}) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-  }
   async function handleSubmit(event) {
     event.preventDefault();
     try {

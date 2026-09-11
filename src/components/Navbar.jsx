@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import ralLogo from "../assets/RAL-logo-purple-transparent.png";
 import "../components/css/Navbar.css";
 
 function Navbar() {
@@ -8,12 +9,12 @@ function Navbar() {
   const { logout, user } = useAuth();
   const location = useLocation();
 
-  const isActive = (path) => {
-    return location.pathname === path;
+  const isActive = (path, search = "") => {
+    return location.pathname === path && location.search === search;
   };
 
   // Hide navbar if user is not logged in
-  if (!user) {
+  if (!user || location.pathname === "/sign-in") {
     return <></>;
   }
 
@@ -21,7 +22,9 @@ function Navbar() {
     <aside className="sidebar">
       {/* LOGO */}
       <div className="sidebar-header">
-        <div className="sidebar-logo">R</div>
+        <div className="sidebar-logo">
+          <img src={ralLogo} alt="RAL logo" />
+        </div>
 
         <div>
           <h2>RAL HR</h2>
@@ -43,7 +46,7 @@ function Navbar() {
 
       {/* MENU */}
       <div className="sidebar-menu">
-        <p className="sidebar-section-title">MENU</p>
+        {/* <p className="sidebar-section-title">MENU</p> */}
 
         {/* =========================
             EMPLOYEE
@@ -51,6 +54,8 @@ function Navbar() {
 
         {user?.role === "employee" && (
           <>
+            <p className="sidebar-section-title">MY ACCOUNT</p>
+
             <Link
               to="/dashboard-employee"
               className={isActive("/dashboard-employee") ? "active" : ""}
@@ -89,14 +94,6 @@ function Navbar() {
             >
               <span className="menu-icon">◷</span>
               My Checkins
-            </Link>
-
-            <Link
-              to="/leave"
-              className={isActive("/leave") ? "active" : ""}
-            >
-              <span className="menu-icon">▣</span>
-              My Leave
             </Link>
 
             <Link
@@ -160,8 +157,8 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/leave-allocations"
-              className={isActive("/leave-allocations") ? "active" : ""}
+              to="/leave-allocations?view=mine"
+              className={isActive("/leave-allocations", "?view=mine") ? "active" : ""}
             >
               <span className="menu-icon">▤</span>
               My Leave Balances
@@ -178,6 +175,14 @@ function Navbar() {
             </Link>
 
             <p className="sidebar-section-title">MY TEAM</p>
+
+            <Link
+              to="/leave-allocations?view=team"
+              className={isActive("/leave-allocations", "?view=team") ? "active" : ""}
+            >
+              <span className="menu-icon">▤</span>
+              Team Leave Balances
+            </Link>
 
             <Link
               to="/manager/leave-requests"
@@ -264,16 +269,6 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/admin/leave-corrections"
-              className={
-                isActive("/admin/leave-corrections") ? "active" : ""
-              }
-            >
-              <span className="menu-icon">✎</span>
-              Leave Correction Requests
-            </Link>
-
-            <Link
               to="/admin/holidays"
               className={isActive("/admin/holidays") ? "active" : ""}
             >
@@ -297,13 +292,6 @@ function Navbar() {
               Leave Allocations
             </Link>
 
-            <Link
-              to="/admin/audit-logs"
-              className={isActive("/admin/audit-logs") ? "active" : ""}
-            >
-              <span className="menu-icon">▦</span>
-              Audit Logs
-            </Link>
 
             <Link
               to="/admin/leave-requests"
@@ -311,6 +299,13 @@ function Navbar() {
             >
               <span className="menu-icon">▣</span>
               Leave Requests
+            </Link>
+            <Link
+              to="/admin/audit-logs"
+              className={isActive("/admin/audit-logs") ? "active" : ""}
+            >
+              <span className="menu-icon">▦</span>
+              Audit Logs
             </Link>
           </>
         )}

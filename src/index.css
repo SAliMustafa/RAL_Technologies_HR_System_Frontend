@@ -10,3 +10,7 @@ nav a{
   min-height: 100vh;
   background-color: #ffffff;
 }
+
+.app-content.app-content-standalone {
+  margin-left: 0;
+}

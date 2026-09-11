@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getDocumentById } from "../../services/documentsService";
 import "../../components/css/Employee/DocumentDetails.css";
@@ -33,7 +33,7 @@ const DocumentDetails = () => {
     }
 
     fetchDocument();
-  }, []);
+  }, [documentId]);
 
   const formatDate = (date) => {
     if (!date) return "—";
@@ -86,7 +86,7 @@ const DocumentDetails = () => {
   }
 
   const daysRemaining = getDaysRemaining(document.expiry_date);
-  const fileName = document?.file?.split("\\").pop();
+  const fileName = document?.file?.split(/[\\/]/).pop();
 
   const fileUrl = `http://localhost:3000/image/${encodeURIComponent(fileName)}`;
   const isImage = /\.(jpg|jpeg|png|webp)$/i.test(document.file);

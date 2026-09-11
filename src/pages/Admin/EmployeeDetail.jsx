@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import {getEmployeeById, updateEmployee, updateEmployeeStatus} from "../../services/employeeService";
+import {getEmployeeById, updateEmployee, updateEmployeeStatus, getAllEmployees} from "../../services/employeeService";
 import {getDepartments} from "../../services/departmentService";
 import "../../style/style.css"
 import "./EmployeeManagement.css"
 
-import React from 'react'
 const statusOptions = ["active", "on_leave", "suspended", "left"];
 const genderOptions = ["male", "female"];
 const employmentTypeOptions = ["full_time", "part_time", "fixed_term"];
@@ -81,7 +80,7 @@ function handleChange(event){
   const { name, value,type,checked } = event.target;
   setForm({...form, [name]: type === "checkbox" ? checked : value });
 }
-function handledepartmentChange(event){
+function handleDepartmentChange(event){
   const departmentId = event.target.value;
   const department = departments.find((dept) => dept._id === departmentId);
   setForm((prev) => ({ ...prev, department_id: departmentId, reports_to: department?.head_employee_id || prev.reports_to }));
