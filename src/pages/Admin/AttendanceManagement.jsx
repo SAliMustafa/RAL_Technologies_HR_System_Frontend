@@ -283,7 +283,7 @@ function AttendanceManagement() {
                     </td>
                     <td>
                       <div className="row-actions">
-                         <Link to={`/attendance/${record._id}`}>{t("attendanceManagement.actions.view")}</Link>,
+                         <Link to={`/attendance/${record._id}`}>{t("attendanceManagement.actions.view")}</Link>
                         <button onClick={() => openCorrect(record)} disabled={record.locked}>
                           {t("attendanceManagement.actions.correct")}
                         </button>

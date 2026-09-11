@@ -8,6 +8,7 @@ import {
   getMyDocuments,
   getExpiryAlerts,
 } from "../../services/documentsService";
+import { getLeaveAllocations } from "../../services/leaveAllocationService";
 
 const DashboardEmployee = () => {
   const navigate = useNavigate();
@@ -16,35 +17,17 @@ const DashboardEmployee = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [expiryAlerts, setExpiryAlerts] = useState([]);
-
-  // مؤقتاً بيانات تجريبية
-  const employee = {
-    name: "Qasem",
-    job_title: "Software Developer",
-    department: "IT",
-  };
-
-  // const attendance = {
-  //   status: "Present",
-  //   in_time: "08:04",
-  //   out_time: "--",
-  // };
-
-  const documents = {
-    verified: 5,
-    expiring: 1,
-  };
+  const [documents, setDocuments] = useState([]);
+  const [leaveAllocations, setLeaveAllocations] = useState([]);
 
   async function handleCheckIn() {
     try {
       setError("");
 
-      const data = await checkIn();
-      navigate("/dashboard-employee");
+      await checkIn();
+      setAttendance(await getTodayAttendance());
     } catch (err) {
       console.log(err);
-      console.log("Status:", error.response?.status);
-      console.log("Backend message:", error.response?.data);
       setError(err?.response?.data?.message || "Check in failed");
     }
   }
@@ -53,8 +36,8 @@ const DashboardEmployee = () => {
     try {
       setError("");
 
-      const data = await checkOut();
-      navigate("/dashboard-employee");
+      await checkOut();
+      setAttendance(await getTodayAttendance());
     } catch (err) {
       console.log(err);
 
@@ -62,24 +45,31 @@ const DashboardEmployee = () => {
     }
   }
 
-  const leaveBalance = {
-    annual: 23,
-    sick: 15,
-  };
-
   useEffect(() => {
     async function fetchDashboard() {
       try {
         const profileData = await getMyProfile();
+        const employeeId = profileData?.employeeId?._id;
+        if (!employeeId) {
+          throw new Error("Your account is not linked to an employee record.");
+        }
 
-        // console.log("Profile:", profileData);
-
+        const [alertsData, documentsData, allocationsResponse] =
+          await Promise.all([
+            getExpiryAlerts(),
+            getMyDocuments(),
+            getLeaveAllocations({ employee_id: employeeId }),
+          ]);
         setProfile(profileData.employeeId);
-        const datayAlerts = await getExpiryAlerts();
-
-        // console.log("Expiry alerts:", datayAlerts);
-
-        setExpiryAlerts(datayAlerts);
+        setExpiryAlerts(Array.isArray(alertsData) ? alertsData : []);
+        setDocuments(Array.isArray(documentsData) ? documentsData : []);
+        setLeaveAllocations(
+          Array.isArray(allocationsResponse?.data)
+            ? allocationsResponse.data.filter(
+                (allocation) => allocation.employee_id?._id === employeeId,
+              )
+            : [],
+        );
         try {
           const attendanceData = await getTodayAttendance();
 
@@ -113,6 +103,19 @@ const DashboardEmployee = () => {
     });
   }
 
+  function remainingDays(allocation) {
+    return (
+      Number(allocation.days_allocated || 0) +
+      Number(allocation.days_carried_forward || 0) -
+      Number(allocation.days_taken || 0)
+    );
+  }
+
+  const verifiedDocuments = documents.filter(
+    (document) => document.status === "verified",
+  ).length;
+  const visibleLeaveAllocations = leaveAllocations.slice(0, 2);
+
   if (loading) {
     return <p>Loading dashboard...</p>;
   }
@@ -131,9 +134,9 @@ const DashboardEmployee = () => {
           <h1>Good Morning, {profile?.name_en} 👋</h1>
 
           <p className="employee-position">
-            {employee.job_title}
+            {profile?.job_title || "—"}
             <span>•</span>
-            {profile?.department || "—"}{" "}
+            {profile?.employee_code || "—"}
           </p>
         </div>
       </section>
@@ -225,7 +228,7 @@ const DashboardEmployee = () => {
           <div className="attendance-status">
             <span className="status-dot"></span>
 
-            <span>{<strong>{attendance?.status}</strong> || "--"}</span>
+            <span><strong>{attendance?.status || "Not recorded"}</strong></span>
           </div>
 
           <div className="attendance-times">
@@ -246,7 +249,7 @@ const DashboardEmployee = () => {
 
           <button
             className="card-link-btn"
-            onClick={() => navigate("/attendance")}
+            onClick={() => navigate("/my-attendance")}
           >
             View Attendance
             <span>→</span>
@@ -265,41 +268,29 @@ const DashboardEmployee = () => {
           </div>
 
           <div className="leave-balance-list">
-            <div className="leave-balance-item">
-              <div className="leave-type">
-                <span className="leave-dot annual-dot"></span>
-
-                <div>
-                  <strong>Annual Leave</strong>
-                  <span>Remaining balance</span>
+            {visibleLeaveAllocations.length === 0 ? (
+              <div className="leave-balance-item">
+                <div className="leave-type"><div><strong>No allocations</strong><span>No leave balance is available.</span></div></div>
+              </div>
+            ) : visibleLeaveAllocations.map((allocation, index) => (
+              <div className="leave-balance-item" key={allocation._id}>
+                <div className="leave-type">
+                  <span className={`leave-dot ${index === 0 ? "annual-dot" : "sick-dot"}`}></span>
+                  <div>
+                    <strong>{allocation.leave_type_id?.leave_type_name || "Leave"}</strong>
+                    <span>Remaining balance</span>
+                  </div>
+                </div>
+                <div className="leave-days">
+                  <strong>{remainingDays(allocation)}</strong>
+                  <span>days</span>
                 </div>
               </div>
-
-              <div className="leave-days">
-                <strong>{leaveBalance.annual}</strong>
-                <span>days</span>
-              </div>
-            </div>
-
-            <div className="leave-balance-item">
-              <div className="leave-type">
-                <span className="leave-dot sick-dot"></span>
-
-                <div>
-                  <strong>Sick Leave</strong>
-                  <span>Remaining balance</span>
-                </div>
-              </div>
-
-              <div className="leave-days">
-                <strong>{leaveBalance.sick}</strong>
-                <span>days</span>
-              </div>
-            </div>
+            ))}
           </div>
 
-          <button className="card-link-btn" onClick={() => navigate("/leave")}>
-            View Leave
+          <button className="card-link-btn" onClick={() => navigate("/leave-allocations")}>
+            View Leave Balances
             <span>→</span>
           </button>
         </article>
@@ -321,7 +312,7 @@ const DashboardEmployee = () => {
               <div className="stat-icon">✓</div>
 
               <div>
-                <strong>{documents.verified}</strong>
+                <strong>{verifiedDocuments}</strong>
 
                 <span>Verified</span>
               </div>
@@ -331,19 +322,19 @@ const DashboardEmployee = () => {
               <div className="stat-icon">⚠</div>
 
               <div>
-                <strong>{documents.expiring}</strong>
+                <strong>{expiryAlerts.length}</strong>
 
                 <span>Expiring Soon</span>
               </div>
             </div>
           </div>
 
-          {documents.expiring > 0 && (
+          {expiryAlerts.length > 0 && (
             <div className="document-warning">
               <span>⚠</span>
 
               <p>
-                You have {documents.expiring} document that needs your
+                You have {expiryAlerts.length} {expiryAlerts.length === 1 ? "document" : "documents"} that need your
                 attention.
               </p>
             </div>

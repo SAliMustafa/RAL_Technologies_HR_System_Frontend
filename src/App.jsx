@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import Navbar from "./components/Navbar";
 import Homepage from "./pages/Homepage";
 import SignInPage from "./pages/SigninPage";
@@ -50,10 +50,13 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
+  const location = useLocation();
+  const isStandalonePage = location.pathname === "/sign-in";
+
   return (
     <div>
       <Navbar />
-      <div className="app-content">
+      <div className={`app-content ${isStandalonePage ? "app-content-standalone" : ""}`}>
       <Routes>
         {/* <Route path="/sign-up" element={<SignupPage />} /> */}
         <Route path="/" element={<Homepage /> } />

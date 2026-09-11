@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import {
   createLeaveAllocation,
@@ -6,7 +7,7 @@ import {
   getLeaveAllocations,
   updateLeaveAllocation,
 } from "../../services/leaveAllocationService";
-import { getAllEmployees } from "../../services/employeeService";
+import { getAllEmployees, getMyProfile } from "../../services/employeeService";
 import { getLeaveTypes } from "../../services/leaveTypeService";
 import "./LeaveAllocations.css";
 
@@ -23,6 +24,7 @@ function getErrorMessage(error, fallback = "Unable to load leave allocations.") 
   return (
     error.response?.data?.message ||
     error.response?.data?.err ||
+    error.message ||
     fallback
   );
 }
@@ -49,6 +51,9 @@ function calculateRemaining(allocation) {
 function LeaveAllocations() {
   const { user } = useAuth();
   const role = user?.role;
+  const [searchParams] = useSearchParams();
+  const managerView = role === "manager" ? searchParams.get("view") : null;
+  const isManagerPersonalView = managerView === "mine";
   const [allocations, setAllocations] = useState([]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [leaveTypeOptions, setLeaveTypeOptions] = useState([]);
@@ -77,16 +82,29 @@ function LeaveAllocations() {
 
     try {
       const params = {};
-      if (employeeFilter && role !== "employee") {
+      let personalEmployeeId = "";
+      if (role === "employee" || isManagerPersonalView) {
+        const profile = await getMyProfile();
+        personalEmployeeId = profile?.employeeId?._id;
+        if (!personalEmployeeId) {
+          throw new Error("Your account is not linked to an employee record.");
+        }
+        params.employee_id = personalEmployeeId;
+      } else if (employeeFilter && role !== "employee") {
         params.employee_id = employeeFilter;
       }
       if (leaveTypeFilter) params.leave_type_id = leaveTypeFilter;
 
       const response = await getLeaveAllocations(params);
-      const records = Array.isArray(response?.data) ? response.data : [];
+      const responseRecords = Array.isArray(response?.data) ? response.data : [];
+      const records = personalEmployeeId
+        ? responseRecords.filter(
+            (allocation) => allocation.employee_id?._id === personalEmployeeId,
+          )
+        : responseRecords;
       setAllocations(records);
 
-      if (!employeeFilter && !leaveTypeFilter) {
+      if ((!employeeFilter || isManagerPersonalView) && !leaveTypeFilter) {
         const employees = new Map();
         const leaveTypes = new Map();
 
@@ -115,7 +133,7 @@ function LeaveAllocations() {
     } finally {
       setLoading(false);
     }
-  }, [employeeFilter, leaveTypeFilter, role]);
+  }, [employeeFilter, isManagerPersonalView, leaveTypeFilter, role]);
 
   const loadCreateOptions = useCallback(async () => {
     if (role !== "hr_admin") return;
@@ -303,8 +321,8 @@ function LeaveAllocations() {
       <div className="allocations-header">
         <div>
           <p className="allocations-eyebrow">LEAVE MANAGEMENT</p>
-          <h1>Leave Allocations</h1>
-          <p>View allocated leave and remaining balances.</p>
+          <h1>{isManagerPersonalView ? "My Leave Balances" : role === "manager" ? "Team Leave Balances" : "Leave Allocations"}</h1>
+          <p>{isManagerPersonalView ? "View your allocated leave and remaining balances." : role === "manager" ? "View allocated leave and remaining balances for you and your direct reports." : "View allocated leave and remaining balances."}</p>
         </div>
         {role === "hr_admin" && (
           <button
@@ -350,7 +368,7 @@ function LeaveAllocations() {
             )}
           </div>
           <div className="allocation-filters" aria-label="Allocation filters">
-            {role !== "employee" && (
+            {role !== "employee" && !isManagerPersonalView && (
               <label>
                 <span>Employee</span>
                 <select

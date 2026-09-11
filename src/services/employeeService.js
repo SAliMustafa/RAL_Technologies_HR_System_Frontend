@@ -15,7 +15,7 @@ async function updateEmployee(employeeId, formData){
     return response.data
 }
 async function updateEmployeeStatus(employeeId, status) {
-    const response = await api.patch(`/employees/${employeeId}/status`, {status})
+    const response = await api.put(`/employees/${employeeId}/status`, {status})
     return response.data
 }
 async function getMyProfile() {
@@ -50,7 +50,6 @@ export {
     getDepartment,
     createEmployee
 }
-
 
 
 

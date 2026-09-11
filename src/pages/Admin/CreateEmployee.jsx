@@ -114,7 +114,7 @@ async function handleSubmit(event){
     }
 }
   return (
-    <div className="page">
+    <div className="page create-employee-page">
     <h1 className="page-title">Create Employee</h1>
 
     {error && <p className="error-message">{error}</p>}
